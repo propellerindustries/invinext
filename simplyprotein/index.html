@@ -328,6 +328,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <script>
 
 
+
 // ─── LIBRARY_DynDeck_Components v1.0.2 (IIFE) ───
 (function() {
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -977,21 +978,56 @@ window.DynDeckLib = {
 };
 
 })();
-// ─── DASHBOARD_SimplyProtein_DynDeck_260525_2_2 (client) ───
+// ─── DASHBOARD_SimplyProtein_DynDeck_260525_2_3 (client) ───
 const { useState, useMemo, useRef, useEffect, createContext, useContext } = React;
 const { LineChart, Line, BarChart, Bar, ComposedChart, Area, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, ReferenceLine, ReferenceArea, PieChart, Pie, ScatterChart, Scatter, ZAxis, Treemap } = Recharts;
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// SIMPLYPROTEIN (WELLNESS NATURAL INC.) — INVESTOR DILIGENCE DASHBOARD · v2.2 · May 25, 2026
+// SIMPLYPROTEIN (WELLNESS NATURAL INC.) — INVESTOR DILIGENCE DASHBOARD · v2.3 · May 25, 2026
 // Client: InviNext Growth (prospective growth equity investor) — confirmed $5-7M
-//   Series B round, InviNext leading $3-5M, terms in development (Sarah Foley email).
+//   Series B round, InviNext considering leading $3-5M, terms in development (Sarah Foley email).
 // Sources: WNI Consolidated Financials Workbook F26 P7 · CLAUDE FX WNI CFM F26 Reforecast
 //   (P7 Actuals + Forecast 04-29-26 USD) · Company Overview 04-19-26 · April 2026 Board
 //   Meeting · Propeller cohort baseline (Baking + Beverage + Dairy + Food&Bev + Pantry,
 //   $1M-$350M) · Drew Fallon CPG M&A Database (public deal data)
 // FX: workbook's own monthly translation. F26 P1-P7 avg 1.3833 CAD/USD; F25 avg 1.3956.
 //
-// v2.2 (this build): RMF RECENCY + ACTUALS-ONLY PRINCIPLE. (1) New F26 L3M
+// v2.3 (this build): INVINEXT TAB + VOICE CONVENTION + ACTUALS-VS-BUDGET FIX +
+//       CURRENCY TAGGING + RMF LENS GLOW. (1) New InviNext tab inserted at
+//       position 7 between Company and Analyst View (12 tabs total, INTERNAL_FROM
+//       10 → 11) — buyer-side equivalent of Company tab, syndication-ready.
+//       Sections: header + framing with real InviNext lockup; team cards for
+//       Sarah Foley + Debra Perelman (text-only, no photos, includes Sarah's
+//       Eleni's CFO prior and Debra's Revlon Chapter 11 leadership relevance);
+//       criteria-fit table mapping InviNext stated criteria to WNI status;
+//       portfolio fit highlighting Banza / Powerful Foods / Foodstirs as direct
+//       CPG snacking analogs; engagement timeline (NDA, May 22 materials,
+//       Stonegate covenant deadline). (2) Voice convention sweep: Sarah → InviNext
+//       for fund-decision attribution at 8+ sites (header comment, Overview Pill,
+//       Overview narrative, Financials Capital Structure card + detail, Risk
+//       Summary detail + mitigant, Analyst View §4 funding-requirement section).
+//       Direct quotes / correspondence references KEEP as Sarah (accurate to
+//       source). (3) Costco "lost" → "exited" on Overview narrative (neutral on
+//       causation, matches Board deck language). (4) Analyst View §6 Sawaya
+//       mitigant: reader-direction rewritten to surface the question to the
+//       InviNext firm rather than naming the individual partner (works for
+//       any reader including InviNext team). (5) Actuals-vs-budget fix on
+//       Overview narrative + EVENTS F26 detail: "34.5%" (which is F26 full-year
+//       forecast) → "35.7%" (actual P1-P7 GP margin). KPI rail label kept as
+//       "F26 GP%" with explicit "F26 forecast" framing in its info popover.
+//       (6) Overview narrative currency tagging: explicit USD/CAD per figure
+//       across What this deal is / operationally / Why now / diligence resolves
+//       paragraphs + Bull/Bear case ($1.25M CAD restructure, $5.2M CAD
+//       add-backs, $5-7M USD round, $6M USD Stonegate covenant, etc.).
+//       (7) Company tab: Jonathan Dubyk + Dean Saltel credibility/education
+//       filled to match other execs (Jonathan: Deloitte M&A → Andrew Peller
+//       FP&A → Cowbell P&CFO; Dean: 13-year Smucker Canada operator owning
+//       Costco Canada). Jenny Chai left as-is per scope. (8) RMF chart Option
+//       A: active-lens dot glow (gold halo + enlarged) + non-active dots
+//       dimmed to ~40% opacity + vertical band marker (ReferenceLine) at
+//       active cohort band (30M for L3M/trough, 50M for peak). Toggle now
+//       visibly anchors on the chart, not just the prose card.
+// v2.2 (May 25): RMF RECENCY + ACTUALS-ONLY PRINCIPLE. (1) New F26 L3M
 //       actuals lens added — Last 3 Months (P5+P6+P7 of F26 = Jan/Feb/Mar 2026)
 //       summed and annualized ×4. $29M USD / $40M CAD annualized net rev maps
 //       to the cohort 30M band. Pure actuals: GP 33.8%, Trade 16.9%, S&M 18.7%,
@@ -1636,9 +1672,9 @@ const MGMT_TEAM = [{
 }, {
   name: 'Jonathan Dubyk',
   role: 'SVP, Finance & Operations',
-  priorCpg: ['Andrew Peller', 'Deloitte', 'BMO'],
-  education: null,
-  credibility: null,
+  priorCpg: ['Andrew Peller', 'Deloitte', 'BMO', 'Cowbell Brewing'],
+  education: 'McMaster University',
+  credibility: 'Deloitte M&A advisory roots, then FP&A + Corporate Development at Andrew Peller (publicly-traded Canadian CPG, TSX:ADW.A), then escalating CFO → Interim P&CFO → President & CFO at Cowbell Brewing through Jan 2025. Carries both M&A-advisory pedigree and operating-CFO experience at a private beverage CPG — directly relevant to a covenant-mandated recap.',
   why: 'Finance + ops dual cover; no separate COO.',
   linkedin: 'https://www.linkedin.com/in/jonathan-dubyk-aa887111/'
 }, {
@@ -1660,9 +1696,9 @@ const MGMT_TEAM = [{
 }, {
   name: 'Dean Saltel',
   role: 'VP, Sales — Canada',
-  priorCpg: ['J.M. Smucker', 'Cadbury'],
+  priorCpg: ['J.M. Smucker', 'Cadbury', 'BAT'],
   education: null,
-  credibility: null,
+  credibility: '13-year Smucker Canada operator across Customer Team Lead and Customer Director seats, with trade-marketing breadth (Pet, Coffee & Emerging, Condiments & Spreads). Owns Costco Canada — SimplyProtein\'s single largest remaining customer relationship post-Costco-USA exit.',
   why: 'Canadian conventional grocery relationships.',
   linkedin: 'https://www.linkedin.com/in/dean-saltel-3b976196/'
 }, {
@@ -1803,12 +1839,12 @@ const ccyTag = currency => currency === 'CAD' ? ' CAD' : ' USD';
 // ═══════════════════════════════════════════════════════════════════════════════
 // TABS
 // ═══════════════════════════════════════════════════════════════════════════════
-const TABS = ['Overview', 'Financials', 'Channel Mix', 'Customer Detail', 'RMF Benchmark', 'Comps & Position', 'Company', 'Analyst View', 'Info Requests', 'Risk Summary', 'Version History'];
+const TABS = ['Overview', 'Financials', 'Channel Mix', 'Customer Detail', 'RMF Benchmark', 'Comps & Position', 'Company', 'InviNext', 'Analyst View', 'Info Requests', 'Risk Summary', 'Version History'];
 // Internal threshold: index 10 (Version History only). Analyst View is now
 // externally shared — sits in the diligence narrative arc between Company and
 // Info Requests as the analyst's own work product surfacing reconciliations,
 // forecast decomposition, and discrepancies.
-const INTERNAL_FROM = 10;
+const INTERNAL_FROM = 11;
 
 // Exec Summary KPI rail — six metrics with the 4-part info popover schema.
 // Investor-side voice: framing names what InviNext is buying + the diligence question.
@@ -1941,10 +1977,10 @@ const EVENTS = [{
   tag: 'STABILIZATION',
   color: C.blue,
   headline: "F26 P1-P7 actuals — GP recovering, US B&M building",
-  detail: "F26 P1-P7 actuals show GP margin recovering to 34.5% off the F25 27.8% trough. US B&M (KEHE, UNFI USA, Kroger, Walmart US, Target) builds to $5.5M from $1.7M in F25. Costco CA stable at ~$10.8M. Forecast P8-P12 lands the full year at $28.4M net revenue. Marketing media collapsed from $1.9M F24 → $0.1M F26 YTD — a cost discipline the F27+ forecast leans on.",
+  detail: "F26 P1-P7 actuals show GP margin recovering to 35.7% off the F25 27.8% trough. US B&M (KEHE, UNFI USA, Kroger, Walmart US, Target) builds to $5.5M from $1.7M in F25. Costco CA stable at ~$10.8M. Forecast P8-P12 lands the full year at $28.4M net revenue and 34.5% GP%. Marketing media collapsed from $1.9M F24 → $0.1M F26 YTD — a cost discipline the F27+ forecast leans on.",
   metrics: [{
-    l: 'GP % F26',
-    v: '34.5%'
+    l: 'GP % P1-P7',
+    v: '35.7%'
   }, {
     l: 'US B&M',
     v: '$5.5M'
@@ -2040,7 +2076,7 @@ const Overview = () => {
     color: C.warm
   }, "Investor-side diligence"), /*#__PURE__*/React.createElement(Pill, {
     color: C.teal
-  }, "Series B \xB7 $5-7M round \xB7 InviNext leading $3-5M"), /*#__PURE__*/React.createElement("div", {
+  }, "Series B \xB7 $5-7M round \xB7 InviNext considering leading $3-5M"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
       color: C.textDim
@@ -2099,7 +2135,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "$73M CAD net revenue at +9.5% EBITDA in F24"), ", then lost its largest single customer relationship (US Costco bars) in F25 \u2014 revenue compressed to $44.1M CAD with reported EBITDA at -18.6%. The Series B Sarah is leading is a recapitalization at the moment the F25 trough is behind the business and the F26 P1-P7 actuals show stabilization (gross margin recovering to 34.5%, US ex-Costco business up +285% YoY, ~9,000 new PODs secured across Walmart, Kroger, Sam's, Safeway, Meijer, Wakefern, Hannaford)."), /*#__PURE__*/React.createElement("p", {
+  }, "$73M CAD net revenue at +9.5% EBITDA in F24"), ", then exited its largest single customer relationship (US Costco bars) in F25 \u2014 revenue compressed to $44.1M CAD with reported EBITDA at -18.6%. The Series B InviNext is considering leading is a recapitalization at the moment the F25 trough is behind the business and the F26 P1-P7 actuals show stabilization (gross margin recovering to 35.7%, US ex-Costco business up +285% YoY, ~9,000 new PODs secured across Walmart, Kroger, Sam's, Safeway, Meijer, Wakefern, Hannaford)."), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '0 0 14px 0'
     }
@@ -2111,7 +2147,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "$1.25M Q4 restructure"), " that cuts 10 roles + exits Amazon US ($500K savings, gated F26 P8-P12 near-breakeven), a ", /*#__PURE__*/React.createElement("b", {
+  }, "$1.25M CAD Q4 restructure"), " that cuts 10 roles + exits Amazon US ($500K CAD savings, gated F26 P8-P12 near-breakeven), a ", /*#__PURE__*/React.createElement("b", {
     style: {
       color: C.text
     }
@@ -2119,7 +2155,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "US B&M scale-out"), " with documented retail-side traction (HEB velocity 4.5 u/s/w from 2.4, Walmart approaching 3 u/s/w in week 4 of launch, SPINS #2 contributor to total BFY tortilla growth). The F27 inflection \u2014 net revenue $40.8M \u2192 $57.2M, EBITDA -8.9% \u2192 +6.0% \u2014 depends on all three landing within a 12-month window. None alone is sufficient."), /*#__PURE__*/React.createElement("p", {
+  }, "US B&M scale-out"), " with documented retail-side traction (HEB velocity 4.5 u/s/w from 2.4, Walmart approaching 3 u/s/w in week 4 of launch, SPINS #2 contributor to total BFY tortilla growth). The F27 inflection \u2014 net revenue $40.8M \u2192 $57.2M CAD, EBITDA -8.9% \u2192 +6.0% \u2014 depends on all three landing within a 12-month window. None alone is sufficient."), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '0 0 14px 0'
     }
@@ -2127,7 +2163,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "Why now."), " Stonegate (the senior lender) amended WNI's loan in February 2026: revolving facility cut $8.0M \u2192 $3.0M USD, interest rate raised prime+2% \u2192 prime+4.5%, and equity-raise covenants imposed ($2M by April 30, $4M by June 30, $6M by August 31, 2026). The InviNext Series B is largely satisfying these covenant requirements and re-equitizing the balance sheet through the transformation window. This is not a discretionary growth round \u2014 it is a covenant-mandated recapitalization at a moment when the operating thesis (post-Costco-exit, pre-Tortilla-scale) is structurally compelling but execution-fragile."), /*#__PURE__*/React.createElement("p", {
+  }, "Why now."), " Stonegate (the senior lender) amended WNI's loan in February 2026: revolving facility cut $8.0M \u2192 $3.0M USD, interest rate raised prime+2% \u2192 prime+4.5%, and equity-raise covenants imposed in USD ($2M by April 30, $4M by June 30, $6M by August 31, 2026). The InviNext Series B ($5-7M USD round) is largely satisfying these covenant requirements and re-equitizing the balance sheet through the transformation window. This is not a discretionary growth round \u2014 it is a covenant-mandated recapitalization at a moment when the operating thesis (post-Costco-exit, pre-Tortilla-scale) is structurally compelling but execution-fragile."), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '0 0 0 0'
     }
@@ -2135,7 +2171,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "What the diligence resolves."), " This deck is investor-side diligence prep. It anchors on five questions: ", /*#__PURE__*/React.createElement("b", null, "forecast credibility"), " (signed vs modeled F27 doors); ", /*#__PURE__*/React.createElement("b", null, "contribution margin sustainability"), " through the channel mix shift and the Tortilla cost reduction; ", /*#__PURE__*/React.createElement("b", null, "Costco-CA concentration"), " at the single largest remaining customer with H2 acceptance pending; ", /*#__PURE__*/React.createElement("b", null, "capital structure and covenants"), " through the August 31 covenant deadline and the cash trough; and ", /*#__PURE__*/React.createElement("b", null, "add-back legitimacy"), " on the $5.2M F25 Costco-exit adjustments. Sharper diligence-prep findings \u2014 including source-document reconciliations and forecast assumption decomposition \u2014 sit on the Analyst View tab."))), /*#__PURE__*/React.createElement("div", {
+  }, "What the diligence resolves."), " This deck is investor-side diligence prep. It anchors on five questions: ", /*#__PURE__*/React.createElement("b", null, "forecast credibility"), " (signed vs modeled F27 doors); ", /*#__PURE__*/React.createElement("b", null, "contribution margin sustainability"), " through the channel mix shift and the Tortilla cost reduction; ", /*#__PURE__*/React.createElement("b", null, "Costco-CA concentration"), " at the single largest remaining customer with H2 acceptance pending; ", /*#__PURE__*/React.createElement("b", null, "capital structure and covenants"), " through the August 31 covenant deadline and the cash trough; and ", /*#__PURE__*/React.createElement("b", null, "add-back legitimacy"), " on the $5.2M CAD F25 Costco-exit adjustments. Sharper diligence-prep findings \u2014 including source-document reconciliations and forecast assumption decomposition \u2014 sit on the Analyst View tab."))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: `repeat(${EXEC_KPIS.length}, 1fr)`,
@@ -2263,7 +2299,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "Compound execution risk on the F27 inflection."), " Three concurrent transformations gate F27 EBITDA (-8.9% \u2192 +6.0%). Dishaka co-man transition has slipped 1 month; $1.25M Q4 restructure is unexecuted; US B&M velocity ramp depends on demo + promo spend that's on the budget-cut list. Single-line miss breaks the math."), /*#__PURE__*/React.createElement("p", {
+  }, "Compound execution risk on the F27 inflection."), " Three concurrent transformations gate F27 EBITDA (-8.9% \u2192 +6.0%). Dishaka co-man transition has slipped 1 month; $1.25M CAD Q4 restructure is unexecuted; US B&M velocity ramp depends on demo + promo spend that's on the budget-cut list. Single-line miss breaks the math."), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '0 0 10px 0'
     }
@@ -2271,7 +2307,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "Capital structure is thin and lender-constrained."), " $2.6M USD book equity at P7 2026 (down from $5.3M at P1). Stonegate has cut credit availability $5M and imposed a covenant-mandated $6M equity raise schedule with a hard August 31 date. Cash bounced to $276K at P6 2026; the trough is not theoretical."), /*#__PURE__*/React.createElement("p", {
+  }, "Capital structure is thin and lender-constrained."), " $2.6M USD book equity at P7 2026 (down from $5.3M USD at P1). Stonegate has cut credit availability $5M USD and imposed a covenant-mandated $6M USD equity raise schedule with a hard August 31 date. Cash bounced to $276K USD at P6 2026; the trough is not theoretical."), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '0 0 0 0'
     }
@@ -2279,7 +2315,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "Costco-CA carries H2 revenue risk."), " Single largest remaining customer ($8.4M / 24% of F25 net revenue, 5 SKUs). Stacked + Dipped acceptance pending. Canada Costco reset targeted August 2026. Management calls Canadian business \"lagging expectations, driven primarily by Costco.\" Concentration is to revenue MISS, not just revenue loss.")))), /*#__PURE__*/React.createElement("div", {
+  }, "Costco-CA carries H2 revenue risk."), " Single largest remaining customer ($8.4M CAD / 24% of F25 net revenue, 5 SKUs). Stacked + Dipped acceptance pending. Canada Costco reset targeted August 2026. Management calls Canadian business \"lagging expectations, driven primarily by Costco.\" Concentration is to revenue MISS, not just revenue loss.")))), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 22,
       borderRadius: 12,
@@ -4174,7 +4210,7 @@ const Financials = () => {
       lineHeight: 1.5,
       marginBottom: 18
     }
-  }, "What the balance sheet actually carries today, what the senior lender requires by when, and how the InviNext lead maps to those requirements. Sourced from the Consolidated BS (workbook) and the amended Stonegate lending agreement (Board package p. 22)."), /*#__PURE__*/React.createElement("div", {
+  }, "What the balance sheet actually carries today, what the senior lender requires by when, and how the prospective InviNext lead maps to those requirements. Sourced from the Consolidated BS (workbook) and the amended Stonegate lending agreement (Board package p. 22)."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -4362,7 +4398,7 @@ const Financials = () => {
     style: {
       color: C.text
     }
-  }, "How the InviNext lead maps."), " The $5-7M Series B is sized at or just above the Stonegate covenant requirement of $6.0M USD by August 31. The InviNext lead component ($3-5M) covers most of the covenant gap; the SPV / existing-investor balance ($2-3M) brings the rest of the structure to closing. ", /*#__PURE__*/React.createElement("b", {
+  }, "How the InviNext lead maps."), " The $5-7M Series B is sized at or just above the Stonegate covenant requirement of $6.0M USD by August 31. The prospective InviNext lead component ($3-5M) covers most of the covenant gap; the SPV / existing-investor balance ($2-3M) brings the rest of the structure to closing. ", /*#__PURE__*/React.createElement("b", {
     style: {
       color: C.text
     }
@@ -6642,6 +6678,18 @@ const RMFBenchmark = () => {
       r: 2.5,
       fill: C.blue
     }
+  }), /*#__PURE__*/React.createElement(ReferenceLine, {
+    x: `${lensConfig.cohortBand}M`,
+    stroke: C.accent,
+    strokeOpacity: 0.35,
+    strokeWidth: 18,
+    label: {
+      value: `Lens · ${lensConfig.cohortLabel}`,
+      fill: C.accent,
+      fontSize: 10,
+      position: 'top',
+      offset: 6
+    }
   }), /*#__PURE__*/React.createElement(Scatter, {
     dataKey: "spActual",
     name: "SP actual (F24, F25, F26 L3M)",
@@ -6653,13 +6701,36 @@ const RMFBenchmark = () => {
         payload
       } = props;
       if (payload.spActual == null || cx == null || cy == null) return null;
+      // v2.3 — active-lens highlighting. The lens specifies one SP FY (F24, F25, or F26 L3M);
+      // that dot glows + enlarges, the other actual dots dim to ~40% opacity. Comprehensive
+      // all-dots picture preserved; lens visibly points at the dot the gap table is reading.
+      const fyList = (payload.spFy || '').split(' / ');
+      const isActive = fyList.includes(lensConfig.spFy);
+      if (isActive) {
+        return /*#__PURE__*/React.createElement("g", null, /*#__PURE__*/React.createElement("circle", {
+          cx: cx,
+          cy: cy,
+          r: 17,
+          fill: C.accent,
+          opacity: 0.18
+        }), /*#__PURE__*/React.createElement("circle", {
+          cx: cx,
+          cy: cy,
+          r: 11,
+          fill: C.accent,
+          stroke: C.accent,
+          strokeWidth: 2.5
+        }));
+      }
       return /*#__PURE__*/React.createElement("circle", {
         cx: cx,
         cy: cy,
-        r: 9,
+        r: 7,
         fill: C.accent,
+        fillOpacity: 0.35,
         stroke: C.accent,
-        strokeWidth: 2
+        strokeOpacity: 0.4,
+        strokeWidth: 1.5
       });
     }
   }), /*#__PURE__*/React.createElement(Scatter, {
@@ -6673,13 +6744,15 @@ const RMFBenchmark = () => {
         payload
       } = props;
       if (payload.spForecast == null || cx == null || cy == null) return null;
+      // v2.3 — forecast dots dim under all lenses (all three lenses are actuals-anchored)
       return /*#__PURE__*/React.createElement("circle", {
         cx: cx,
         cy: cy,
-        r: 9,
+        r: 7,
         fill: "none",
         stroke: C.accent,
-        strokeWidth: 2,
+        strokeOpacity: 0.4,
+        strokeWidth: 1.5,
         strokeDasharray: "3 2"
       });
     }
@@ -7656,8 +7729,8 @@ const RISKS = [{
 }, {
   name: 'Lender covenants — Stonegate $6M USD by Aug 31',
   severity: 'High',
-  detail: 'Stonegate\'s amended lending agreement (Feb 2026) mandates $6.0M USD of new equity capital on a hard schedule: $2.0M by April 30 (~$1.08M shortfall as of report), $4.0M cumulative by June 30, $6.0M by August 31. Revolving facility was cut $8.0M → $3.0M; interest rate raised prime+2% → prime+4.5%; inventory advance rates step down monthly. The InviNext lead is largely satisfying these covenants rather than funding discretionary growth. If the August 31 deadline is missed (raise short, raise late, or both), Stonegate has discretion to declare default again — and last time the response was a $5M facility cut and 250 bps spread increase.',
-  mitigant: 'The Series B target ($5-7M, InviNext lead $3-5M + $2-5M SPV/existing) is sized to meet or exceed the August 31 covenant. Pro-forma cash math (Analyst View) supports covenant satisfaction at closing. Diligence asks: confirm Stonegate covenant text directly (full agreement, not summary); confirm April 30 covenant waiver/extension if the $1.08M gap was unaddressed; pro-forma cash + revolving headroom at closing target date.',
+  detail: 'Stonegate\'s amended lending agreement (Feb 2026) mandates $6.0M USD of new equity capital on a hard schedule: $2.0M by April 30 (~$1.08M shortfall as of report), $4.0M cumulative by June 30, $6.0M by August 31. Revolving facility was cut $8.0M → $3.0M; interest rate raised prime+2% → prime+4.5%; inventory advance rates step down monthly. The prospective InviNext lead is largely satisfying these covenants rather than funding discretionary growth. If the August 31 deadline is missed (raise short, raise late, or both), Stonegate has discretion to declare default again — and last time the response was a $5M facility cut and 250 bps spread increase.',
+  mitigant: 'The Series B target ($5-7M, InviNext prospective lead $3-5M + $2-5M SPV/existing) is sized to meet or exceed the August 31 covenant. Pro-forma cash math (Analyst View) supports covenant satisfaction at closing. Diligence asks: confirm Stonegate covenant text directly (full agreement, not summary); confirm April 30 covenant waiver/extension if the $1.08M gap was unaddressed; pro-forma cash + revolving headroom at closing target date.',
   color: C.red
 }, {
   name: 'Forecast credibility (F27 inflection)',
@@ -7699,7 +7772,7 @@ const RISKS = [{
   name: 'Prior raise activity — context worth confirming',
   severity: 'Medium',
   detail: 'WNI\'s April 2026 Board package (p. 11) notes that "Sawaya committed to raising $22M in October 2025 and delivered $700K." Several possible explanations: market timing softness for a Canadian CPG with material US Costco exposure in late 2025; Costco-US exit timing affecting the marketed financials mid-process; intentional pause to address operating issues before re-marketing; specific concerns raised in the process. Each implies different downstream investor receptivity for the current round.',
-  mitigant: 'InviNext likely has color on this we don\'t have. Surface as a question to Sarah, not a finding for the deck. Note: the Board agenda for April includes "Sawaya joins call — Growth Equity Status," suggesting the WNI-Sawaya relationship is ongoing in some capacity. Diligence ask: Sawaya engagement letter; termination/pause correspondence if any; investor list from the Sawaya process and feedback if collected.',
+  mitigant: 'InviNext likely has color on this we don\'t have. Surface as a question to InviNext, not a finding for the deck. Note: the Board agenda for April includes "Sawaya joins call — Growth Equity Status," suggesting the WNI-Sawaya relationship is ongoing in some capacity. Diligence ask: Sawaya engagement letter; termination/pause correspondence if any; investor list from the Sawaya process and feedback if collected.',
   color: C.warm
 }, {
   name: 'Gross margin step-up (F26 34.5% → F27 44%)',
@@ -8344,6 +8417,459 @@ const RiskSummary = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
 // reconciliations, forecast decomposition, narrative-vs-operating discrepancies,
 // and data room inventory. Voice is analyst-direct: findings stated as findings,
 // questions stated as questions, no internal meta-commentary.
+// ═══════════════════════════════════════════════════════════════════════════════
+// INVINEXT TAB — v2.3
+// Buyer-side equivalent of the Company tab. Who's considering leading the round,
+// why their pattern recognition matters, what their CPG-snacking track record
+// looks like. Designed to be syndication-ready — InviNext can forward the link
+// to an SPV LP and the InviNext tab does the firm-side intro work.
+//
+// Five sections per handoff spec:
+//   §1 Header + framing (real InviNext lockup, tagline, firm one-liner)
+//   §2 Team (Sarah Foley + Debra Perelman — text-only profile cards, no photos)
+//   §3 Investment criteria + thesis fit (table — InviNext stated criteria mapped to WNI)
+//   §4 Portfolio fit (Banza · Powerful Foods · Foodstirs — direct CPG snacking analogs)
+//   §5 Engagement context (timeline of the deal-process facts)
+//
+// Pure reuse of existing library primitives (Pill, theme tokens). Zero new components.
+// ═══════════════════════════════════════════════════════════════════════════════
+const INVINEXT_TEAM = [{
+  name: 'Sarah Foley',
+  role: 'Partner, InviNext Growth Partners',
+  tenure: 'Since July 2015 (10+ years)',
+  keyPrior: 'CFO, Eleni\'s New York (2012-2015)',
+  keyPriorRelevance: 'A NYC-based CPG of similar scale to WNI today — the directly-relevant prior operating experience for evaluating a CPG of this size.',
+  earlierRoles: 'Director, RREEF Infrastructure / Deutsche Asset Management (2010-12); Principal, Chartwell Investments (2001-10, 9 years); Associate, Greenhill & Co. (1996-99).',
+  linkedin: 'https://www.linkedin.com/in/sarah-foley-nyc/'
+}, {
+  name: 'Debra Perelman',
+  role: 'Managing Partner, InviNext Growth Partners',
+  tenure: 'Since March 2025',
+  keyPrior: 'CEO, Revlon (May 2018 - Aug 2023)',
+  keyPriorRelevance: 'Led Revlon through the company\'s June 2022 Chapter 11 restructuring. Directly relevant to a covenant-mandated recapitalization — the situation type WNI is navigating.',
+  earlierRoles: 'Concurrent board roles: Bed Bath & Beyond (Mar 2025-), Sally Beauty (Jan 2025-), Stripes Beauty (Exec Chair, May 2024-), AMC Networks (Audit Committee, Jun 2023-). Earlier: Revlon Board 2015-23, COO Brands 2018; MacAndrews & Forbes EVP Strategy 2012-18, SVP/VP 2004-12.',
+  linkedin: 'https://www.linkedin.com/in/debragperelman/'
+}];
+const INVINEXT_CRITERIA = [{
+  criterion: 'Minimum $1M annual revenue',
+  simplyProtein: 'WNI at $29M USD L3M annualized — well above threshold.'
+}, {
+  criterion: 'Proven product-market fit',
+  simplyProtein: 'SPINS #2 BFY tortilla contributor; HEB velocity 4.5 u/s/w; F24 +9.5% EBITDA at $73M CAD.'
+}, {
+  criterion: 'Path to profitability',
+  simplyProtein: 'F24 demonstrated profitability; F26 L3M -11.9% EBITDA narrowing from F25 -18.6%.'
+}, {
+  criterion: 'Passionate founder and dedicated team',
+  simplyProtein: 'Reference Company tab — Quest-pedigreed CCO, Big-CPG VP Sales US + Canada, B Corp 94.3 founder.'
+}];
+const INVINEXT_PORTFOLIO = [{
+  name: 'Banza',
+  category: 'BFY chickpea-based pasta',
+  relevance: 'Direct CPG snacking analog — same channel mix (Conventional B&M + Natural + Club), same operator profile (scaled-up better-for-you brand at the $20M-$100M revenue band).'
+}, {
+  name: 'Powerful Foods',
+  category: 'BFY protein-focused snacking',
+  relevance: 'Closest direct analog to SimplyProtein. Same category occupancy (better-for-you + protein), comparable revenue scale, same retailer set.'
+}, {
+  name: 'Foodstirs',
+  category: 'BFY baking and snacking',
+  relevance: 'Acquired by Nestlé — a public exit in the BFY snacking category InviNext has been investing against for a decade.'
+}];
+const INVINEXT_TIMELINE = [{
+  date: 'Apr 18, 2026',
+  event: 'NDA executed — mutual NDA between WNI and InviNext Growth Partners, extended to cover Propeller.'
+}, {
+  date: 'May 22, 2026',
+  event: 'Materials shared — Sarah Foley email with consolidated F26 P7 financials, F26-F27 monthly reforecast, F21-F26 revenue by product by customer, investment deck, April BOD deck. Confirmed $5-7M USD round target with $3-5M USD InviNext prospective lead.'
+}, {
+  date: 'May 2026',
+  event: 'Diligence underway — InviNext "confidentially reviewing a $5-7M Series B round" (per Sarah Foley email). Propeller engaged for AI-analyst-as-a-service investor-side diligence prep.'
+}, {
+  date: 'Aug 31, 2026',
+  event: 'Key external deadline — Stonegate covenant requires $6M USD cumulative equity raised. Drives the round closing timeline.'
+}];
+const InviNextTab = () => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  style: {
+    marginBottom: 24,
+    padding: 24,
+    background: C.card,
+    borderRadius: 12,
+    border: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 24,
+    marginBottom: 18,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement("img", {
+  src: INVINEXT_LOCKUP_URI,
+  alt: "InviNext Growth Partners",
+  style: {
+    height: 64,
+    width: 'auto',
+    display: 'block',
+    borderRadius: 6
+  }
+}), /*#__PURE__*/React.createElement(Pill, {
+  color: C.accent
+}, "Considering leading the SimplyProtein Series B")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.7,
+    marginBottom: 10
+  }
+}, "Consumer-focused growth equity firm, founded 2015. Successor to SWAT Equity Partners. New York, NY. Firm details and current portfolio at", ' ', /*#__PURE__*/React.createElement("a", {
+  href: "https://www.invinextgrowth.com/",
+  target: "_blank",
+  rel: "noopener noreferrer",
+  style: {
+    color: C.accent,
+    textDecoration: 'none',
+    borderBottom: `1px solid ${C.accent}66`
+  }
+}, "invinextgrowth.com"), "."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textDim,
+    lineHeight: 1.6,
+    fontStyle: 'italic'
+  }
+}, "This tab is part of the syndication kit. Externally shareable. The team, criteria, and portfolio fit below are sourced from InviNext's public materials (firm website, LinkedIn) and the executed NDA + May 22 correspondence. Intended for an SPV LP or syndication partner who needs the firm-side intro before reading the operating analysis.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    marginBottom: 24
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 18,
+    fontWeight: 600,
+    marginBottom: 12
+  }
+}, "The team"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: 14
+  }
+}, INVINEXT_TEAM.map((m, i) => /*#__PURE__*/React.createElement("div", {
+  key: i,
+  style: {
+    background: C.card,
+    border: `1px solid ${C.border}`,
+    borderRadius: 12,
+    padding: 18
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 2
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 16,
+    fontWeight: 700,
+    color: C.text
+  }
+}, m.name), m.linkedin && /*#__PURE__*/React.createElement("a", {
+  href: m.linkedin,
+  target: "_blank",
+  rel: "noopener noreferrer",
+  "aria-label": `${m.name} on LinkedIn`,
+  style: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    color: '#0A66C2',
+    opacity: 0.85,
+    transition: 'opacity 0.15s'
+  },
+  onMouseOver: e => e.currentTarget.style.opacity = '1',
+  onMouseOut: e => e.currentTarget.style.opacity = '0.85'
+}, /*#__PURE__*/React.createElement("svg", {
+  width: "14",
+  height: "14",
+  viewBox: "0 0 24 24",
+  fill: "currentColor",
+  style: {
+    display: 'block'
+  }
+}, /*#__PURE__*/React.createElement("path", {
+  d: "M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
+})))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.accent,
+    fontWeight: 600,
+    marginBottom: 8
+  }
+}, m.role), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textDim,
+    marginBottom: 10,
+    letterSpacing: 0.3,
+    textTransform: 'uppercase'
+  }
+}, m.tenure), /*#__PURE__*/React.createElement("div", {
+  style: {
+    marginBottom: 10,
+    paddingLeft: 10,
+    borderLeft: `2px solid ${C.accent}66`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 10,
+    color: C.accent,
+    marginBottom: 4,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    fontWeight: 600
+  }
+}, "Key prior \u2014 relevance signal"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.text,
+    lineHeight: 1.5,
+    fontWeight: 600,
+    marginBottom: 4
+  }
+}, m.keyPrior), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.5
+  }
+}, m.keyPriorRelevance)), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textDim,
+    marginBottom: 4,
+    letterSpacing: 0.3,
+    textTransform: 'uppercase'
+  }
+}, "Earlier"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.5
+  }
+}, m.earlierRoles))))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    marginBottom: 24,
+    padding: 22,
+    background: C.card,
+    borderRadius: 12,
+    border: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 18,
+    fontWeight: 600,
+    marginBottom: 6
+  }
+}, "Investment criteria \u2014 SimplyProtein fit"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginBottom: 14
+  }
+}, "InviNext's stated investment criteria (per firm website), mapped to SimplyProtein on objective terms. Not a sales pitch \u2014 a criteria-fit confirmation."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    overflowX: 'auto'
+  }
+}, /*#__PURE__*/React.createElement("table", {
+  style: {
+    width: '100%',
+    fontSize: 12,
+    borderCollapse: 'collapse'
+  }
+}, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+  style: {
+    background: C.bg
+  }
+}, /*#__PURE__*/React.createElement("th", {
+  style: {
+    padding: '10px 14px',
+    textAlign: 'left',
+    color: C.accent,
+    fontSize: 11,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    fontWeight: 600,
+    borderBottom: `1px solid ${C.border}`,
+    width: '40%'
+  }
+}, "InviNext criterion"), /*#__PURE__*/React.createElement("th", {
+  style: {
+    padding: '10px 14px',
+    textAlign: 'left',
+    color: C.accent,
+    fontSize: 11,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    fontWeight: 600,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, "SimplyProtein status"))), /*#__PURE__*/React.createElement("tbody", null, INVINEXT_CRITERIA.map((r, i) => /*#__PURE__*/React.createElement("tr", {
+  key: i,
+  style: {
+    borderBottom: i < INVINEXT_CRITERIA.length - 1 ? `1px solid ${C.border}` : 'none'
+  }
+}, /*#__PURE__*/React.createElement("td", {
+  style: {
+    padding: '11px 14px',
+    color: C.text,
+    fontWeight: 600,
+    verticalAlign: 'top'
+  }
+}, r.criterion), /*#__PURE__*/React.createElement("td", {
+  style: {
+    padding: '11px 14px',
+    color: C.textMid,
+    lineHeight: 1.5
+  }
+}, r.simplyProtein))))))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    marginBottom: 24,
+    padding: 22,
+    background: C.card,
+    borderRadius: 12,
+    border: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 18,
+    fontWeight: 600,
+    marginBottom: 6
+  }
+}, "Portfolio fit \u2014 direct CPG snacking analogs"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textMid,
+    lineHeight: 1.7,
+    marginBottom: 16,
+    fontStyle: 'italic'
+  }
+}, "SimplyProtein extends a thesis InviNext has been building for a decade \u2014 better-for-you snacking + protein category, scaled-up CPG brands at $20M-$100M revenue, capable operators executing channel transitions."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: 12,
+    marginBottom: 14
+  }
+}, INVINEXT_PORTFOLIO.map((p, i) => /*#__PURE__*/React.createElement("div", {
+  key: i,
+  style: {
+    background: C.bg,
+    border: `1px solid ${C.border}`,
+    borderRadius: 8,
+    padding: 14
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    fontWeight: 700,
+    color: C.accent,
+    marginBottom: 4
+  }
+}, p.name), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    marginBottom: 8,
+    letterSpacing: 0.3,
+    textTransform: 'uppercase'
+  }
+}, p.category), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.5
+  }
+}, p.relevance)))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textDim,
+    lineHeight: 1.6
+  }
+}, "Full portfolio (~30 companies) at", ' ', /*#__PURE__*/React.createElement("a", {
+  href: "https://www.invinextgrowth.com/",
+  target: "_blank",
+  rel: "noopener noreferrer",
+  style: {
+    color: C.accent,
+    textDecoration: 'none',
+    borderBottom: `1px solid ${C.accent}66`
+  }
+}, "invinextgrowth.com"), ".")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 22,
+    background: C.card,
+    borderRadius: 12,
+    border: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 18,
+    fontWeight: 600,
+    marginBottom: 6
+  }
+}, "Engagement context \u2014 timeline"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginBottom: 16
+  }
+}, "The deal-process facts as we know them, presented neutrally. Sourced from the executed NDA and Sarah Foley's May 22 email."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 0
+  }
+}, INVINEXT_TIMELINE.map((t, i) => /*#__PURE__*/React.createElement("div", {
+  key: i,
+  style: {
+    display: 'flex',
+    gap: 18,
+    padding: '12px 0',
+    borderBottom: i < INVINEXT_TIMELINE.length - 1 ? `1px solid ${C.border}` : 'none'
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.accent,
+    fontWeight: 600,
+    minWidth: 110,
+    letterSpacing: 0.3
+  }
+}, t.date), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textMid,
+    lineHeight: 1.6
+  }
+}, t.event)))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    marginTop: 18,
+    paddingTop: 14,
+    borderTop: `1px solid ${C.border}`,
+    fontSize: 12,
+    color: C.textDim,
+    lineHeight: 1.6
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.textMid
+  }
+}, "Round structure (per Sarah Foley email, May 22 2026):"), " $5-7M USD total Series B. InviNext considering leading $3-5M USD. SPV / existing investor balance $2-5M USD. Pre-money target ~$45M USD. Closing timeline driven by Stonegate covenant deadline (August 31).")));
 const AnalystView = () => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
   style: {
     marginBottom: 16
@@ -9058,7 +9584,7 @@ const AnalystView = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
     lineHeight: 1.6,
     marginBottom: 14
   }
-}, "Stonegate's amended lending agreement (Feb 2026) mandates $6.0M USD of new equity capital on a hard schedule. WNI has raised $915K so far via SAFE/Conv Note. InviNext is leading $3-5M with $2-5M planned from existing investors / SPV. The math:"), /*#__PURE__*/React.createElement("div", {
+}, "Stonegate's amended lending agreement (Feb 2026) mandates $6.0M USD of new equity capital on a hard schedule. WNI has raised $915K so far via SAFE/Conv Note. InviNext is considering leading $3-5M with $2-5M planned from existing investors / SPV. The math:"), /*#__PURE__*/React.createElement("div", {
   style: {
     overflowX: 'auto',
     marginBottom: 14
@@ -9196,7 +9722,7 @@ const AnalystView = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
     padding: '10px 12px',
     color: C.textMid
   }
-}, "Closer to the InviNext lead-only commitment ($3-5M).")), /*#__PURE__*/React.createElement("tr", {
+}, "Closer to InviNext's prospective lead commitment ($3-5M).")), /*#__PURE__*/React.createElement("tr", {
   style: {
     borderBottom: `1px solid ${C.border}`
   }
@@ -9244,7 +9770,7 @@ const AnalystView = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
   style: {
     color: C.warm
   }
-}, "Read:"), " the Stonegate-mandated $6.0M USD by August 31 is roughly the size of the full announced Series B target ($5-7M). With the InviNext lead at $3-5M, most or all of the lead component is allocated to satisfying Stonegate covenants, with the SPV/existing-investor balance supporting working capital and the next phase. ", /*#__PURE__*/React.createElement("b", {
+}, "Read:"), " the Stonegate-mandated $6.0M USD by August 31 is roughly the size of the full announced Series B target ($5-7M). With InviNext's prospective lead at $3-5M, most or all of the lead component is allocated to satisfying Stonegate covenants, with the SPV/existing-investor balance supporting working capital and the next phase. ", /*#__PURE__*/React.createElement("b", {
   style: {
     color: C.text
   }
@@ -9587,6 +10113,66 @@ const VersionHistory = () => /*#__PURE__*/React.createElement("div", null, /*#__
   }
 }, /*#__PURE__*/React.createElement(Pill, {
   color: C.accent
+}, "v2.3"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "May 25, 2026 \xB7 InviNext tab + voice convention + actuals-vs-budget fix + RMF glow")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "New InviNext tab"), " inserted at position 7 between Company and Analyst View. 12 tabs total, INTERNAL_FROM bumped 10 \u2192 11 (Version History still the only internal tab). Buyer-side equivalent of the Company tab \u2014 syndication-ready, externally shareable. Five sections: header + framing with the real InviNext lockup PNG; team cards for Sarah Foley (Partner since 2015, CFO of Eleni's New York 2012-15) and Debra Perelman (Managing Partner since March 2025, led Revlon through its June 2022 Chapter 11 restructure \u2014 directly relevant to a covenant-mandated recap); criteria-fit table mapping InviNext's four stated criteria to WNI's status on objective terms; portfolio-fit highlights of three direct CPG snacking analogs (Banza \xB7 Powerful Foods \xB7 Foodstirs); engagement timeline (NDA executed Apr 18, materials shared May 22, diligence underway, August 31 covenant deadline). Per user direction: text-only cards (no photos for the port-co team yet). Reuses existing library primitives \u2014 zero new components.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Voice convention sweep \u2014 Sarah \u2192 InviNext."), " Fund commitment decisions are firm-level, not partner-level. Eight sites changed (header comment, Overview Pill, Overview narrative, Financials Capital Structure card + detail, Risk Summary detail + mitigant, Analyst View \xA74 funding-requirement section). Direct correspondence references KEEP as Sarah / Sarah Foley \u2014 those are accurate-to-source.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Overview narrative \u2014 Costco language softened."), " Original \"lost\" wording implied involuntary termination; source documents don't establish causation. Replaced with \"exited\" to match the Board deck's own neutral language.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Analyst View \xA76 softening"), " \u2014 the Sawaya mitigant's reader-direction was rewritten to surface the question to the InviNext firm rather than naming an individual partner. Reads cleaner in an externally-shared tab the partner will read.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Actuals-vs-budget fix."), " Overview narrative previously cited the F26 P1-P7 actuals as having a 34.5% gross margin recovery \u2014 that value is actually the F26 full-year forecast, not the P1-P7 actual. Fixed to ", /*#__PURE__*/React.createElement("b", null, "35.7%"), " (the actual P1-P7 GP%) on Overview line ~488. Same fix applied to EVENTS F26 detail card and metrics card label. KPI rail label \"F26 GP%\" kept at 34.5% with explicit \"F26 forecast\" framing in the info popover (consistent with the label's stated scope).", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Overview narrative currency tagging."), " Explicit USD/CAD tag on every $-figure across the four Investment Narrative paragraphs and the Bull/Bear case: $73M CAD F24, $44.1M CAD F25 (already tagged), $1.25M CAD Q4 restructure, $500K CAD Amazon savings, $40.8M \u2192 $57.2M CAD F27 inflection, $8.0M \u2192 $3.0M USD Stonegate facility, $2M / $4M / $6M USD covenant schedule, $5-7M USD round, $5.2M CAD F25 add-backs, $2.6M / $5.3M / $5M / $6M / $276K USD Stonegate/cash math, $8.4M CAD Costco-CA. Reader no longer has to guess the lens on any individual figure.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Company tab \u2014 Jonathan Dubyk + Dean Saltel filled."), " Both previously carried only priorCpg + why (empty education + credibility, less rich than the other five execs). Jonathan now reflects his Deloitte M&A \u2192 Andrew Peller FP&A/CorpDev \u2192 Cowbell CFO \u2192 P&CFO escalating arc plus McMaster University education \u2014 directly relevant given the recap context. Dean now reflects his 13-year Smucker Canada operator pedigree across Customer Team Lead / Customer Director seats plus trade-marketing breadth, including ownership of Costco Canada (the single largest remaining customer relationship). Jenny Chai left as-is per scope decision.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "RMF chart Option A \u2014 active-lens dot glow + dim non-active + vertical band marker."), " v2.2 shipped the three-lens system but the chart didn't visibly respond to lens changes \u2014 only the prose card did. v2.3 fixes the affordance gap: when a lens is active, the SP actual dot for that lens (F24 / F25 / F26 L3M) glows with a gold halo and enlarges; the other actual dots dim to ~40% opacity; a vertical band marker drops down at the active cohort revenue band (30M for L3M and trough, 50M for peak). Toggle now visibly anchors on the chart \u2014 comprehensiveness preserved (all dots still shown), readability of which dot the gap table is reading sharpened. Forecast dots dim across all lenses since the three lenses are actuals-only.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.textDim
 }, "v2.2"), /*#__PURE__*/React.createElement("div", {
   style: {
     fontSize: 13,
@@ -10131,7 +10717,7 @@ function SimplyProteinDiligenceDashboard() {
       borderRadius: 4,
       textTransform: 'uppercase'
     }
-  }, "DILIGENCE v2.2"), /*#__PURE__*/React.createElement("div", {
+  }, "DILIGENCE v2.3"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 14,
       color: C.textMid,
@@ -10371,7 +10957,7 @@ function SimplyProteinDiligenceDashboard() {
       fontSize: 11,
       color: C.textDim
     }
-  }, "Propeller team only \u2014 hide before sharing with InviNext")), tab === 0 && /*#__PURE__*/React.createElement(Overview, null), tab === 1 && /*#__PURE__*/React.createElement(Financials, null), tab === 2 && /*#__PURE__*/React.createElement(ChannelMix, null), tab === 3 && /*#__PURE__*/React.createElement(UnitEconomics, null), tab === 4 && /*#__PURE__*/React.createElement(RMFBenchmark, null), tab === 5 && /*#__PURE__*/React.createElement(CompsPosition, null), tab === 6 && /*#__PURE__*/React.createElement(CompanyInfo, null), tab === 7 && /*#__PURE__*/React.createElement(AnalystView, null), tab === 8 && /*#__PURE__*/React.createElement(InfoRequests, null), tab === 9 && /*#__PURE__*/React.createElement(RiskSummary, null), tab === 10 && /*#__PURE__*/React.createElement(VersionHistory, null)), /*#__PURE__*/React.createElement("div", {
+  }, "Propeller team only \u2014 hide before sharing with InviNext")), tab === 0 && /*#__PURE__*/React.createElement(Overview, null), tab === 1 && /*#__PURE__*/React.createElement(Financials, null), tab === 2 && /*#__PURE__*/React.createElement(ChannelMix, null), tab === 3 && /*#__PURE__*/React.createElement(UnitEconomics, null), tab === 4 && /*#__PURE__*/React.createElement(RMFBenchmark, null), tab === 5 && /*#__PURE__*/React.createElement(CompsPosition, null), tab === 6 && /*#__PURE__*/React.createElement(CompanyInfo, null), tab === 7 && /*#__PURE__*/React.createElement(InviNextTab, null), tab === 8 && /*#__PURE__*/React.createElement(AnalystView, null), tab === 9 && /*#__PURE__*/React.createElement(InfoRequests, null), tab === 10 && /*#__PURE__*/React.createElement(RiskSummary, null), tab === 11 && /*#__PURE__*/React.createElement(VersionHistory, null)), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: '20px 32px',
       borderTop: `1px solid ${C.border}`,
@@ -10450,6 +11036,7 @@ function SimplyProteinDiligenceDashboard() {
   }, "\xA9 Propeller Industries 2026"))))));
 }
 
+// ─── Boot ───
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(SimplyProteinDiligenceDashboard));
 </script>
 </body>
