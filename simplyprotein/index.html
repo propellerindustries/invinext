@@ -326,10 +326,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 <body>
 <div id="root"></div>
 <script>
-
-
-
-// ─── LIBRARY_DynDeck_Components v1.0.2 (IIFE) ───
+// --- LIBRARY_DynDeck_Components_v1_0_2 (IIFE) ---
 (function() {
 // ═══════════════════════════════════════════════════════════════════════════════
 // DynDeck Component Library v1.0.2 — May 24, 2026
@@ -978,21 +975,105 @@ window.DynDeckLib = {
 };
 
 })();
-// ─── DASHBOARD_SimplyProtein_DynDeck_260525_2_3 (client) ───
+// --- DASHBOARD_SimplyProtein_v2_8 (client) ---
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const { useState, useMemo, useRef, useEffect, createContext, useContext } = React;
 const { LineChart, Line, BarChart, Bar, ComposedChart, Area, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, ReferenceLine, ReferenceArea, PieChart, Pie, ScatterChart, Scatter, ZAxis, Treemap } = Recharts;
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// SIMPLYPROTEIN (WELLNESS NATURAL INC.) — INVESTOR DILIGENCE DASHBOARD · v2.3 · May 25, 2026
+// SIMPLYPROTEIN (WELLNESS NATURAL INC.) — INVESTOR DILIGENCE DASHBOARD · v2.6 · June 1, 2026
 // Client: InviNext Growth (prospective growth equity investor) — confirmed $5-7M
 //   Series B round, InviNext considering leading $3-5M, terms in development (Sarah Foley email).
-// Sources: WNI Consolidated Financials Workbook F26 P7 · CLAUDE FX WNI CFM F26 Reforecast
-//   (P7 Actuals + Forecast 04-29-26 USD) · Company Overview 04-19-26 · April 2026 Board
-//   Meeting · Propeller cohort baseline (Baking + Beverage + Dairy + Food&Bev + Pantry,
-//   $1M-$350M) · Drew Fallon CPG M&A Database (public deal data)
-// FX: workbook's own monthly translation. F26 P1-P7 avg 1.3833 CAD/USD; F25 avg 1.3956.
+// Sources: WNI Consolidated Financials Workbook F26 P7 · WNI CFM F26 Reforecast
+//   (P7 Actuals + Forecast 04-29-26 — CORRECTED, tortilla COGS restored) · Company
+//   Overview 04-19-26 · April 2026 Board Meeting · Propeller cohort baseline (Baking +
+//   Beverage + Dairy + Food&Bev + Pantry, $1M-$350M) · Drew Fallon CPG M&A Database
+// FX: workbook's own translation. F25 0.7161; F26-F29 0.7312 USD/CAD.
 //
-// v2.3 (this build): INVINEXT TAB + VOICE CONVENTION + ACTUALS-VS-BUDGET FIX +
+// v2.8 (this build): EXIT & RETURNS DILIGENCE FLAGS. Three diligence blocks added to
+//       the Exit & Returns tab, surfacing findings from the cap-table data: (1) deal-terms
+//       impact — the 2.5x participating structure wipes common until a ~$36M CAD exit and
+//       is the single biggest return swing; live side-by-side vs a clean 1x non-part case.
+//       (2) converting paper signed-vs-placeholder — only ~$3.49M of the converting stack
+//       is signed; ~$1.5M is "Placeholder for May." Also flags non-binding SAFE caps and a
+//       ~$64K internal note-balance inconsistency in the v8a workbook. (3) September deadline
+//       wall — Aug 31 covenant, Sep 30 note maturity, MFN ratchet. No engine change; same
+//       verified waterfall. No new library components.
+//
+// v2.7: CAP TABLE → SCENARIO TOOL. New Exit & Returns tab (index 6)
+//       ports S. Foley's v8a pro forma waterfall (SimplyProtein_ProForma_CapTable_
+//       Waterfall_v8a.xlsx), reconciled to the Pulley export (04-24-2026). Reproduces
+//       the sheet's waterfall to the dollar across the $50M-$325M CAD EV grid. Exit EV
+//       set by slider OR by selected M&A comp multiple × corrected F29 rev/EBITDA;
+//       editable pre-money / checks / liq-pref x / participating toggle; InviNext MOIC,
+//       ownership, proceeds-by-class, sensitivity grid, full FD stack (141.1M shares).
+//       Round construction flagged provisional pending InviNext confirmation. TABS 12→13,
+//       INTERNAL_FROM 11→12. No new library components.
+//
+// v2.6: CORRECTED-MODEL REBUILD. All forecast-year GP/EBITDA figures
+//       rebuilt on WNI_CFM_F26_Reforecast_042926.xlsx (the corrected file). The prior
+//       "CLAUDE FX" USD reforecast was missing tortilla unit costs in the forecast cost
+//       build — collapsing Product COGS from ~50% to ~18% of sales and inflating margins
+//       (Sarah flagged this in Mar-28 feedback). Corrected: F27-F29 GP% 64.4/74.1/76.1 →
+//       42.1/44.9/45.4; reported EBITDA% +31/+44/+45 → +7.8/+14.5/+14.2. Revenue lines
+//       unaffected (error was COGS-only). The stale "-8.9% → +6.0%" EBITDA-inflection line
+//       (matched neither model) replaced with labeled reported "-7.9% → +7.8%" at all sites.
+//       F25 adjusted EBITDA FLAGGED — WNI cites both $3.7M and $5.2M Costco add-backs and
+//       the adj. figure ties to neither (Analyst §8 Item 4). Plausibility gate added to the
+//       smoke harness — passes clean on the corrected arrays (regression proof). §8 Item 3
+//       documents the correction as a visible diligence-credibility audit-trail entry.
+//
+// v2.5: +40% F27 GROWTH RESOLVED + CUSTOMER CONCENTRATION CARD.
+//       (1) The F27 net-revenue-growth headline (+40% / $40.8M → $57.2M CAD) was
+//       checked against the reforecast and could not be reproduced on any line, in
+//       either currency; the workbook's "Net Sales Growth" ties to +31.6% ($38.85M →
+//       $51.13M CAD / $28.41M → $37.39M USD). Re-anchored all 5 prose sites to +32%
+//       (matches the Overview KPI rail), removed the [§Reconcile]/[§8] inline markers,
+//       and converted Analyst View §8 Item 1 from "unable to reconcile" to a RESOLVED
+//       reconciliation-log entry (kept visible as audit trail; standing ask to WNI if
+//       a +40% basis exists). (2) New Customer Detail concentration-evolution card from
+//       the FY21-26 Revenue By Product by Customer file: top-1/3/5 share FY22-FY26 +
+//       Costco USA vs Costco Canada split. The de-risking (top-1 67%→40%→30%) is now
+//       shown in actuals, not just forecast. Scope pills + data-scope caveat updated to
+//       reflect the new annual coverage (format/SKU granularity still F25-only).
+//
+// v2.4 (May 25): INTERNAL-CONSISTENCY SURFACING + ADJUSTED EBITDA SIDE-BY-SIDE +
+//       CHANNEL MIX VELOCITY CARD + ORG EVOLUTION CARD + COMPS/RMF SCRUBS +
+//       v1.2 HISTORY BACKFILL. (1) New AnalystView §8 "Internal consistency · items
+//       unable to reconcile before external send" surfaces two reconciliation items
+//       for the InviNext send: F27 net rev growth headline cites +40% / $40.8M →
+//       $57.2M but the workbook ties to +31.6% on both CAD ($38.85M → $51.13M) and
+//       USD-translated ($28.41M → $37.39M) net sales — basis for the $40.8M / $57.2M
+//       figures could not be located in source materials; assumption is the figures
+//       have a basis we haven't surfaced, not that they are wrong. Inline pointer
+//       markers ([§Reconcile]) placed at the 5 deck sites that cite +40% (Overview
+//       narrative, Diligence Question 01, EVENTS F26 detail, Analyst View §3 lead,
+//       Analyst View §3 Transformation C). (2) RMF gap-table F25 lens now shows
+//       adjusted EBITDA side-by-side: reported -18.6% vs cohort -34.3% (+15.7pp) /
+//       adjusted -6.8% vs cohort -34.3% (+27.5pp). F26 L3M lens carries an
+//       explanatory note: adjusted not displayed pending the F26 add-back framework
+//       diligence ask in Analyst View §2 (line of "Growth Equity Investment in
+//       Marketing/Innovation" $2.9M / yr basis is unresolved). Per analyst-voice
+//       discipline — do not surface a derived F26 adjusted using a contested
+//       add-back. (3) Channel Mix tab new velocity card consolidates retail-side
+//       traction signals previously scattered across Overview narrative, Comps &
+//       Position, and individual customer cards: HEB 4.5 u/s/w (up from 2.4),
+//       Walmart approaching 3 u/s/w in week 4 of launch, ~2,500 B&M doors total,
+//       SPINS #2 BFY tortilla growth contributor. Card placed before the door-plan
+//       section so the velocity evidence reads first, then the door count.
+//       (4) Company tab new org evolution card surfaces 34 → 26 → 16 headcount
+//       trajectory previously only in Risk Summary mitigant + Analyst View §5.1.
+//       (5) Comps & Position scrubs: stale "bar comp set in scope for v1.1"
+//       subtitle dropped; v1.1 pill on bar comp placeholder removed; framing
+//       updated to reflect that the bar comp set is deprioritized (Linda Zink /
+//       Quest pedigree is on Company tab; v1.5 Drew M&A section now carries the
+//       transaction-comp story; v2.1 default-set tightening already shipped).
+//       (6) RMF chart source line scrubbed from filename "COHORT_SIPR_DEMO.xlsx"
+//       to friendlier label "Propeller RMF cohort baseline." (7) Version History
+//       v1.2 entry backfilled — was chronologically skipped after v1.1 jumped to
+//       v1.3+; v1.2 was the May 22 Customer Detail tab build from the 57,553-row
+//       transaction extract.
+// v2.3 (May 25): INVINEXT TAB + VOICE CONVENTION + ACTUALS-VS-BUDGET FIX +
 //       CURRENCY TAGGING + RMF LENS GLOW. (1) New InviNext tab inserted at
 //       position 7 between Company and Analyst View (12 tabs total, INTERNAL_FROM
 //       10 → 11) — buyer-side equivalent of Company tab, syndication-ready.
@@ -1086,12 +1167,15 @@ const ANN_USD = {
   // F26 = P1-P7 actl + P8-P12 reforecast
   grossRev: [65713, 42988, 34504, 44437, 68678, 80904],
   netRev: [53830, 31568, 28407, 37385, 58525, 69055],
-  gp: [22423, 8777, 9805, 24089, 43380, 52562],
-  gpPct: [41.7, 27.8, 34.5, 64.4, 74.1, 76.1],
-  ebitda: [5439, -5868, -2209, 11613, 25561, 31066],
-  adjEbitda: [5439, -2169, -2209, 8713, 22661, 31066],
-  // F25 reported -5.9M + 3.7M Costco exit = -2.2M; F26 no add-back; F27 -2.9M Growth Eq investment
-  ebitdaPct: [10.1, -18.6, -7.8, 31.1, 43.7, 45.0]
+  gp: [22423, 8777, 9797, 15739, 26280, 31326],
+  // v2.6: F27-F29 rebuilt on corrected model (tortilla COGS restored)
+  gpPct: [41.7, 27.8, 34.5, 42.1, 44.9, 45.4],
+  // v2.6 corrected (was 64.4/74.1/76.1 on broken COGS)
+  ebitda: [5439, -5868, -2241, 2912, 8462, 9831],
+  // v2.6 corrected reported EBITDA (USD)
+  adjEbitda: [5439, -3219, -2241, 5033, 8462, 9831],
+  // v2.6: F25 +3.7M Costco / F26+F27 +2.9M Growth Eq add-backs (USD); F28/F29 none. F25 adj FLAGGED — see §4
+  ebitdaPct: [10.1, -18.6, -7.9, 7.8, 14.5, 14.2] // v2.6 corrected (was 31.1/43.7/45.0)
 };
 const ANN_CAD = {
   years: ['F24', 'F25', 'F26', 'F27', 'F28', 'F29'],
@@ -1099,11 +1183,15 @@ const ANN_CAD = {
   // F24/F25 from Consol P&L (Rpt) workbook CAD totals; F26-F29 USD × F26 avg FX 1.3833
   grossRev: [89404, 60032, 47731, 61490, 95001, 111906],
   netRev: [73241, 44085, 39298, 51723, 80958, 95524],
-  gp: [30510, 12257, 13564, 33323, 60016, 72720],
-  gpPct: [41.7, 27.8, 34.5, 64.4, 74.1, 76.1],
-  ebitda: [6975, -8195, -3056, 16066, 35364, 42984],
-  adjEbitda: [6975, -3018, -3056, 12053, 31345, 42984],
-  ebitdaPct: [10.1, -18.6, -7.8, 31.1, 43.7, 45.0]
+  gp: [30510, 12257, 13398, 21525, 35940, 42842],
+  // v2.6: F27-F29 rebuilt on corrected model (CAD)
+  gpPct: [41.7, 27.8, 34.5, 42.1, 44.9, 45.4],
+  // v2.6 corrected (was 64.4/74.1/76.1)
+  ebitda: [6975, -8195, -3064, 3983, 11572, 13444],
+  // v2.6 corrected reported EBITDA (CAD)
+  adjEbitda: [6975, -4495, -3064, 6883, 11572, 13444],
+  // v2.6: F25 +3.7M / F26+F27 +2.9M add-backs (CAD); F28/F29 none. F25 adj FLAGGED — see §4
+  ebitdaPct: [10.1, -18.6, -7.9, 7.8, 14.5, 14.2] // v2.6 corrected
 };
 // Default-displayed currency at boot. User can toggle in header — see Currency context.
 const ANN = ANN_USD; // back-compat alias for v1.0 components that read ANN.x directly
@@ -1839,12 +1927,12 @@ const ccyTag = currency => currency === 'CAD' ? ' CAD' : ' USD';
 // ═══════════════════════════════════════════════════════════════════════════════
 // TABS
 // ═══════════════════════════════════════════════════════════════════════════════
-const TABS = ['Overview', 'Financials', 'Channel Mix', 'Customer Detail', 'RMF Benchmark', 'Comps & Position', 'Company', 'InviNext', 'Analyst View', 'Info Requests', 'Risk Summary', 'Version History'];
+const TABS = ['Overview', 'Financials', 'Channel Mix', 'Customer Detail', 'RMF Benchmark', 'Comps & Position', 'Exit & Returns', 'Company', 'InviNext', 'Analyst View', 'Info Requests', 'Risk Summary', 'Version History'];
 // Internal threshold: index 10 (Version History only). Analyst View is now
 // externally shared — sits in the diligence narrative arc between Company and
 // Info Requests as the analyst's own work product surfacing reconciliations,
 // forecast decomposition, and discrepancies.
-const INTERNAL_FROM = 11;
+const INTERNAL_FROM = 12; // v2.7: +1 for Exit & Returns at index 6 (Version History still the only internal tab)
 
 // Exec Summary KPI rail — six metrics with the 4-part info popover schema.
 // Investor-side voice: framing names what InviNext is buying + the diligence question.
@@ -1874,7 +1962,7 @@ const EXEC_KPIS = [{
     def: 'Gross profit as a percent of net revenue — F26 forecast. Currency-agnostic ratio.',
     calc: 'F26 GP / F26 Net Rev = 34.5% in both currencies.',
     src: 'WNI F26 P7 Reforecast.',
-    note: 'F25 was 27.8% (trough); F24 was 41.7%. F27 forecast steps to 64.4% as low-margin Costco bars exit and US Tortilla scales — diligence question.'
+    note: 'F25 was 27.8% (trough); F24 was 41.7%. F27 forecast steps to 42.1% as low-margin Costco bars exit and US Tortilla scales — diligence question whether it holds with a fresh US B&M base.'
   }
 }, {
   v: {
@@ -1887,7 +1975,7 @@ const EXEC_KPIS = [{
     def: 'Earnings before interest, taxes, depreciation, and amortization — F26 reforecast.',
     calc: 'F26 reported EBITDA loss; adj. EBITDA matches reported (no add-backs in F26 bridge).',
     src: 'WNI F26 P7 Reforecast.',
-    note: 'F25 reported EBITDA loss USD $5.9M / CAD $8.2M; adj. USD $2.2M / CAD $3.0M after $3.7M Costco exit add-back. F27 forecast turns positive: USD $11.6M reported / $8.7M adj.'
+    note: 'F25 reported EBITDA loss USD $5.9M / CAD $8.2M; F25 adjusted is FLAGGED (deck cites both $3.7M and $5.2M Costco add-backs and ties to neither — WNI to confirm). F27 forecast turns positive: USD $2.9M reported / $5.0M adj.'
   }
 }, {
   v: {
@@ -1960,7 +2048,7 @@ const EVENTS = [{
   tag: 'COSTCO EXIT',
   color: C.warm,
   headline: "F25 — US Costco bars exit drives revenue contraction",
-  detail: "Revenue compresses to $43.0M gross / $31.6M net as US Costco bars (the largest single SKU) rolls off. GP margin compresses to 27.8% on exit costs, inventory reserves, trade pressure. Reported EBITDA ($5.7M); adj. ($2.0M) after a $3.7M one-time Costco exit add-back. The trough year by design — eight-figure dependency on a single SKU/retailer removed from the base.",
+  detail: "Revenue compresses to $43.0M gross / $31.6M net as US Costco bars (the largest single SKU) rolls off. GP margin compresses to 27.8% on exit costs, inventory reserves, trade pressure. Reported EBITDA ($5.9M) USD / ($8.2M) CAD. Adjusted EBITDA is FLAGGED: WNI materials cite the F25 Costco add-back as both $3.7M and $5.2M, and the deck's stated adj. EBITDA reconciles to neither against the corrected reported figure — WNI to confirm on the Monday call (see Analyst View §8).",
   metrics: [{
     l: 'Net Rev',
     v: '$31.6M'
@@ -1969,7 +2057,7 @@ const EVENTS = [{
     v: '27.8%'
   }, {
     l: 'Adj EBITDA',
-    v: '($2.0M)'
+    v: 'flagged'
   }]
 }, {
   idx: 2,
@@ -1993,17 +2081,17 @@ const EVENTS = [{
   fy: "F27",
   tag: 'TORTILLA RAMP',
   color: C.green,
-  headline: "F27 forecast — US B&M doubles, GP % steps to 64%",
-  detail: "F27 forecast: gross revenue rebounds to $44.4M (+29% YoY), net to $37.4M (+32%). US B&M $11.1M (2× F26). GP margin steps to 64.4% as low-margin Costco bars are out of the base and higher-margin Tortilla scales. EBITDA turns to $11.6M reported / $8.7M adj. The diligence question is whether the door-count math (Traditional 5,500 → 7,000; Club rotations 2 → 4; signed POs vs. pipeline) carries the load.",
+  headline: "F27 forecast — US B&M doubles, GP % steps to 42%",
+  detail: "F27 forecast: gross revenue rebounds to $44.4M (+29% YoY), net to $37.4M (+32%). US B&M $11.1M (2× F26). GP margin steps to 42.1% as low-margin Costco bars are out of the base and higher-margin Tortilla scales. EBITDA turns positive: $2.9M reported / $5.0M adj. USD (CAD $4.0M reported / $6.9M adj.). The diligence question is whether the door-count math (Traditional 5,500 → 7,000; Club rotations 2 → 4; signed POs vs. pipeline) carries the load — and whether the $2.9M Growth Equity add-back is legitimate (it is the difference between reported and adjusted).",
   metrics: [{
     l: 'Gross Rev',
     v: '$44.4M'
   }, {
     l: 'GP %',
-    v: '64.4%'
+    v: '42.1%'
   }, {
     l: 'Adj EBITDA',
-    v: '$8.7M'
+    v: '$5.0M'
   }]
 }, {
   idx: 4,
@@ -2011,16 +2099,16 @@ const EVENTS = [{
   tag: 'US SCALE-OUT',
   color: C.accent,
   headline: "F28 forecast — US Tortilla expansion at scale",
-  detail: "F28 forecast: gross $68.7M (+55% YoY). US B&M jumps to $28.5M as Traditional doors expand to 12,000 and Club rotations hold at 4/yr. GP $43.4M at 74% margin. Adj EBITDA $22.6M at 43.8% margin. This is the year the post-Costco base passes the F24 peak ($65.7M) — same gross revenue, different channel composition, materially higher margin.",
+  detail: "F28 forecast: gross $68.7M (+55% YoY). US B&M jumps to $28.5M as Traditional doors expand to 12,000 and Club rotations hold at 4/yr. GP $26.3M USD at 44.9% margin. EBITDA $8.5M USD at 14.5% margin (no add-back in F28). This is the year the post-Costco base passes the F24 peak ($65.7M) on revenue — same gross revenue, different channel composition, and a margin profile a step past F24's +10.1% EBITDA.",
   metrics: [{
     l: 'Gross Rev',
     v: '$68.7M'
   }, {
     l: 'GP %',
-    v: '74.1%'
+    v: '44.9%'
   }, {
-    l: 'Adj EBITDA',
-    v: '$22.6M'
+    l: 'EBITDA',
+    v: '$8.5M'
   }]
 }, {
   idx: 5,
@@ -2028,18 +2116,46 @@ const EVENTS = [{
   tag: 'STEADY-STATE',
   color: C.teal,
   headline: "F29 forecast — model reaches steady-state margin profile",
-  detail: "F29 forecast: $80.9M gross / $69.1M net. 76% GP margin. $31.1M EBITDA at 45% margin. Traditional doors 15,000, Club rotations 5/yr, C&G 10,000 doors. The terminal-year shape of the business if the F27/F28 ramp executes — a meaningfully different operating profile than F24, despite similar headline revenue.",
+  detail: "F29 forecast: $80.9M gross / $69.1M net. 45.4% GP margin. $9.8M USD EBITDA at 14.2% margin. Traditional doors 15,000, Club rotations 5/yr, C&G 10,000 doors. The terminal-year shape of the business if the F27/F28 ramp executes — a meaningfully different operating profile than F24, despite similar headline revenue.",
   metrics: [{
     l: 'Gross Rev',
     v: '$80.9M'
   }, {
     l: 'GP %',
-    v: '76.1%'
+    v: '45.4%'
   }, {
     l: 'EBITDA',
-    v: '$31.1M'
+    v: '$9.8M'
   }]
 }];
+
+// ─── PRE/POST MODEL CORRECTION (v2.6) ────────────────────────────────────────
+// Powers the Overview "What changed vs. prior" toggle. Figures verified against
+// the last shipped v2.5 HTML (pre) and the corrected reforecast (post). USD basis
+// (the default display currency); only forecast years F27-F29 moved — revenue and
+// F24/F25/F26 actuals are unchanged, because the error was COGS-only.
+const PREPOST_ROWS = [{
+  metric: 'GP % of net',
+  pre: '64.4 / 74.1 / 76.1',
+  post: '42.1 / 44.9 / 45.4',
+  delta: '-22 to -31pp'
+}, {
+  metric: 'Reported EBITDA %',
+  pre: '+31 / +44 / +45',
+  post: '+7.8 / +14.5 / +14.2',
+  delta: '-23 to -31pp'
+}, {
+  metric: 'GP $ (USD)',
+  pre: '$24 / $43 / $53M',
+  post: '$16 / $26 / $31M',
+  delta: '-$8 to -$21M'
+}, {
+  metric: 'Reported EBITDA $ (USD)',
+  pre: '$12 / $26 / $31M',
+  post: '$2.9 / $8.5 / $9.8M',
+  delta: '-$9 to -$21M'
+}];
+// Order within each cell: F27 / F28 / F29.
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TAB: OVERVIEW
@@ -2049,6 +2165,7 @@ const Overview = () => {
   // to what's modeled. F24 was +9.5% EBITDA on $73M net revenue, the bull-case
   // anchor for the recapitalization framing.
   const [selectedEvent, setSelectedEvent] = useState(0);
+  const [modelView, setModelView] = useState('corrected'); // 'corrected' | 'changed' — v2.6 pre/post toggle
   const currency = useCurrency();
   const ann = pickAnn(currency);
   const chartData = ann.years.map((y, i) => ({
@@ -2101,6 +2218,209 @@ const Overview = () => {
       letterSpacing: 0.3
     }
   }, "Prepared by Propeller for InviNext Growth Partners \xB7 May 2026")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      marginBottom: 18,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: C.textDim,
+      textTransform: 'uppercase',
+      letterSpacing: 1.2,
+      fontWeight: 600
+    }
+  }, "Model view"), /*#__PURE__*/React.createElement("div", {
+    role: "group",
+    "aria-label": "Model view",
+    style: {
+      display: 'inline-flex',
+      background: C.card,
+      border: `1px solid ${C.border}`,
+      borderRadius: 6,
+      overflow: 'hidden'
+    }
+  }, [['corrected', 'Corrected model'], ['changed', 'What changed vs. prior']].map(([key, label]) => /*#__PURE__*/React.createElement("button", {
+    key: key,
+    onClick: () => setModelView(key),
+    "aria-pressed": modelView === key,
+    style: {
+      padding: '5px 14px',
+      fontSize: 12,
+      fontWeight: 600,
+      letterSpacing: 0.3,
+      background: modelView === key ? C.accent : 'transparent',
+      color: modelView === key ? C.bg : C.textMid,
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all 0.15s'
+    }
+  }, label))), modelView === 'changed' && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.textDim,
+      fontStyle: 'italic'
+    }
+  }, "Showing the impact of the corrected reforecast (tortilla COGS restored, loaded May 28)")), modelView === 'changed' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.card,
+      border: `1px solid ${C.accent}55`,
+      borderRadius: 12,
+      padding: 28,
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.accent,
+      letterSpacing: 1.5,
+      fontWeight: 700,
+      textTransform: 'uppercase',
+      marginBottom: 14
+    }
+  }, "What changed \u2014 and what we now think"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      color: C.textMid,
+      lineHeight: 1.75,
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: '0 0 14px 0'
+    }
+  }, /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, "The correction."), " Every prior version of this deck was built on a forecast model that was missing tortilla chip unit costs in the out-year cost build \u2014 which collapsed forecast COGS and inflated F27\u2013F29 margins to levels no packaged-goods business sustains. WNI flagged the underlying model error; our own plausibility review independently caught the implausible margins. In the course of rebuilding we also found and fixed a couple of process errors on our side. The corrected reforecast is now loaded, and this is the view that holds."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: '0 0 14px 0'
+    }
+  }, /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, "What it does to the numbers."), " Revenue and the FY24\u2013FY26 actuals are unchanged \u2014 the error was COGS-only, so it touched the forecast years and nothing else. F27 reported EBITDA moves from an implausible ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, "+31%"), " to ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.green
+    }
+  }, "+7.8%"), "; F28/F29 settle near ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.green
+    }
+  }, "+14%"), " rather than +44/45%. Gross margin lands at ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.green
+    }
+  }, "42\u201345%"), " across the forecast instead of 64\u201376%."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: '0 0 0 0'
+    }
+  }, /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, "Why the thesis is stronger, not weaker."), " The out-year story is smaller but materially more credible \u2014 and the \"return to FY24 profitability\" framing actually holds ", /*#__PURE__*/React.createElement("i", null, "better"), " on these numbers. ~14% EBITDA by F28 is a real step past the FY24 +10.1% peak, where +45% never was. The turnaround is now underwritable rather than aspirational. The F27 inflection still depends on three things landing in a 12-month window (Dishaka co-man, US B&M velocity, the $1.25M restructure) \u2014 that execution risk is unchanged \u2014 but the ", /*#__PURE__*/React.createElement("i", null, "magnitude"), " of the bet is now sane.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto'
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: 13
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: `1px solid ${C.border}`
+    }
+  }, /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'left',
+      padding: '8px 10px',
+      color: C.textDim,
+      fontWeight: 600,
+      fontSize: 11,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5
+    }
+  }, "Metric (F27 / F28 / F29)"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '8px 10px',
+      color: C.textDim,
+      fontWeight: 600,
+      fontSize: 11,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5
+    }
+  }, "Prior model"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '8px 10px',
+      color: C.accent,
+      fontWeight: 600,
+      fontSize: 11,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5
+    }
+  }, "Corrected"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '8px 10px',
+      color: C.textDim,
+      fontWeight: 600,
+      fontSize: 11,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5
+    }
+  }, "Change"))), /*#__PURE__*/React.createElement("tbody", null, PREPOST_ROWS.map((r, i) => /*#__PURE__*/React.createElement("tr", {
+    key: i,
+    style: {
+      borderBottom: `1px solid ${C.border}33`
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      color: C.text,
+      fontWeight: 600
+    }
+  }, r.metric), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      textAlign: 'right',
+      color: C.textDim,
+      textDecoration: 'line-through'
+    }
+  }, r.pre), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      textAlign: 'right',
+      color: C.green,
+      fontWeight: 700
+    }
+  }, r.post), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 10px',
+      textAlign: 'right',
+      color: C.red
+    }
+  }, r.delta)))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textDim,
+      marginTop: 12,
+      lineHeight: 1.5
+    }
+  }, "USD basis. Revenue and FY24\u2013FY26 actuals unchanged. Two open WNI items remain: the F25 Costco add-back is cited as both $3.7M and $5.2M (we've flagged rather than picked one), and the $2.9M \"Growth Equity Investment\" add-back is the entire gap between F27 reported (+7.8%) and adjusted (+13.5%). Full reconciliation detail on the Analyst View tab (\xA78).")), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.card,
       border: `1px solid ${C.border}`,
@@ -2155,7 +2475,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "US B&M scale-out"), " with documented retail-side traction (HEB velocity 4.5 u/s/w from 2.4, Walmart approaching 3 u/s/w in week 4 of launch, SPINS #2 contributor to total BFY tortilla growth). The F27 inflection \u2014 net revenue $40.8M \u2192 $57.2M CAD, EBITDA -8.9% \u2192 +6.0% \u2014 depends on all three landing within a 12-month window. None alone is sufficient."), /*#__PURE__*/React.createElement("p", {
+  }, "US B&M scale-out"), " with documented retail-side traction (HEB velocity 4.5 u/s/w from 2.4, Walmart approaching 3 u/s/w in week 4 of launch, SPINS #2 contributor to total BFY tortilla growth). The F27 inflection \u2014 net revenue $38.85M \u2192 $51.13M CAD (+32%), reported EBITDA -7.9% \u2192 +7.8% of net \u2014 depends on all three landing within a 12-month window. None alone is sufficient."), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '0 0 14px 0'
     }
@@ -2299,7 +2619,7 @@ const Overview = () => {
     style: {
       color: C.text
     }
-  }, "Compound execution risk on the F27 inflection."), " Three concurrent transformations gate F27 EBITDA (-8.9% \u2192 +6.0%). Dishaka co-man transition has slipped 1 month; $1.25M CAD Q4 restructure is unexecuted; US B&M velocity ramp depends on demo + promo spend that's on the budget-cut list. Single-line miss breaks the math."), /*#__PURE__*/React.createElement("p", {
+  }, "Compound execution risk on the F27 inflection."), " Three concurrent transformations gate F27 reported EBITDA (-7.9% \u2192 +7.8% of net). Dishaka co-man transition has slipped 1 month; $1.25M CAD Q4 restructure is unexecuted; US B&M velocity ramp depends on demo + promo spend that's on the budget-cut list. Single-line miss breaks the math."), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '0 0 10px 0'
     }
@@ -2348,7 +2668,7 @@ const Overview = () => {
   }, [{
     n: '01',
     q: 'Forecast credibility',
-    d: 'Decompose F27 into signed POs vs. modeled doors. The +40% net revenue inflection rests on door productivity assumptions; signed support tightens or breaks the read.'
+    d: 'Decompose F27 into signed POs vs. modeled doors. The +32% net revenue inflection ($38.85M → $51.13M CAD, ties to the reforecast) rests on door productivity assumptions; signed support tightens or breaks the read.'
   }, {
     n: '02',
     q: 'CM sustainability through the mix shift',
@@ -2439,7 +2759,7 @@ const Overview = () => {
       fontSize: 11
     },
     tickFormatter: v => `${v}%`,
-    domain: [0, 100]
+    domain: [0, 60]
   }), /*#__PURE__*/React.createElement(Tooltip, {
     content: /*#__PURE__*/React.createElement(CustomTooltip, null),
     cursor: {
@@ -3055,31 +3375,31 @@ const FIN_KPIS = [{
     def: 'F26 gross profit as a percent of net revenue. Currency-agnostic ratio.',
     calc: 'F26 GP / Net Rev = 34.5% in both currencies.',
     src: 'WNI F26 P7 Reforecast.',
-    note: 'F25 27.8% (trough) → F26 34.5% (P1-P7 YTD recovery) → F27 forecast 64.4%. Mix-driven; diligence question is whether the 64%+ holds in F27 with a fresh US B&M base.'
+    note: 'F25 27.8% (trough) → F26 34.5% (P1-P7 YTD recovery) → F27 forecast 42.1%. Mix-driven; diligence question is whether the 42% holds in F27 with a fresh US B&M base.'
   }
 }, {
   v: {
-    USD: '$8.7M',
-    CAD: 'C$12.1M'
+    USD: '$5.0M',
+    CAD: 'C$6.9M'
   },
   l: 'F27 Adj EBITDA',
   c: C.green,
   info: {
-    def: 'F27 forecast adjusted EBITDA, after $2.9M Growth Equity Investment add-back.',
-    calc: 'F27 reported EBITDA USD $11.6M − $2.9M add-back = $8.7M adj. CAD at workbook FX.',
-    src: 'WNI F26 P7 Reforecast.',
-    note: 'F25 adj. ($2.0M) → F26 ($2.2M) → F27 $8.7M → F28 $22.6M → F29 $31.1M USD. The diligence question on F27 is whether the $2.9M "Growth Equity Investment" line is a legitimate add-back or operating reality.'
+    def: 'F27 forecast adjusted EBITDA, after $2.9M CAD Growth Equity Investment add-back.',
+    calc: 'F27 reported EBITDA CAD $4.0M + $2.9M add-back = $6.9M adj CAD ($5.0M USD at workbook FX).',
+    src: 'WNI F26 P7 Reforecast (corrected — tortilla COGS restored).',
+    note: 'F25 adj. FLAGGED (see §8) → F26 ($0.1M) → F27 $5.0M → F28 $8.5M (no add-back) → F29 $9.8M USD. The diligence question on F27 is whether the $2.9M "Growth Equity Investment" line is a legitimate add-back or operating reality — it is the gap between +7.8% reported and +13.5% adjusted.'
   }
 }, {
   v: {
-    USD: '+30pp',
-    CAD: '+30pp'
+    USD: '+8pp',
+    CAD: '+8pp'
   },
   l: 'F26 → F27 GP Δ',
   c: C.teal,
   info: {
-    def: 'Change in gross margin percentage from F26 (34.5%) to F27 forecast (64.4%). Currency-agnostic.',
-    calc: '64.4% − 34.5% = 29.9 percentage points.',
+    def: 'Change in gross margin percentage from F26 (34.5%) to F27 forecast (42.1%). Currency-agnostic.',
+    calc: '42.1% − 34.5% = 7.6 percentage points.',
     src: 'WNI F26 P7 Reforecast — sensitivity in the unit-cost workbook.',
     note: 'The single biggest unknown in the forecast. Decomposes into: (a) US Costco bars contract exit, (b) Tortilla format mix shift, (c) trade spend on new US B&M doors. The deck shows the headline; the unit-cost workbook is where diligence pressure-tests it.'
   }
@@ -3210,7 +3530,7 @@ const Financials = () => {
     color: C.accent
   }, "Gross revenue contracts $65.7M F24 \u2192 $34.5M F26 on the US Costco bars exit, then rebuilds to $80.9M F29. Net revenue tracks gross with a roughly $11-12M wedge for trade deductions across the window \u2014 the wedge is structural to retail CPG and is not the diligence variable. The variable is what backfills the post-Costco gap.")), /*#__PURE__*/React.createElement(ChartCard, {
     title: "Gross margin transformation",
-    sub: "Gross profit (bars, USD millions) and GP % of net revenue (line) \xB7 F25 trough at 27.8% \xB7 F27 forecast steps to 64.4% on mix shift",
+    sub: "Gross profit (bars, USD millions) and GP % of net revenue (line) \xB7 F25 trough at 27.8% \xB7 F27 forecast steps to 42.1% on mix shift",
     source: "Consolidated Financials Workbook \xB7 F26 P7 (Consol P&L Rpt + USA IS, gross margin lines)",
     wide: true
   }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
@@ -3248,7 +3568,7 @@ const Financials = () => {
       fontSize: 11
     },
     tickFormatter: v => `${v}%`,
-    domain: [0, 100]
+    domain: [0, 60]
   }), /*#__PURE__*/React.createElement(Tooltip, {
     content: /*#__PURE__*/React.createElement(CustomTooltip, null),
     cursor: {
@@ -3288,7 +3608,7 @@ const Financials = () => {
     }
   }))), /*#__PURE__*/React.createElement(InsightBlock, {
     color: C.warm
-  }, "The 27.8% F25 trough is mix-driven \u2014 US Costco bars were the lowest-margin SKU in the portfolio at the largest volume. The exit removes the drag. The F27 step to 64.4% is the diligence centerpiece: it depends on Tortilla margin (higher than bars), trade spend discipline on new US B&M doors (untested at scale), and unit-cost improvement in plant-protein procurement (forward assumption). Pressure-test in the unit-cost workbook.")), /*#__PURE__*/React.createElement(ChartCard, {
+  }, "The 27.8% F25 trough is mix-driven \u2014 US Costco bars were the lowest-margin SKU in the portfolio at the largest volume. The exit removes the drag. The F27 step to 42.1% is the diligence centerpiece: it depends on Tortilla margin (higher than bars), trade spend discipline on new US B&M doors (untested at scale), and unit-cost improvement in plant-protein procurement (forward assumption). On the corrected model the step is believable \u2014 a return toward the F24 41.7% profile, not the 64%+ the broken model implied. Pressure-test in the unit-cost workbook.")), /*#__PURE__*/React.createElement(ChartCard, {
     title: "EBITDA bridge (reported vs. adjusted)",
     sub: "Reported EBITDA and adjusted EBITDA across the window \xB7 F25 the only year with a material add-back in the historical record ($3.7M Costco exit)",
     source: "April 2026 Board Meeting Materials (Board LE-PL sheet) + Consolidated Financials Workbook \xB7 F26 P7",
@@ -4785,6 +5105,215 @@ const ChannelMix = () => {
       fontWeight: 600,
       marginBottom: 4
     }
+  }, "Retail velocity \u2014 current-state evidence"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: C.textMid,
+      marginBottom: 16
+    }
+  }, "Documented retail-side traction at the doors the F27 forecast leans on. These are not modeled assumptions \u2014 they are velocity numbers from in-market product as of P7 reporting. Diligence ask: third-party validation (SPINS / IRI / Nielsen) where available."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.card,
+      border: `1px solid ${C.green}55`,
+      borderRadius: 12,
+      padding: 18,
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.green,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      fontWeight: 700,
+      marginBottom: 6
+    }
+  }, "HEB velocity"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 28,
+      fontWeight: 700,
+      color: C.text
+    }
+  }, "4.5 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      color: C.textMid,
+      fontWeight: 500
+    }
+  }, "u/s/w")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textMid,
+      marginTop: 6,
+      lineHeight: 1.5
+    }
+  }, "Up from 2.4 u/s/w at launch. Roughly 2\xD7 the launch velocity through the rebuy curve \u2014 strongest single retail signal in the data room."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textDim,
+      marginTop: 10,
+      fontStyle: 'italic'
+    }
+  }, "Source: WNI April 2026 Board materials.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.card,
+      border: `1px solid ${C.green}55`,
+      borderRadius: 12,
+      padding: 18,
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.green,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      fontWeight: 700,
+      marginBottom: 6
+    }
+  }, "Walmart velocity"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 28,
+      fontWeight: 700,
+      color: C.text
+    }
+  }, "~3 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      color: C.textMid,
+      fontWeight: 500
+    }
+  }, "u/s/w")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textMid,
+      marginTop: 6,
+      lineHeight: 1.5
+    }
+  }, "Approaching 3 u/s/w in week 4 of launch \u2014 earlier in the curve than HEB but trending in line. Walmart is the largest single-retailer scale-out in the F27 forecast."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textDim,
+      marginTop: 10,
+      fontStyle: 'italic'
+    }
+  }, "Source: WNI April 2026 Board materials.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.card,
+      border: `1px solid ${C.accent}55`,
+      borderRadius: 12,
+      padding: 18,
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.accent,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      fontWeight: 700,
+      marginBottom: 6
+    }
+  }, "B&M door footprint"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 28,
+      fontWeight: 700,
+      color: C.text
+    }
+  }, "~2,500 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      color: C.textMid,
+      fontWeight: 500
+    }
+  }, "doors")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textMid,
+      marginTop: 6,
+      lineHeight: 1.5
+    }
+  }, "Approximate combined US + Canada Traditional B&M door count as of P7. The F27 plan expands this to ~7,000 \u2014 three concurrent multipliers (HEB rollout, Walmart scale, new retailer wins at Kroger/Target/KEHE/UNFI)."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textDim,
+      marginTop: 10,
+      fontStyle: 'italic'
+    }
+  }, "Source: SimplyProtein Company Overview \xB7 April 19, 2026.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.card,
+      border: `1px solid ${C.accent}55`,
+      borderRadius: 12,
+      padding: 18,
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.accent,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      fontWeight: 700,
+      marginBottom: 6
+    }
+  }, "Category contribution"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 700,
+      color: C.text
+    }
+  }, "#2 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: C.textMid,
+      fontWeight: 500
+    }
+  }, "BFY tortilla growth contributor")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textMid,
+      marginTop: 6,
+      lineHeight: 1.5
+    }
+  }, "SPINS category data ranks SimplyProtein as the #2 contributor to total Better-For-You tortilla category growth. Validates that the velocity signal scales beyond single-retailer windows."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textDim,
+      marginTop: 10,
+      fontStyle: 'italic'
+    }
+  }, "Source: SPINS, cited in SimplyProtein Company Overview \xB7 April 19, 2026."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 14,
+      padding: 14,
+      background: `${C.green}08`,
+      border: `1px solid ${C.green}33`,
+      borderRadius: 8,
+      fontSize: 12,
+      color: C.textMid,
+      lineHeight: 1.6
+    }
+  }, /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.green
+    }
+  }, "What this consolidates:"), " these four data points were previously scattered across the Overview narrative, the Comps & Position tab, individual customer cards on Customer Detail, and the Risk Summary mitigant text. Consolidating into a single card makes the bull case for the F27 inflection legible at a glance \u2014 velocity is documented; door expansion plan attaches to that documented velocity. The diligence ask is to validate against third-party syndicated data (SPINS / IRI / Nielsen) where retailer-reported numbers are the only current source.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 28
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      fontWeight: 600,
+      marginBottom: 4
+    }
   }, "Forecast credibility \u2014 the door plan"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13,
@@ -5084,6 +5613,62 @@ const CUST_PERIOD_TOTALS = [{
 const CUST_PERIODS = ['P1 2025', 'P2 2025', 'P3 2025', 'P4 2025', 'P5 2025', 'P6 2025', 'P7 2025'];
 const CUST_FORMATS = ['Crispy Bars', 'Dipped Bars', 'Tortilla', 'RTD', 'Other Bars', 'No Format'];
 
+// v2.5 — Customer concentration evolution, FY22-FY26.
+// Source: FY21-26 Revenue By Product by Customer (NetSuite "Sum of Amount CAD"
+// pivot, Working_Pivot). CAD gross. FY26 is P1-P7 partial (Sept 2025 – Mar 2026).
+// FY21 excluded (data begins P5 2021 — not a full year). Top-1 is Costco (USA in
+// FY22-24, Canada from FY25 as the US club bars exit completes). Costco CA and the
+// later "Costco Canada" NetSuite relabel are consolidated. Totals tie to the
+// consolidated P&L gross sales line (FY24 $89.6M, FY25 $60.0M CAD).
+const CUST_CONCENTRATION = [
+// fy label, total (CAD M), top1 %, top3 %, top5 %, costcoUSA %, costcoCA %
+{
+  fy: 'FY22',
+  total: 39.1,
+  top1: 51.5,
+  top3: 83.6,
+  top5: 90.6,
+  costcoUSA: 51.5,
+  costcoCA: 25.0,
+  partial: false
+}, {
+  fy: 'FY23',
+  total: 64.5,
+  top1: 65.2,
+  top3: 89.5,
+  top5: 93.8,
+  costcoUSA: 65.2,
+  costcoCA: 19.0,
+  partial: false
+}, {
+  fy: 'FY24',
+  total: 90.3,
+  top1: 67.0,
+  top3: 87.8,
+  top5: 92.5,
+  costcoUSA: 67.0,
+  costcoCA: 17.0,
+  partial: false
+}, {
+  fy: 'FY25',
+  total: 60.0,
+  top1: 40.4,
+  top3: 74.6,
+  top5: 83.6,
+  costcoUSA: 40.4,
+  costcoCA: 29.0,
+  partial: false
+}, {
+  fy: 'FY26',
+  total: 26.8,
+  top1: 29.5,
+  top3: 57.2,
+  top5: 70.7,
+  costcoUSA: 9.0,
+  costcoCA: 30.0,
+  partial: true
+}];
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // TAB: CUSTOMER DETAIL (replaces Unit Economics in v1.1)
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -5154,8 +5739,8 @@ const CustomerDetail = () => {
   }, "Customer Detail"), /*#__PURE__*/React.createElement(Pill, {
     color: C.accent
   }, "F25 P1-P7 customer-level intelligence"), /*#__PURE__*/React.createElement(Pill, {
-    color: C.warm
-  }, "Scope: F25 only \xB7 F26 customer detail not yet provided")), /*#__PURE__*/React.createElement("div", {
+    color: C.green
+  }, "+ FY22-FY26 concentration trend (new)")), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 14,
       color: C.textMid,
@@ -5224,7 +5809,110 @@ const CustomerDetail = () => {
     style: {
       color: C.text
     }
-  }, "Costco USA's ", sym, (toDisplay(22568.1) / 1000).toFixed(1), "M F25 P1-P7 was 98.5% Crispy Bars and only 1.5% Tortilla."), " The exit doesn't damage the Tortilla growth thesis at all \u2014 F27+ Tortilla scale-out stands on a different customer base entirely.")), /*#__PURE__*/React.createElement("div", {
+  }, "Costco USA's ", sym, (toDisplay(22568.1) / 1000).toFixed(1), "M F25 P1-P7 was 98.5% Crispy Bars and only 1.5% Tortilla."), " The exit doesn't damage the Tortilla growth thesis at all \u2014 F27+ Tortilla scale-out stands on a different customer base entirely.")), /*#__PURE__*/React.createElement(ChartCard, {
+    title: "Customer concentration is de-risking in the actuals",
+    sub: "Top-customer revenue share by fiscal year (CAD gross). The single-SKU US Costco bar dependency that peaked at 67% of revenue in FY24 has unwound to single digits; what remains is a healthy, growing Canada Costco anchor.",
+    source: "FY21-26 Revenue By Product by Customer (NetSuite 'Sum of Amount CAD' pivot). FY26 is P1-P7 partial (Sept 2025 \u2013 Mar 2026). FY21 excluded \u2014 data begins P5 2021. Costco CA and the later 'Costco Canada' relabel consolidated. Totals tie to the consolidated P&L gross sales line."
+  }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
+    width: "100%",
+    height: 320
+  }, /*#__PURE__*/React.createElement(ComposedChart, {
+    data: CUST_CONCENTRATION,
+    margin: {
+      top: 10,
+      right: 20,
+      bottom: 0,
+      left: 0
+    }
+  }, /*#__PURE__*/React.createElement(CartesianGrid, {
+    strokeDasharray: "3 3",
+    stroke: C.border
+  }), /*#__PURE__*/React.createElement(XAxis, {
+    dataKey: "fy",
+    tick: {
+      fill: C.textDim,
+      fontSize: 12
+    }
+  }), /*#__PURE__*/React.createElement(YAxis, {
+    yAxisId: "l",
+    tick: {
+      fill: C.textDim,
+      fontSize: 11
+    },
+    domain: [0, 100],
+    tickFormatter: v => v + '%',
+    label: {
+      value: '% of revenue',
+      angle: -90,
+      position: 'insideLeft',
+      fill: C.textDim,
+      fontSize: 11
+    }
+  }), /*#__PURE__*/React.createElement(YAxis, {
+    yAxisId: "r",
+    orientation: "right",
+    tick: {
+      fill: C.textDim,
+      fontSize: 11
+    },
+    tickFormatter: v => '$' + v + 'M'
+  }), /*#__PURE__*/React.createElement(Tooltip, {
+    content: /*#__PURE__*/React.createElement(CustomTooltip, null)
+  }), /*#__PURE__*/React.createElement(Legend, {
+    wrapperStyle: {
+      fontSize: 11
+    }
+  }), /*#__PURE__*/React.createElement(Bar, {
+    yAxisId: "l",
+    dataKey: "top1",
+    name: "Top customer (Costco)",
+    fill: C.red,
+    radius: [3, 3, 0, 0]
+  }), /*#__PURE__*/React.createElement(Bar, {
+    yAxisId: "l",
+    dataKey: "top3",
+    name: "Top 3",
+    fill: C.warm,
+    radius: [3, 3, 0, 0]
+  }), /*#__PURE__*/React.createElement(Bar, {
+    yAxisId: "l",
+    dataKey: "top5",
+    name: "Top 5",
+    fill: C.accent,
+    radius: [3, 3, 0, 0]
+  }), /*#__PURE__*/React.createElement(Line, {
+    yAxisId: "r",
+    dataKey: "total",
+    name: "Total revenue (CAD M)",
+    stroke: C.teal,
+    strokeWidth: 2,
+    dot: {
+      r: 3,
+      fill: C.teal
+    }
+  }))), /*#__PURE__*/React.createElement(InsightBlock, {
+    color: C.green
+  }, "Top-customer share fell from ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, "67% (FY24) \u2192 40% (FY25) \u2192 30% (FY26 P1-P7)"), "; top-5 from 93% to 71% over the same window. The de-risking is already visible in actuals \u2014 it is not solely a forecast assumption. The split underneath matters: ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.red
+    }
+  }, "Costco USA"), " (single-SKU Crispy bars) ran from 68% of revenue at the FY24 peak (", /*#__PURE__*/React.createElement("b", null, "$60.5M CAD"), ") to ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.green
+    }
+  }, "~9% (~$2.5M)"), " in FY26 YTD \u2014 the dependency that drove the F25 contraction has effectively exited. ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, "Costco Canada"), " moved the other way: a steady, growing anchor (", /*#__PURE__*/React.createElement("b", null, "$9.8M \u2192 $17.3M CAD"), "), holding ~30%. Net: concentration that reads as a single number is two different relationships \u2014 a dangerous US dependency now removed, and a durable Canadian core retained. FY26 is a partial year (P1-P7); full-year share will move as P8-P12 lands.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 24
+    }
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -5682,7 +6370,11 @@ const CustomerDetail = () => {
       color: C.textMid,
       lineHeight: 1.6
     }
-  }, "This dataset is ", /*#__PURE__*/React.createElement("b", null, "F25 P1-P7 only"), " (Sept 2024 \u2013 Mar 2025). It does not include F26 P1-P7 customer-level detail (Sept 2025 \u2013 Mar 2026), which would be the genuinely \"post-exit\" window Sarah described. The Costco USA P5-P7 residuals shown here are the trailing edge of the exit, not a fully clean post-exit base. ", /*#__PURE__*/React.createElement("b", null, "The F26 P1-P7 monthly customer-level pull is the highest-value next request"), " \u2014 see Information Requests tab.")));
+  }, "The ", /*#__PURE__*/React.createElement("b", null, "format- and SKU-level"), " transaction detail on this tab is ", /*#__PURE__*/React.createElement("b", null, "F25 P1-P7 only"), " (Sept 2024 \u2013 Mar 2025); the genuinely clean post-exit window at that granularity (F26 P1-P7) is still the highest-value next request \u2014 see Information Requests tab. The ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.green
+    }
+  }, "annual customer concentration trend above does now run through F26 P1-P7"), " (from the FY21-26 revenue-by-customer file), which is what lets us show the de-risking in actuals; what it does not yet carry is the monthly/format granularity that would let us read post-exit velocity by SKU. The Costco USA P5-P7 residuals shown in the period chart are the trailing edge of the exit, not a fully clean post-exit base.")));
 };
 
 // Back-compat alias — keep UnitEconomics name so existing renders work
@@ -6534,7 +7226,70 @@ const RMFBenchmark = () => {
     style: {
       color: C.green
     }
-  }, "+15.7pp better than cohort baseline (-34.3%)"), ". Two diligence questions: (1) confirm the L3M trade-deduction normalization holds through the rest of FY26 (asking WNI to break out Costco-USA-exit residual from clean run-rate), and (2) is the opex leanness durable through US B&M scale, or under-investment that has to be paid back as Tortilla scales.")) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, "+15.7pp better than cohort baseline (-34.3%)"), ". Two diligence questions: (1) confirm the L3M trade-deduction normalization holds through the rest of FY26 (asking WNI to break out Costco-USA-exit residual from clean run-rate), and (2) is the opex leanness durable through US B&M scale, or under-investment that has to be paid back as Tortilla scales.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, "Reported vs adjusted EBITDA at this lens:"), " WNI presents F25 adjusted EBITDA at ", /*#__PURE__*/React.createElement("b", null, "-6.8% of net revenue"), " after the $5.2M CAD Costco-USA-exit add-back (composition in Analyst View \xA72). Side-by-side against the same cohort baseline:"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12,
+      padding: 14,
+      background: C.bg,
+      border: `1px solid ${C.border}`,
+      borderRadius: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textDim,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+      marginBottom: 4
+    }
+  }, "Reported"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: C.text,
+      lineHeight: 1.5
+    }
+  }, "SP F25 ", /*#__PURE__*/React.createElement("b", null, "-18.6%"), " vs cohort ", /*#__PURE__*/React.createElement("b", null, "-34.3%"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.green,
+      fontWeight: 600
+    }
+  }, "+15.7pp better than cohort"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textDim,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+      marginBottom: 4
+    }
+  }, "Adjusted (after $5.2M CAD Costco-exit add-back)"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: C.text,
+      lineHeight: 1.5
+    }
+  }, "SP F25 adj ", /*#__PURE__*/React.createElement("b", null, "-6.8%"), " vs cohort ", /*#__PURE__*/React.createElement("b", null, "-34.3%"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.green,
+      fontWeight: 600
+    }
+  }, "+27.5pp better than cohort")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textDim,
+      marginTop: 10,
+      lineHeight: 1.5
+    }
+  }, "The add-back composition is one-time and dated (US Costco bars exit costs, F25-specific event). High legitimacy \u2014 Analyst View \xA72 walks the bridge. Reading the cohort gap on adjusted does not require a leap of faith; it requires accepting that a discrete, one-time customer exit cost is not a structural operating expense."))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -6576,7 +7331,11 @@ const RMFBenchmark = () => {
     style: {
       color: C.warm
     }
-  }, "L3M caveat:"), " 3-period annualization is sensitive to seasonality. F26 P5-P7 = Jan-Mar 2026 = SP fiscal Q2 (mid-quarter through end of Q2). The full annual mix includes Q4 (May-Aug) which may have different velocity profile. Confirm seasonality with WNI before treating L3M \xD7 4 as a structural run-rate vs a snapshot annualization."))), /*#__PURE__*/React.createElement("div", {
+  }, "L3M caveat:"), " 3-period annualization is sensitive to seasonality. F26 P5-P7 = Jan-Mar 2026 = SP fiscal Q2 (mid-quarter through end of Q2). The full annual mix includes Q4 (May-Aug) which may have different velocity profile. Confirm seasonality with WNI before treating L3M \xD7 4 as a structural run-rate vs a snapshot annualization.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.textDim
+    }
+  }, "Adjusted EBITDA at this lens \u2014 not displayed:"), " the only F26 add-back surfaced in WNI's materials is the \"Growth Equity Investment in Marketing/Innovation\" line ($2.9M F26, $2.9M F27). The basis for treating that line as an add-back rather than operating spend is not articulated in the source documents (see Analyst View \xA72 \u2014 F26/F27 add-back exposure). Until that framework is resolved with WNI, we don't surface a derived F26 adjusted comparison against cohort. Reported -11.9% / +22.4pp better than cohort stands on its own."))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 16
     }
@@ -6612,7 +7371,7 @@ const RMFBenchmark = () => {
   }, opt.l)))), /*#__PURE__*/React.createElement(ChartCard, {
     title: `${m.l} — SimplyProtein vs. cohort baseline`,
     sub: `${m.desc} Cohort line: single baseline per band. SimplyProtein dots: F24/F25/F26 actuals + F27/F28/F29 forecast at each FY's revenue band.`,
-    source: "RMF cohort export \xB7 COHORT_SIPR_DEMO.xlsx (Baking + Bev + Dairy + Food&Bev + Pantry filter) + Consolidated Financials Workbook (SP-side metrics)",
+    source: "Propeller RMF cohort baseline (Baking + Bev + Dairy + Food&Bev + Pantry filter) + WNI Consolidated Financials Workbook (SP-side metrics)",
     wide: true
   }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
     width: "100%",
@@ -6758,7 +7517,7 @@ const RMFBenchmark = () => {
     }
   }))), /*#__PURE__*/React.createElement(InsightBlock, {
     color: C.accent
-  }, metric === 'tradePct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 sits at ", /*#__PURE__*/React.createElement("b", null, "35.1%"), " against cohort baseline ", /*#__PURE__*/React.createElement("b", null, "9.4%"), " at the 30M band \u2014 the single largest gap in the comparison. F26-F29 forecast tightens to 16-20% as the post-Costco-bars trade structure resets. Material caveat: cohort tracks \"Trade Deductions\" narrowly while SP's \"Trade Spend\" rolls in Coupons + Slotting + Warranty; an apples-to-apples comparison against the cohort's \"Deductions to Income\" line (~18.6% at 30M) reduces the F25 gap to roughly +17.5pp."), metric === 'gpPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (27.8%) is ", /*#__PURE__*/React.createElement("b", null, "-7.0pp below cohort baseline (34.8%)"), " at the 30M band \u2014 the gross margin gap that the high trade-spend explains. F27 forecast 64.4% jumps far above any cohort point \u2014 that's the F27 GP step the unit-cost workbook needs to defend."), metric === 'smPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (20.0%) is ", /*#__PURE__*/React.createElement("b", null, "-5.6pp below cohort (25.6%)"), " at 30M. Forecast S&M tightens further to 10-12% through F29 \u2014 well below the cohort median at any band. Diligence: is the team-led, retailer-relationship sales motion truly cheaper than category, or is the forecast under-investing in marketing to hit the F27 EBITDA print?"), metric === 'gaPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (19.4%) sits ", /*#__PURE__*/React.createElement("b", null, "-10.2pp below cohort (29.6%)"), " at 30M. The opex leanness story. Forecast G&A continues to scale-leverage to 8-9% by F29 \u2014 consistent with the bench having most of its capacity already in place."), metric === 'opsPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (6.5%) is ", /*#__PURE__*/React.createElement("b", null, "-7.4pp below cohort (13.9%)"), " at 30M. Delivery + warehousing is structurally cheaper than category \u2014 likely Canadian co-pack + 3PL pricing better than the diversified US-based cohort."), metric === 'ebitdaPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (-18.6%) is ", /*#__PURE__*/React.createElement("b", null, "+15.7pp ", /*#__PURE__*/React.createElement("i", null, "better"), " than cohort baseline (-34.3%)"), " at the 30M band \u2014 opex leanness wins even with the GP gap. F27 forecast (+31%) is far ahead of any cohort point and ties directly to the GP recovery thesis."))), /*#__PURE__*/React.createElement("div", {
+  }, metric === 'tradePct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 sits at ", /*#__PURE__*/React.createElement("b", null, "35.1%"), " against cohort baseline ", /*#__PURE__*/React.createElement("b", null, "9.4%"), " at the 30M band \u2014 the single largest gap in the comparison. F26-F29 forecast tightens to 16-20% as the post-Costco-bars trade structure resets. Material caveat: cohort tracks \"Trade Deductions\" narrowly while SP's \"Trade Spend\" rolls in Coupons + Slotting + Warranty; an apples-to-apples comparison against the cohort's \"Deductions to Income\" line (~18.6% at 30M) reduces the F25 gap to roughly +17.5pp."), metric === 'gpPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (27.8%) is ", /*#__PURE__*/React.createElement("b", null, "-7.0pp below cohort baseline (34.8%)"), " at the 30M band \u2014 the gross margin gap that the high trade-spend explains. F27 forecast 42.1% lands above the cohort baseline but within plausible range \u2014 a credible recovery toward the F24 41.7% profile, which the unit-cost workbook still needs to defend."), metric === 'smPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (20.0%) is ", /*#__PURE__*/React.createElement("b", null, "-5.6pp below cohort (25.6%)"), " at 30M. Forecast S&M tightens further to 10-12% through F29 \u2014 well below the cohort median at any band. Diligence: is the team-led, retailer-relationship sales motion truly cheaper than category, or is the forecast under-investing in marketing to hit the F27 EBITDA print?"), metric === 'gaPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (19.4%) sits ", /*#__PURE__*/React.createElement("b", null, "-10.2pp below cohort (29.6%)"), " at 30M. The opex leanness story. Forecast G&A continues to scale-leverage to 8-9% by F29 \u2014 consistent with the bench having most of its capacity already in place."), metric === 'opsPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (6.5%) is ", /*#__PURE__*/React.createElement("b", null, "-7.4pp below cohort (13.9%)"), " at 30M. Delivery + warehousing is structurally cheaper than category \u2014 likely Canadian co-pack + 3PL pricing better than the diversified US-based cohort."), metric === 'ebitdaPct' && /*#__PURE__*/React.createElement(React.Fragment, null, "SP F25 (-18.6%) is ", /*#__PURE__*/React.createElement("b", null, "+15.7pp ", /*#__PURE__*/React.createElement("i", null, "better"), " than cohort baseline (-34.3%)"), " at the 30M band \u2014 opex leanness wins even with the GP gap. F27 forecast (+7.8% reported) clears cohort breakeven and ties directly to the GP recovery thesis."))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 24,
       padding: 20,
@@ -6959,7 +7718,7 @@ const CompsPosition = () => {
       fontSize: 14,
       color: C.textMid
     }
-  }, "Price / protein matrix for tortilla chip \xB7 category positioning \xB7 bar comp set in scope for v1.1.")), /*#__PURE__*/React.createElement(ChartCard, {
+  }, "Price / protein positioning for the tortilla chip set \xB7 category framing \xB7 CPG M&A transaction comps from the Drew Fallon database below.")), /*#__PURE__*/React.createElement(ChartCard, {
     title: "Tortilla chip \u2014 price/protein positioning",
     sub: "From Company Overview p. 31 \xB7 Natural-channel (Late July, Siete) vs. nutritional (WILDE, Quest) \xB7 SimplyProtein sits between",
     source: "SimplyProtein Company Overview \xB7 April 19, 2026 (p. 31, Tortilla comps grid)",
@@ -7138,18 +7897,18 @@ const CompsPosition = () => {
     }
   }, /*#__PURE__*/React.createElement(Pill, {
     color: C.textDim
-  }, "v1.1"), /*#__PURE__*/React.createElement("div", {
+  }, "Context"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 16,
       fontWeight: 600
     }
-  }, "Protein bar comp set")), /*#__PURE__*/React.createElement("div", {
+  }, "Protein bar comp set \u2014 deprioritized for now")), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13,
       color: C.textMid,
       lineHeight: 1.6
     }
-  }, "Implied bar comp set (to confirm with InviNext during scoping): ", COMPS_BAR_IMPLIED.join(', '), ". Quest is the obvious headline pairing \u2014 Linda Zink (now CCO) ran Quest's commercial org. The pricing/protein matrix for bars is not in the Company Overview; v1.1 builds it from third-party retail pricing.")), /*#__PURE__*/React.createElement(MACompsSection, null));
+  }, "Implied bar comp set (Quest is the obvious headline pairing \u2014 Linda Zink, now CCO, ran Quest's commercial org): ", COMPS_BAR_IMPLIED.join(', '), ". A pricing/protein matrix for bars is not in the Company Overview and not built here \u2014 the Quest commercial pedigree is on the Company tab, and the CPG M&A transaction comps below carry the comparable-business read for InviNext. If a dedicated bar-side pricing matrix becomes valuable for SPV diligence, third-party retail pricing can be pulled and added.")), /*#__PURE__*/React.createElement(MACompsSection, null));
 };
 
 // CPG M&A comps subsection: checkbox-filterable list of public CPG transactions,
@@ -7536,7 +8295,1542 @@ const MACompsSection = () => {
     style: {
       color: C.textMid
     }
-  }, "Source:"), " Drew Fallon, ", /*#__PURE__*/React.createElement("i", null, "CPG M&A Database"), " (public deal announcements). Curated by Propeller for SimplyProtein diligence. EBITDA multiples are signed \u2014 a negative value reflects a target acquired while EBITDA-negative; treat such rows as revenue-multiple-only (deselected from EBITDA mean by default)."));
+  }, "Source:"), " Drew Fallon, ", /*#__PURE__*/React.createElement("i", null, "CPG M&A Database"), " (public deal announcements). Curated by Propeller for SimplyProtein diligence. EBITDA multiples are signed \u2014 a negative value reflects a target acquired while EBITDA-negative; treat such rows as revenue-multiple-only (deselected from EBITDA mean by default)."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 10,
+      padding: '10px 14px',
+      background: C.accentBg,
+      border: `1px solid ${C.accent}33`,
+      borderRadius: 8,
+      fontSize: 12,
+      color: C.textMid,
+      lineHeight: 1.5
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.accent,
+      fontWeight: 600
+    }
+  }, "\u2192 Exit & Returns tab."), " These selected multiples drive the exit-scenario waterfall \u2014 the median revenue / EBITDA multiple here can be applied to SimplyProtein's corrected F29 forecast to set an exit enterprise value, then run through the pro forma cap table to InviNext's MOIC, ownership, and proceeds by class."));
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TAB: EXIT & RETURNS  (v2.7 — cap table → scenario tool)
+// ═══════════════════════════════════════════════════════════════════════════════
+// Source: SimplyProtein_ProForma_CapTable_Waterfall_v8a.xlsx (S. Foley, Apr 24 2026),
+// reconciled to the Pulley export (SimplyProtein_captable_04242026). The pro forma
+// stack and the waterfall math below reproduce that workbook to the dollar across the
+// $50M-$325M EV grid (verified: All-Preferred MOIC and InviNext proceeds match the
+// sheet's rows 56-68 exactly). Native currency CAD; display converts via useCurrency().
+//
+// Round construction is EDITABLE (default = v8a): 9M CAD (5M InviNext + 4M co-invest)
+// at 20M pre, 2.5x participating preferred. These are surfaced as live inputs because
+// the construction is still being reconciled with InviNext (Monday call) — see the
+// flagged note. Exit EV can be set directly OR driven off the selected M&A comp
+// multiple (Comps & Position tab) applied to corrected F29 net revenue / EBITDA.
+//
+// Per SKILL §2.3 palette roles: InviNext (the hero) = C.accent; common = C.blue
+// (contrast); other-preferred buckets = C.teal/C.purple (related-but-not-hero);
+// covered/uncovered liq-pref state uses C.green / C.red valence.
+
+// Pro forma cap table stack — post-money fully-diluted shares (CAD).
+// Each bucket: shares, and for preferred: invested capital + liq-pref claim.
+const CAP_STACK = {
+  // Existing common-equivalent equity (all participate as common in the waterfall)
+  common: [{
+    label: 'Class A Common',
+    shares: 14522414,
+    group: 'common'
+  }, {
+    label: 'Class B Common',
+    shares: 41506840,
+    group: 'common'
+  }, {
+    label: 'Class C Common',
+    shares: 11804977,
+    group: 'common'
+  }, {
+    label: 'Options — Outstanding',
+    shares: 8095076,
+    group: 'common'
+  }, {
+    label: 'Options — Available',
+    shares: 1129653,
+    group: 'common'
+  }, {
+    label: 'Warrants (500K)',
+    shares: 500000,
+    group: 'common'
+  }, {
+    label: 'New Option Pool (top-up)',
+    shares: 2892942,
+    group: 'common'
+  }],
+  // Preferred & as-converted instruments (take liq pref, then participate)
+  preferred: [{
+    key: 'invi',
+    label: 'InviNext Growth — Series B',
+    shares: 20112976,
+    invest: 5000000,
+    role: 'lead'
+  }, {
+    key: 'otherB',
+    label: 'Additional Series B',
+    shares: 16090380,
+    invest: 4000000,
+    role: 'co'
+  }, {
+    key: 'notes',
+    label: 'Converted Notes (P+I)',
+    shares: 20553100,
+    invest: 4087530.4481,
+    role: 'conv'
+  }, {
+    key: 'safes',
+    label: 'Converted SAFEs',
+    shares: 3881806,
+    invest: 965000,
+    role: 'conv'
+  }]
+};
+
+// Default round assumptions (v8a). Editable in the tool.
+const CAP_DEFAULTS = {
+  preMoney: 20000000,
+  inviNextInv: 5000000,
+  otherBInv: 4000000,
+  liqPrefX: 2.5,
+  participating: true,
+  txnExpPct: 0.03
+};
+// Display FX — deck convention (workbook F26-F29 avg 1.3833 CAD/USD => 0.7232 USD/CAD).
+const CAP_FX_USD_PER_CAD = 1 / 1.3833;
+// Corrected-model F29 anchors for comp-multiple-driven EV (CAD thousands → CAD).
+const F29_NET_REV_CAD = 95524 * 1000;
+const F29_EBITDA_CAD = 13444 * 1000;
+// EV grid matching Sarah's sheet (CAD).
+const EV_GRID_CAD = [50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325].map(v => v * 1e6);
+
+// ── Waterfall engine. Pure function of EV (CAD) + assumptions. Returns CAD. ──
+function runWaterfall(evCAD, a) {
+  const commonShares = CAP_STACK.common.reduce((s, x) => s + x.shares, 0);
+  const pref = CAP_STACK.preferred.map(p => ({
+    ...p,
+    invest: p.key === 'invi' ? a.inviNextInv : p.key === 'otherB' ? a.otherBInv : p.invest
+  }));
+  const prefShares = pref.reduce((s, x) => s + x.shares, 0);
+  const totalFD = commonShares + prefShares;
+  const totalPrefInv = pref.reduce((s, x) => s + x.invest, 0);
+  const liqPrefTotal = totalPrefInv * a.liqPrefX;
+  const equity = Math.max(evCAD - evCAD * a.txnExpPct, 0); // net debt assumed 0
+
+  let allPref, commonProceeds, lpCovered;
+  if (a.participating) {
+    if (equity < liqPrefTotal) {
+      // Liq pref not fully covered: preferred takes all equity pro-rata to claim, common gets 0.
+      allPref = equity;
+      commonProceeds = 0;
+      lpCovered = false;
+    } else {
+      const afterLP = equity - liqPrefTotal;
+      allPref = liqPrefTotal + afterLP * (prefShares / totalFD);
+      commonProceeds = afterLP * (commonShares / totalFD);
+      lpCovered = true;
+    }
+  } else {
+    // Non-participating: preferred takes MAX(liq pref, as-converted pro-rata).
+    const asConv = equity * (prefShares / totalFD);
+    if (asConv >= liqPrefTotal) {
+      allPref = asConv;
+      commonProceeds = equity - asConv;
+      lpCovered = true;
+    } else {
+      allPref = Math.min(liqPrefTotal, equity);
+      commonProceeds = Math.max(equity - liqPrefTotal, 0);
+      lpCovered = equity >= liqPrefTotal;
+    }
+  }
+  // Allocate preferred proceeds by share of preferred INVESTED capital (v8a method,
+  // rows 41/65/66/67 — every preferred holder earns the same blended MOIC).
+  const perPref = {};
+  pref.forEach(p => {
+    perPref[p.key] = allPref * (p.invest / totalPrefInv);
+  });
+
+  // Allocate common proceeds by share count within common.
+  const perCommon = {};
+  CAP_STACK.common.forEach(c => {
+    perCommon[c.label] = commonProceeds * (c.shares / commonShares);
+  });
+  const invi = perPref.invi;
+  return {
+    equity,
+    liqPrefTotal,
+    lpCovered,
+    totalFD,
+    prefShares,
+    commonShares,
+    totalPrefInv,
+    allPref,
+    commonProceeds,
+    perPref,
+    perCommon,
+    inviInv: a.inviNextInv,
+    inviMOIC: invi / a.inviNextInv,
+    inviPct: equity > 0 ? invi / equity : 0,
+    inviFDpct: pref.find(p => p.key === 'invi').shares / totalFD,
+    allPrefMOIC: allPref / totalPrefInv
+  };
+}
+const ExitReturns = () => {
+  const currency = useCurrency();
+  const usd = currency === 'USD';
+  const toDisp = cad => usd ? cad * CAP_FX_USD_PER_CAD : cad;
+  const sym = ccySym(currency);
+  const tag = ccyTag(currency);
+  const money = (cad, dec = 1) => {
+    const v = toDisp(cad);
+    const abs = Math.abs(v);
+    if (abs >= 1e6) return `${sym}${(v / 1e6).toFixed(dec)}M`;
+    if (abs >= 1e3) return `${sym}${(v / 1e3).toFixed(0)}K`;
+    return `${sym}${Math.round(v)}`;
+  };
+
+  // ── Live assumption state ──
+  const [a, setA] = useState(CAP_DEFAULTS);
+  const [evMode, setEvMode] = useState('grid'); // 'grid' (slider) | 'comp' (multiple-driven)
+  const [evIdx, setEvIdx] = useState(4); // default $150M (index into EV_GRID_CAD)
+  const [compMult, setCompMult] = useState(2.5); // rev multiple seed (median analog ~2.3-3.0x)
+  const [compBasis, setCompBasis] = useState('rev'); // 'rev' | 'ebitda'
+  const set = k => v => setA(s => ({
+    ...s,
+    [k]: v
+  }));
+  const resetAll = () => {
+    setA(CAP_DEFAULTS);
+    setEvMode('grid');
+    setEvIdx(4);
+    setCompMult(2.5);
+    setCompBasis('rev');
+  };
+
+  // Active exit EV (CAD)
+  const compEV = compBasis === 'rev' ? F29_NET_REV_CAD * compMult : F29_EBITDA_CAD * compMult;
+  const evCAD = evMode === 'grid' ? EV_GRID_CAD[evIdx] : compEV;
+  const r = runWaterfall(evCAD, a);
+
+  // ── Derived diligence values (v2.8) ──
+  // Common-breakeven EV: below this, common (founders + all options) receives nothing.
+  // Under participating, common gets 0 until equity covers the full liq-pref stack:
+  //   equity = EV*(1-txnExp) >= liqPrefTotal  =>  EV >= liqPrefTotal / (1-txnExp).
+  const commonBreakevenEV = r.liqPrefTotal / (1 - a.txnExpPct);
+  // Side-by-side structure comparison at the active EV: current vs a clean 1x non-participating.
+  const rClean = runWaterfall(evCAD, {
+    ...a,
+    liqPrefX: 1.0,
+    participating: false
+  });
+  // Converting-paper split: signed/real vs May placeholders (Convertibles tab labels).
+  // Real existing notes (P+I to convert date) + real existing SAFEs vs the two placeholders.
+  const PAPER = {
+    realNotes: 3023342,
+    addlNotePlaceholder: 1000000,
+    realSafes: 465000,
+    newSafePlaceholder: 500000
+  };
+  PAPER.realTotal = PAPER.realNotes + PAPER.realSafes;
+  PAPER.placeholderTotal = PAPER.addlNotePlaceholder + PAPER.newSafePlaceholder;
+
+  // Full grid run for the MOIC curve + table (always uses current assumptions).
+  const gridRuns = EV_GRID_CAD.map(ev => ({
+    ev,
+    ...runWaterfall(ev, a)
+  }));
+  const curveData = gridRuns.map(g => ({
+    ev: g.ev / 1e6,
+    evLabel: `${sym}${(toDisp(g.ev) / 1e6).toFixed(0)}M`,
+    inviMOIC: +g.inviMOIC.toFixed(2),
+    inviProceeds: +(toDisp(g.invi || g.perPref.invi) / 1e6).toFixed(2)
+  }));
+
+  // Proceeds-by-class stacked breakdown at the active EV.
+  const stackRows = [{
+    label: 'InviNext Growth',
+    val: r.perPref.invi,
+    color: C.accent,
+    hero: true
+  }, {
+    label: 'Other Series B',
+    val: r.perPref.otherB,
+    color: C.teal
+  }, {
+    label: 'Converted Notes',
+    val: r.perPref.notes,
+    color: C.purple
+  }, {
+    label: 'Converted SAFEs',
+    val: r.perPref.safes,
+    color: C.warm
+  }, {
+    label: 'Common (A/B/C + options + warrants)',
+    val: r.commonProceeds,
+    color: C.blue
+  }];
+  const totalProceeds = stackRows.reduce((s, x) => s + x.val, 0);
+
+  // KPI tiles (co-located per SKILL §2.6).
+  const EXIT_KPIS = [{
+    label: 'Active exit EV',
+    value: money(evCAD, 0),
+    sub: evMode === 'comp' ? `${compMult.toFixed(1)}x F29 ${compBasis === 'rev' ? 'net rev' : 'EBITDA'}` : 'slider',
+    color: C.accent,
+    info: {
+      def: 'Enterprise value at a hypothetical exit. Equity value = EV − net debt − transaction expenses.',
+      calc: evMode === 'comp' ? `Selected ${compBasis === 'rev' ? 'revenue' : 'EBITDA'} multiple × corrected F29 ${compBasis === 'rev' ? 'net revenue ($95.5M CAD)' : 'EBITDA ($13.4M CAD)'}.` : 'Set directly via the EV grid slider ($50M–$325M CAD).',
+      src: 'EV grid + multiples from CPG M&A comp set (Comps & Position tab). F29 anchors = corrected v2.6 model.',
+      note: 'Exit value flows off the CORRECTED F29 forecast, not the prior inflated numbers.'
+    }
+  }, {
+    label: 'InviNext MOIC',
+    value: `${r.inviMOIC.toFixed(2)}x`,
+    sub: `on ${money(a.inviNextInv, 1)} in`,
+    color: r.inviMOIC >= 3 ? C.green : r.inviMOIC >= 1 ? C.accent : C.red,
+    info: {
+      def: 'Multiple on invested capital for InviNext at the active exit EV and assumptions.',
+      calc: 'InviNext proceeds ÷ InviNext investment. Proceeds = share of total preferred proceeds, weighted by InviNext’s share of preferred invested capital (35.6%).',
+      src: 'v8a Waterfall Analysis, rows 41/57/67 — reproduced to the dollar.',
+      note: 'Under participating-preferred, InviNext earns the same blended MOIC as all preferred. The liq-pref multiple and participation toggle are the biggest swing factors.'
+    }
+  }, {
+    label: 'InviNext ownership',
+    value: `${(r.inviFDpct * 100).toFixed(1)}%`,
+    sub: 'fully diluted, post-money',
+    color: C.accent,
+    info: {
+      def: 'InviNext’s fully-diluted ownership immediately post-close.',
+      calc: 'InviNext Series B shares ÷ total post-money FD shares (141.1M).',
+      src: 'Pro forma cap table (v8a), reconciled to Pulley 04-24-2026.',
+      note: 'Dilution from the option-pool top-up (2.9M new shares) is already reflected in the post-money FD base.'
+    }
+  }, {
+    label: 'Liq-pref coverage',
+    value: r.lpCovered ? 'Covered' : 'Under',
+    sub: `${money(r.liqPrefTotal, 1)} pref stack`,
+    color: r.lpCovered ? C.green : C.red,
+    info: {
+      def: 'Whether equity value at this EV covers the full preferred liquidation-preference stack.',
+      calc: `Total liq pref = total preferred invested (${money(r.totalPrefInv, 1)}) × ${a.liqPrefX}x. Compared to equity value after transaction expenses.`,
+      src: 'v8a assumptions (liq-pref multiple editable).',
+      note: 'Below coverage, common (founders, options) receives nothing — the downside-protection point Sarah asked to sensitize.'
+    }
+  }];
+  const inp = {
+    background: C.bg,
+    color: C.text,
+    border: `1px solid ${C.border}`,
+    borderRadius: 6,
+    padding: '7px 10px',
+    fontSize: 13,
+    width: '100%'
+  };
+  const lbl = {
+    fontSize: 10,
+    color: C.textDim,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    fontWeight: 600,
+    marginBottom: 5,
+    display: 'block'
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 24,
+      fontWeight: 700,
+      marginBottom: 6
+    }
+  }, "Exit & Returns"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: C.textMid,
+      maxWidth: 760,
+      lineHeight: 1.5
+    }
+  }, "Pro forma cap table and Series B investor-return waterfall. Set an exit enterprise value \u2014 directly, or off the selected M&A comp multiple \u2014 and see how proceeds flow through the liquidation-preference stack to InviNext, the other preferred holders, and common. ", currency, " shown; model is native CAD.")), /*#__PURE__*/React.createElement("button", {
+    onClick: resetAll,
+    style: {
+      fontSize: 10,
+      padding: '6px 12px',
+      background: C.bg,
+      color: C.accent,
+      border: `1px solid ${C.accent}66`,
+      borderRadius: 4,
+      cursor: 'pointer',
+      letterSpacing: 0.5,
+      textTransform: 'uppercase',
+      flexShrink: 0
+    }
+  }, "Reset to v8a")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 14,
+      padding: '10px 14px',
+      background: C.warmBg,
+      border: `1px solid ${C.warm}44`,
+      borderRadius: 8,
+      fontSize: 12,
+      color: C.textMid,
+      lineHeight: 1.5
+    }
+  }, /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.warm
+    }
+  }, "Provisional round construction."), " Defaults follow S. Foley\u2019s v8a pro forma \u2014 a ", money(9000000, 0), " CAD round (", money(5000000, 0), " InviNext + ", money(4000000, 0), " co-investor) at ", money(20000000, 0), " pre-money, 2.5\xD7 participating preferred. The Pulley export models a different construction (notes/SAFEs-only, and a 5M @ $0.75 case). These reconcile to the same stack but not the same round \u2014 inputs below are editable pending InviNext confirmation."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(4, 1fr)',
+      gap: 12,
+      marginTop: 16
+    }
+  }, EXIT_KPIS.map(k => /*#__PURE__*/React.createElement(KPI, _extends({
+    key: k.label
+  }, k)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16,
+      background: C.card,
+      border: `1px solid ${C.accent}33`,
+      borderRadius: 12,
+      padding: '16px 18px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      marginBottom: 10,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement(Pill, {
+    color: C.accent
+  }, "Diligence flag"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600,
+      color: C.text
+    }
+  }, "The ", a.liqPrefX, "\xD7 ", a.participating ? 'participating' : 'non-participating', " structure is the single biggest driver of returns")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: C.textMid,
+      lineHeight: 1.6,
+      marginBottom: 14
+    }
+  }, a.participating ? /*#__PURE__*/React.createElement(React.Fragment, null, "At ", a.liqPrefX, "\xD7 participating, preferred recovers ", money(r.liqPrefTotal, 1), " (", a.liqPrefX, "\xD7 the ", money(r.totalPrefInv, 1), " invested) ", /*#__PURE__*/React.createElement("i", null, "before"), " common sees a dollar \u2014 ", /*#__PURE__*/React.createElement("i", null, "and then still shares pro-rata"), " in everything above that. ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, "Common (founders + the entire option pool) receives nothing until an exit of ~", money(commonBreakevenEV, 0), " EV."), " This is far more aggressive than a standard 1\xD7 non-participating round. It is excellent downside protection for InviNext, but it inverts management\u2019s exit incentives and is the kind of term an acquirer\u2019s counsel \u2014 or a future round \u2014 will press to unwind.") : /*#__PURE__*/React.createElement(React.Fragment, null, "At ", a.liqPrefX, "\xD7 non-participating, preferred takes the greater of its ", money(r.liqPrefTotal, 1), " preference or its as-converted value \u2014 the cleaner, more standard structure. Common participates from the first dollar of residual above the preference.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.bg,
+      border: `1px solid ${C.accent}44`,
+      borderRadius: 8,
+      padding: '12px 14px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.accent,
+      textTransform: 'uppercase',
+      letterSpacing: 0.8,
+      fontWeight: 600,
+      marginBottom: 6
+    }
+  }, "Current \u2014 ", a.liqPrefX, "\xD7 ", a.participating ? 'participating' : 'non-part.'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 13,
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "InviNext MOIC"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.accent,
+      fontWeight: 700
+    }
+  }, r.inviMOIC.toFixed(2), "\xD7")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 13
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "Common proceeds"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text,
+      fontWeight: 600
+    }
+  }, money(r.commonProceeds, 1)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.bg,
+      border: `1px solid ${C.border}`,
+      borderRadius: 8,
+      padding: '12px 14px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.blue,
+      textTransform: 'uppercase',
+      letterSpacing: 0.8,
+      fontWeight: 600,
+      marginBottom: 6
+    }
+  }, "Reference \u2014 1\xD7 non-participating"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 13,
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "InviNext MOIC"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.blue,
+      fontWeight: 700
+    }
+  }, rClean.inviMOIC.toFixed(2), "\xD7")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 13
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "Common proceeds"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text,
+      fontWeight: 600
+    }
+  }, money(rClean.commonProceeds, 1))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12,
+      fontSize: 11.5,
+      color: C.textDim,
+      lineHeight: 1.5
+    }
+  }, "At the active ", money(evCAD, 0), " exit, the structure choice swings InviNext from ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.blue
+    }
+  }, rClean.inviMOIC.toFixed(2), "\xD7"), " (clean) to ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.accent
+    }
+  }, r.inviMOIC.toFixed(2), "\xD7"), " (current)", r.inviMOIC > rClean.inviMOIC ? ` — a +${(r.inviMOIC - rClean.inviMOIC).toFixed(2)}× pickup that comes directly out of common` : '', ". The gap is widest at low and mid exits and narrows toward home-run outcomes, where as-converted value dominates the preference regardless. Toggle the structure in the panel below to explore. ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.textMid
+    }
+  }, "Round terms are provisional pending InviNext confirmation."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18,
+      background: C.card,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: '16px 18px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.accent,
+      letterSpacing: 1,
+      fontWeight: 600,
+      textTransform: 'uppercase',
+      marginBottom: 14
+    }
+  }, "Deal terms & exit assumptions"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 10,
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Exit EV from"), /*#__PURE__*/React.createElement("div", {
+    role: "group",
+    "aria-label": "Exit EV mode",
+    style: {
+      display: 'inline-flex',
+      background: C.bg,
+      border: `1px solid ${C.border}`,
+      borderRadius: 6,
+      overflow: 'hidden'
+    }
+  }, [{
+    k: 'grid',
+    l: 'EV slider'
+  }, {
+    k: 'comp',
+    l: 'Comp multiple'
+  }].map(o => /*#__PURE__*/React.createElement("button", {
+    key: o.k,
+    onClick: () => setEvMode(o.k),
+    "aria-pressed": evMode === o.k,
+    style: {
+      padding: '5px 12px',
+      fontSize: 12,
+      fontWeight: 600,
+      background: evMode === o.k ? C.accent : 'transparent',
+      color: evMode === o.k ? C.bg : C.textMid,
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, o.l))), evMode === 'grid' ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      flex: 1,
+      minWidth: 240
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    min: 0,
+    max: EV_GRID_CAD.length - 1,
+    step: 1,
+    value: evIdx,
+    onChange: e => setEvIdx(+e.target.value),
+    style: {
+      flex: 1,
+      accentColor: C.accent
+    },
+    "aria-label": "Exit enterprise value"
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 15,
+      fontWeight: 700,
+      color: C.accent,
+      minWidth: 64,
+      textAlign: 'right'
+    }
+  }, money(evCAD, 0))) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    role: "group",
+    style: {
+      display: 'inline-flex',
+      background: C.bg,
+      border: `1px solid ${C.border}`,
+      borderRadius: 6,
+      overflow: 'hidden'
+    }
+  }, [{
+    k: 'rev',
+    l: '× Revenue'
+  }, {
+    k: 'ebitda',
+    l: '× EBITDA'
+  }].map(o => /*#__PURE__*/React.createElement("button", {
+    key: o.k,
+    onClick: () => setCompBasis(o.k),
+    "aria-pressed": compBasis === o.k,
+    style: {
+      padding: '5px 10px',
+      fontSize: 11,
+      fontWeight: 600,
+      background: compBasis === o.k ? C.blue : 'transparent',
+      color: compBasis === o.k ? C.bg : C.textMid,
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, o.l))), /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    min: compBasis === 'rev' ? 0.5 : 5,
+    max: compBasis === 'rev' ? 5 : 18,
+    step: 0.1,
+    value: compMult,
+    onChange: e => setCompMult(+e.target.value),
+    style: {
+      width: 160,
+      accentColor: C.blue
+    },
+    "aria-label": "Comp multiple"
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: C.blue
+    }
+  }, compMult.toFixed(1), "x"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      color: C.textDim
+    }
+  }, "\u2192 ", money(evCAD, 0), " EV"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: lbl
+  }, "Pre-money (CAD)"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    style: inp,
+    value: a.preMoney,
+    step: 1000000,
+    onChange: e => set('preMoney')(+e.target.value)
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: lbl
+  }, "InviNext invest (CAD)"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    style: inp,
+    value: a.inviNextInv,
+    step: 500000,
+    onChange: e => set('inviNextInv')(+e.target.value)
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: lbl
+  }, "Co-investor (CAD)"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    style: inp,
+    value: a.otherBInv,
+    step: 500000,
+    onChange: e => set('otherBInv')(+e.target.value)
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: lbl
+  }, "Liq. pref (\xD7)"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    style: inp,
+    value: a.liqPrefX,
+    step: 0.5,
+    min: 1,
+    onChange: e => set('liqPrefX')(+e.target.value)
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: lbl
+  }, "Participating?"), /*#__PURE__*/React.createElement("div", {
+    role: "group",
+    style: {
+      display: 'inline-flex',
+      background: C.bg,
+      border: `1px solid ${C.border}`,
+      borderRadius: 6,
+      overflow: 'hidden',
+      width: '100%'
+    }
+  }, [{
+    v: true,
+    l: 'Yes'
+  }, {
+    v: false,
+    l: 'No'
+  }].map(o => /*#__PURE__*/React.createElement("button", {
+    key: String(o.v),
+    onClick: () => set('participating')(o.v),
+    "aria-pressed": a.participating === o.v,
+    style: {
+      flex: 1,
+      padding: '7px 0',
+      fontSize: 12,
+      fontWeight: 600,
+      background: a.participating === o.v ? C.accent : 'transparent',
+      color: a.participating === o.v ? C.bg : C.textMid,
+      border: 'none',
+      cursor: 'pointer'
+    }
+  }, o.l))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 10,
+      fontSize: 11,
+      color: C.textDim,
+      lineHeight: 1.5
+    }
+  }, "Participating = preferred takes its ", a.liqPrefX, "\xD7 liq pref ", /*#__PURE__*/React.createElement("i", null, "and"), " shares residual pro-rata (double-dip). Non-participating = preferred takes the greater of liq pref ", /*#__PURE__*/React.createElement("i", null, "or"), " as-converted value. Transaction expenses fixed at ", (a.txnExpPct * 100).toFixed(0), "% of EV; net debt assumed nil.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 16,
+      marginTop: 18
+    }
+  }, /*#__PURE__*/React.createElement(ChartCard, {
+    title: "InviNext MOIC across exit EV",
+    sub: `Current assumptions · ${a.liqPrefX}x ${a.participating ? 'participating' : 'non-participating'} · marker = active EV`
+  }, /*#__PURE__*/React.createElement(ResponsiveContainer, {
+    width: "100%",
+    height: 260
+  }, /*#__PURE__*/React.createElement(ComposedChart, {
+    data: curveData,
+    margin: {
+      top: 10,
+      right: 10,
+      left: 0,
+      bottom: 0
+    }
+  }, /*#__PURE__*/React.createElement(CartesianGrid, {
+    stroke: C.border,
+    strokeDasharray: "3 3",
+    vertical: false
+  }), /*#__PURE__*/React.createElement(XAxis, {
+    dataKey: "evLabel",
+    tick: {
+      fill: C.textDim,
+      fontSize: 10
+    },
+    interval: 1
+  }), /*#__PURE__*/React.createElement(YAxis, {
+    tick: {
+      fill: C.textDim,
+      fontSize: 11
+    },
+    tickFormatter: v => `${v}x`
+  }), /*#__PURE__*/React.createElement(Tooltip, {
+    content: /*#__PURE__*/React.createElement(CustomTooltip, {
+      unit: "multiple"
+    })
+  }), /*#__PURE__*/React.createElement(ReferenceLine, {
+    y: 1,
+    stroke: C.textDim,
+    strokeDasharray: "4 4",
+    label: {
+      value: '1.0x',
+      fill: C.textDim,
+      fontSize: 10,
+      position: 'right'
+    }
+  }), /*#__PURE__*/React.createElement(ReferenceLine, {
+    y: 3,
+    stroke: `${C.green}88`,
+    strokeDasharray: "4 4",
+    label: {
+      value: '3.0x',
+      fill: C.green,
+      fontSize: 10,
+      position: 'right'
+    }
+  }), /*#__PURE__*/React.createElement(Line, {
+    type: "monotone",
+    dataKey: "inviMOIC",
+    name: "InviNext MOIC",
+    stroke: C.accent,
+    strokeWidth: 2.5,
+    dot: {
+      r: 3,
+      fill: C.accent
+    },
+    activeDot: {
+      r: 5
+    }
+  }), /*#__PURE__*/React.createElement(ReferenceLine, {
+    x: curveData[evMode === 'grid' ? evIdx : Math.min(curveData.length - 1, Math.max(0, Math.round((evCAD / 1e6 - 50) / 25)))]?.evLabel,
+    stroke: C.accent,
+    strokeWidth: 1,
+    strokeDasharray: "2 2"
+  }))), /*#__PURE__*/React.createElement(InsightBlock, null, "At the active ", money(evCAD, 0), " exit, InviNext returns ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.accent
+    }
+  }, r.inviMOIC.toFixed(2), "x"), " (", money(r.perPref.invi, 1), " on ", money(a.inviNextInv, 1), "). The curve steepens with EV because the participating structure lets preferred keep sharing residual after the liq pref is recovered.")), /*#__PURE__*/React.createElement(ChartCard, {
+    title: "Proceeds by class at active EV",
+    sub: `${money(evCAD, 0)} exit → ${money(totalProceeds, 1)} equity value distributed`
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 8,
+      marginTop: 6
+    }
+  }, stackRows.map(row => {
+    const pct = totalProceeds > 0 ? row.val / totalProceeds : 0;
+    return /*#__PURE__*/React.createElement("div", {
+      key: row.label
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        fontSize: 12,
+        marginBottom: 3
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: row.hero ? C.accent : C.textMid,
+        fontWeight: row.hero ? 700 : 400
+      }
+    }, row.label), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.text,
+        fontWeight: 600
+      }
+    }, money(row.val, 1), " ", /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.textDim,
+        fontWeight: 400
+      }
+    }, "(", (pct * 100).toFixed(1), "%)"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 10,
+        background: C.bg,
+        borderRadius: 5,
+        overflow: 'hidden'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: '100%',
+        width: `${pct * 100}%`,
+        background: row.color,
+        borderRadius: 5,
+        transition: 'width 0.2s'
+      }
+    })));
+  })), /*#__PURE__*/React.createElement(InsightBlock, null, r.lpCovered ? /*#__PURE__*/React.createElement(React.Fragment, null, "Liq pref (", money(r.liqPrefTotal, 1), ", ", a.liqPrefX, "\xD7) is fully covered; common participates in the residual. Common takes ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.blue
+    }
+  }, money(r.commonProceeds, 1)), " (", (r.commonProceeds / totalProceeds * 100).toFixed(0), "%).") : /*#__PURE__*/React.createElement(React.Fragment, null, "Equity value is ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.red
+    }
+  }, "below the ", money(r.liqPrefTotal, 1), " preferred liq-pref stack"), " \u2014 preferred takes everything and common (founders, options) receives nothing at this EV.")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18,
+      background: C.card,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '14px 16px',
+      borderBottom: `1px solid ${C.border}`
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600
+    }
+  }, "InviNext return sensitivity"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textDim,
+      marginTop: 3
+    }
+  }, "Proceeds and MOIC across the exit-EV grid at the current ", a.liqPrefX, "\xD7 / ", a.participating ? 'participating' : 'non-participating', " structure. ", currency, ".")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto'
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: 12.5
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      background: C.bg,
+      color: C.textDim,
+      textTransform: 'uppercase',
+      fontSize: 10,
+      letterSpacing: 0.6
+    }
+  }, /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'left',
+      padding: '10px 14px'
+    }
+  }, "Exit EV"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "Equity value"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "InviNext proceeds"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "InviNext MOIC"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "All-pref MOIC"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "Common"))), /*#__PURE__*/React.createElement("tbody", null, gridRuns.map((g, i) => {
+    const active = evMode === 'grid' && i === evIdx;
+    return /*#__PURE__*/React.createElement("tr", {
+      key: i,
+      style: {
+        borderTop: `1px solid ${C.border}`,
+        background: active ? `${C.accent}12` : 'transparent'
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        color: active ? C.accent : C.text,
+        fontWeight: active ? 700 : 500
+      }
+    }, money(g.ev, 0), active ? ' ◄' : ''), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: C.textMid
+      }
+    }, money(g.equity, 1)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: C.text,
+        fontWeight: 600
+      }
+    }, money(g.perPref.invi, 1)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: g.inviMOIC >= 3 ? C.green : C.accent,
+        fontWeight: 700
+      }
+    }, g.inviMOIC.toFixed(2), "x"), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: C.textMid
+      }
+    }, g.allPrefMOIC.toFixed(2), "x"), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: C.blue
+      }
+    }, money(g.commonProceeds, 1)));
+  }))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18,
+      background: C.card,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '14px 16px',
+      borderBottom: `1px solid ${C.border}`
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600
+    }
+  }, "Pro forma capitalization \u2014 post-money fully diluted"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textDim,
+      marginTop: 3
+    }
+  }, "Source: Pulley 04-24-2026, reconciled to S. Foley v8a pro forma. ", r.totalFD.toLocaleString(), " total FD shares.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto'
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: 12.5
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      background: C.bg,
+      color: C.textDim,
+      textTransform: 'uppercase',
+      fontSize: 10,
+      letterSpacing: 0.6
+    }
+  }, /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'left',
+      padding: '10px 14px'
+    }
+  }, "Security"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "FD shares"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "FD %"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "Invested"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: 'right',
+      padding: '10px 14px'
+    }
+  }, "Liq pref (", a.liqPrefX, "\xD7)"))), /*#__PURE__*/React.createElement("tbody", null, CAP_STACK.preferred.map(p => {
+    const inv = p.key === 'invi' ? a.inviNextInv : p.key === 'otherB' ? a.otherBInv : p.invest;
+    return /*#__PURE__*/React.createElement("tr", {
+      key: p.key,
+      style: {
+        borderTop: `1px solid ${C.border}`,
+        background: p.key === 'invi' ? `${C.accent}10` : 'transparent'
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        color: p.key === 'invi' ? C.accent : C.text,
+        fontWeight: p.key === 'invi' ? 700 : 500
+      }
+    }, p.label), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: C.textMid
+      }
+    }, p.shares.toLocaleString()), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: C.textMid
+      }
+    }, (p.shares / r.totalFD * 100).toFixed(2), "%"), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: C.text
+      }
+    }, money(inv, 1)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '9px 14px',
+        textAlign: 'right',
+        color: C.textMid
+      }
+    }, money(inv * a.liqPrefX, 1)));
+  }), /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderTop: `1px solid ${C.border}`
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 14px',
+      color: C.textMid,
+      fontStyle: 'italic'
+    }
+  }, "Common (Class A/B/C + options + warrants + new pool)"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 14px',
+      textAlign: 'right',
+      color: C.textMid
+    }
+  }, r.commonShares.toLocaleString()), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 14px',
+      textAlign: 'right',
+      color: C.textMid
+    }
+  }, (r.commonShares / r.totalFD * 100).toFixed(2), "%"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 14px',
+      textAlign: 'right',
+      color: C.textDim
+    }
+  }, "\u2014"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '9px 14px',
+      textAlign: 'right',
+      color: C.textDim
+    }
+  }, "\u2014")), /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderTop: `2px solid ${C.border}`,
+      background: C.bg
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 14px',
+      color: C.text,
+      fontWeight: 700
+    }
+  }, "Total fully diluted"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 14px',
+      textAlign: 'right',
+      color: C.text,
+      fontWeight: 700
+    }
+  }, r.totalFD.toLocaleString()), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 14px',
+      textAlign: 'right',
+      color: C.text,
+      fontWeight: 700
+    }
+  }, "100.0%"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 14px',
+      textAlign: 'right',
+      color: C.text,
+      fontWeight: 700
+    }
+  }, money(r.totalPrefInv, 1)), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 14px',
+      textAlign: 'right',
+      color: C.text,
+      fontWeight: 700
+    }
+  }, money(r.liqPrefTotal, 1)))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '10px 16px',
+      background: C.bg,
+      fontSize: 11,
+      color: C.textDim,
+      lineHeight: 1.5,
+      borderTop: `1px solid ${C.border}`
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "Method:"), " preferred proceeds allocated by share of preferred invested capital (v8a rows 41/65-67), so all preferred holders earn the same blended MOIC under participation. Common allocated by share count. Reproduces the v8a Waterfall Analysis to the dollar across the ", sym, "50M\u2013", sym, "325M grid.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18,
+      background: C.card,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: '16px 18px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      marginBottom: 10,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement(Pill, {
+    color: C.warm
+  }, "Diligence flag"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600,
+      color: C.text
+    }
+  }, "Converting paper \u2014 signed vs. placeholder")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: C.textMid,
+      lineHeight: 1.6,
+      marginBottom: 14
+    }
+  }, "The pro forma converts ", money(PAPER.realTotal + PAPER.placeholderTotal, 2), " of notes + SAFEs into the stack, but the Convertibles tab labels ", money(PAPER.placeholderTotal, 2), " of that as ", /*#__PURE__*/React.createElement("i", null, "\u201CPlaceholder for May.\u201D"), " Only ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.text
+    }
+  }, money(PAPER.realTotal, 2)), " is signed existing paper; the rest is modeled. If the placeholders don\u2019t close, share counts and InviNext\u2019s ownership shift. Same signed-vs-modeled discipline the deck applies to the F27 door schedule."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.bg,
+      border: `1px solid ${C.green}44`,
+      borderRadius: 8,
+      padding: '12px 14px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.green,
+      textTransform: 'uppercase',
+      letterSpacing: 0.8,
+      fontWeight: 600,
+      marginBottom: 6
+    }
+  }, "Signed / existing"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 12.5,
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "Convertible notes (P+I)"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text
+    }
+  }, money(PAPER.realNotes, 2))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 12.5,
+      marginBottom: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "SAFEs (7)"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text
+    }
+  }, money(PAPER.realSafes, 2))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 13,
+      borderTop: `1px solid ${C.border}`,
+      paddingTop: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text,
+      fontWeight: 600
+    }
+  }, "Subtotal"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.green,
+      fontWeight: 700
+    }
+  }, money(PAPER.realTotal, 2)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.bg,
+      border: `1px solid ${C.warm}44`,
+      borderRadius: 8,
+      padding: '12px 14px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.warm,
+      textTransform: 'uppercase',
+      letterSpacing: 0.8,
+      fontWeight: 600,
+      marginBottom: 6
+    }
+  }, "Placeholder (\u201Cfor May\u201D)"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 12.5,
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "Additional convertible"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text
+    }
+  }, money(PAPER.addlNotePlaceholder, 2))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 12.5,
+      marginBottom: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "New SAFE"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text
+    }
+  }, money(PAPER.newSafePlaceholder, 2))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 13,
+      borderTop: `1px solid ${C.border}`,
+      paddingTop: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text,
+      fontWeight: 600
+    }
+  }, "Subtotal"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.warm,
+      fontWeight: 700
+    }
+  }, money(PAPER.placeholderTotal, 2))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 10,
+      fontSize: 11,
+      color: C.textDim,
+      lineHeight: 1.5
+    }
+  }, "Also note: the SAFE valuation caps (", sym === '$' ? '$' : 'C$', "76.3M and ", sym === '$' ? '$' : 'C$', "45M) sit far above the ~$0.25 round price, so the SAFEs convert at the round price with no cap benefit. And the v8a workbook carries a ~", money(64189, 2), " internal inconsistency on the note balance between its Pro Forma sheet (", money(4087530, 2), ") and its Summary/Convertibles tabs (", money(4023342, 2), "); the deck follows the Pro Forma / Waterfall driver. Both worth confirming with WNI.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18,
+      background: C.card,
+      border: `1px solid ${C.red}33`,
+      borderRadius: 12,
+      padding: '16px 18px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      marginBottom: 10,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement(Pill, {
+    color: C.red
+  }, "Timing"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600,
+      color: C.text
+    }
+  }, "The round threads two hard deadlines, a month apart")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.bg,
+      border: `1px solid ${C.border}`,
+      borderRadius: 8,
+      padding: '12px 14px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textDim,
+      textTransform: 'uppercase',
+      letterSpacing: 0.8,
+      fontWeight: 600,
+      marginBottom: 4
+    }
+  }, "Aug 31, 2026"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: C.text,
+      fontWeight: 600,
+      marginBottom: 2
+    }
+  }, "Stonegate covenant"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11.5,
+      color: C.textMid,
+      lineHeight: 1.5
+    }
+  }, "$6.0M USD equity-raise covenant deadline. The Series B is largely sized to clear it.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.bg,
+      border: `1px solid ${C.border}`,
+      borderRadius: 8,
+      padding: '12px 14px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textDim,
+      textTransform: 'uppercase',
+      letterSpacing: 0.8,
+      fontWeight: 600,
+      marginBottom: 4
+    }
+  }, "Sep 30, 2026"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: C.text,
+      fontWeight: 600,
+      marginBottom: 2
+    }
+  }, "Note maturity"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11.5,
+      color: C.textMid,
+      lineHeight: 1.5
+    }
+  }, "All convertible notes mature \u2014 15% interest, 20% conversion discount.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.bg,
+      border: `1px solid ${C.border}`,
+      borderRadius: 8,
+      padding: '12px 14px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textDim,
+      textTransform: 'uppercase',
+      letterSpacing: 0.8,
+      fontWeight: 600,
+      marginBottom: 4
+    }
+  }, "MFN clause"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: C.text,
+      fontWeight: 600,
+      marginBottom: 2
+    }
+  }, "Notes ratchet to round"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11.5,
+      color: C.textMid,
+      lineHeight: 1.5
+    }
+  }, "Notes carry MFN: if Series B terms beat the note terms, the notes match them."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12,
+      fontSize: 11.5,
+      color: C.textDim,
+      lineHeight: 1.5
+    }
+  }, "The raise isn\u2019t only growth capital \u2014 it has to land inside a tight September window: covenant deadline Aug 31, then note maturity Sep 30, with MFN linking the note economics to whatever the Series B prices at. A close that slips past these dates changes both the lender position and the note conversion. InviNext should underwrite the timeline as carefully as the numbers.")));
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -7714,7 +10008,89 @@ const CompanyInfo = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
     marginTop: 10,
     fontStyle: 'italic'
   }
-}, "Possible bench question: separate COO vs. SVP Finance & Operations cover. Confirm during diligence.")));
+}, "Possible bench question: separate COO vs. SVP Finance & Operations cover. Confirm during diligence.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    marginTop: 20,
+    padding: 20,
+    background: C.card,
+    borderRadius: 12,
+    border: `1px solid ${C.warm}44`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.warm,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 8
+  }
+}, "Org evolution \xB7 headcount trajectory"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr',
+    gap: 24,
+    alignItems: 'center',
+    marginBottom: 14
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 32,
+    fontWeight: 700,
+    color: C.text
+  }
+}, "34"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textDim
+  }
+}, "\u2192"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 32,
+    fontWeight: 700,
+    color: C.text
+  }
+}, "26"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textDim
+  }
+}, "\u2192"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 32,
+    fontWeight: 700,
+    color: C.warm
+  }
+}, "16")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textDim,
+    lineHeight: 1.5
+  }
+}, "F24 peak (~$66M gross) \u2192 F25 / early F26 (~$43M gross) \u2192 post Q4 F26 restructure (~$35M gross run-rate). Each step approximately tracks revenue scale, with the Q4 cut sized to gate F26 P8-P12 near-breakeven.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textMid,
+    lineHeight: 1.7
+  }
+}, "Two ways to read the trajectory. The ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "positive read"), ": the org has been right-sized for the post-Costco-USA revenue base \u2014 leaner team, lower fixed cost, faster decision velocity at the current scale. The ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.warm
+  }
+}, "diligence read"), ": 16 people running a business that's modeled to scale to $80M+ gross by F29 is the right size now but not the right size for a $50M+ business. The F27 inflection requires re-staffing, and the hiring plan + capital allocation to backfill the bench is a material question for InviNext to underwrite. The leadership team (7 named execs on the cards above) is roughly half the company; the operating layer beneath them is thin.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "Where this surfaces elsewhere:"), " Risk Summary \"Restructure execution (Q4 F26)\" mitigant text references the 10-role RIF that lands the 26 \u2192 16 step. Analyst View \xA75.1 calls out the bench-depth-vs-actual-headcount tension as a narrative-vs-operating discrepancy. This card consolidates the trajectory into a single legible view on the team tab where it belongs.")));
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TAB: RISK SUMMARY
@@ -7735,7 +10111,7 @@ const RISKS = [{
 }, {
   name: 'Forecast credibility (F27 inflection)',
   severity: 'High',
-  detail: 'F26 → F27 net revenue +40%, EBITDA -8.9% → +6.0% — driven by three concurrent transformations (see Analyst View §3). The decomposition (Traditional doors 5,500 → 7,000, Club rotations 2 → 4, new retailer adds at Kroger / Walmart US / Target / KEHE / UNFI USA) is in the reforecast model; split between signed POs and modeled pipeline is not visible in the export. Compound miss risk is real: Dishaka co-man slipped 1 month already; Walmart/Kroger mandated case-pack change adds COGS against the Dishaka savings; marketing pullback in the $1.25M restructure could affect velocity on the same doors the forecast leans on.',
+  detail: 'F26 → F27 net revenue +32% ($38.85M → $51.13M CAD, ties to the reforecast), reported EBITDA -7.9% → +7.8% of net — driven by three concurrent transformations (see Analyst View §3). The decomposition (Traditional doors 5,500 → 7,000, Club rotations 2 → 4, new retailer adds at Kroger / Walmart US / Target / KEHE / UNFI USA) is in the reforecast model; split between signed POs and modeled pipeline is not visible in the export. Compound miss risk is real: Dishaka co-man slipped 1 month already; Walmart/Kroger mandated case-pack change adds COGS against the Dishaka savings; marketing pullback in the $1.25M restructure could affect velocity on the same doors the forecast leans on.',
   mitigant: 'Real category momentum is documented: HEB velocity 4.5 u/s/w (from 2.4), Walmart approaching 3 u/s/w in week 4 of launch, SPINS #2 contributor to total BFY tortilla growth, Stacked Bars CA 100% sell-through. Bench depth is an active credibility factor: VP Sales US Grant Burgess has been visibly building the exact channels the F27 forecast leans on (Sam\'s Club Tortilla launch, Kroger Tortilla expansion). Diligence asks: signed-vs-modeled door split (P0); F27 sensitivity table at (a) Dishaka delivers fully (b) Dishaka delivers 50% (c) Dishaka delays 6 months.',
   color: C.red
 }, {
@@ -7747,7 +10123,7 @@ const RISKS = [{
 }, {
   name: 'Contribution margin sustainability',
   severity: 'High',
-  detail: 'F27+ path to 25-30% CM by F29 is the profitability anchor for the deal. CM is not currently computable from the workbook because variable-vs-fixed S&M split is not provided. Reported GP trajectory steps F25 27.8% → F26 34.5% → F27 64.4% → F29 76.1%, but the GP-to-CM bridge depends on freight-out, broker commissions, and variable warehousing as a share of S&M — all of which scale differently with channel mix as US B&M doubles and triples. Tortilla is currently dilutive to aggregate CM (management explicit, Board p. 10) until Dishaka transition lands.',
+  detail: 'F27+ path to 25-30% CM by F29 is the profitability anchor for the deal. CM is not currently computable from the workbook because variable-vs-fixed S&M split is not provided. Reported GP trajectory steps F25 27.8% → F26 34.5% → F27 42.1% → F29 45.4%, but the GP-to-CM bridge depends on freight-out, broker commissions, and variable warehousing as a share of S&M — all of which scale differently with channel mix as US B&M doubles and triples. Tortilla is currently dilutive to aggregate CM (management explicit, Board p. 10) until Dishaka transition lands.',
   mitigant: 'CM held as a stub pending CM definition + WNI variable/fixed S&M split. Both inputs are P0 asks (Info Requests tab). F26 P1-P7 monthly P&L (also requested) will give the first cleaner read. Once inputs land, CM trajectory becomes a Financials finding and an RMF metric.',
   color: C.red
 }, {
@@ -7880,7 +10256,7 @@ const INFO_REQUESTS = [
   priority: 'P1',
   audience: 'WNI (via InviNext)',
   ask: 'Plant-protein and Tortilla 425g unit-cost workbook (signed co-man contract)',
-  why: 'F26 34.5% GP → F27 64.4% GP is a 30pp single-year step. The reforecast attributes the step to (1) US Costco bars exit, (2) Tortilla mix shift, (3) procurement / new co-man plan. The third lever — the new co-man plan with chip COGS down — is a forward assumption that should be backed by signed contract terms or LOIs.',
+  why: 'F26 34.5% GP → F27 42.1% GP is a 7.6pp single-year step (on the corrected model; the broken model showed a 30pp step to 64.4%). The reforecast attributes the step to (1) US Costco bars exit, (2) Tortilla mix shift, (3) procurement / new co-man plan. The third lever — the new co-man plan with chip COGS down — is a forward assumption that should be backed by signed contract terms or LOIs.',
   unlocks: 'Gross margin step-up risk item gets the unit-cost backing it currently lacks. Cohort GP % comparison at $30-50M bands becomes more meaningful.',
   color: C.warm
 }, {
@@ -9367,12 +11743,12 @@ const AnalystView = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
     color: C.accent,
     fontWeight: 700
   }
-}, "-$3.0M"), /*#__PURE__*/React.createElement("td", {
+}, "flagged"), /*#__PURE__*/React.createElement("td", {
   style: {
     padding: '10px 12px',
     color: C.textMid
   }
-}, "-6.8% of net revenue. Substantially closer to F24 (+9.5%) than reported -18.6% suggests."))))), /*#__PURE__*/React.createElement("div", {
+}, "WNI materials cite the F25 Costco add-back as both $3.7M and $5.2M; the deck's stated adj. EBITDA reconciles to neither against corrected reported -$8.2M CAD. At $3.7M it would be -$4.5M CAD (-10.2% of net). WNI to confirm \u2014 see \xA78."))))), /*#__PURE__*/React.createElement("div", {
   style: {
     padding: 14,
     background: `${C.bg}`,
@@ -9419,7 +11795,7 @@ const AnalystView = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
     lineHeight: 1.6,
     marginBottom: 14
   }
-}, "The forecast moves from F26 -8.9% EBITDA to F27 +6.0% EBITDA on the same revenue base assumed to grow ~40%. That margin swing is not organic operating leverage. It is the math of three discrete transformations, each with its own execution risk, ALL of which must land within a 12-month window. Decomposition below."), /*#__PURE__*/React.createElement("div", {
+}, "The forecast moves from F26 -7.9% reported EBITDA to F27 +7.8% reported EBITDA on the same revenue base assumed to grow ~32%. That +15.7pp margin swing is not organic operating leverage. It is the math of three discrete transformations, each with its own execution risk, ALL of which must land within a 12-month window. Decomposition below."), /*#__PURE__*/React.createElement("div", {
   style: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -9527,7 +11903,7 @@ const AnalystView = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
     marginBottom: 8,
     lineHeight: 1.5
   }
-}, "The revenue side. F26 net revenue $40.8M \u2192 F27 $57.2M (+40%) driven by ~9,000 new PODs across Walmart, Kroger, Sam's, Safeway, Meijer, Wakefern, Hannaford."), /*#__PURE__*/React.createElement("div", {
+}, "The revenue side. F26 net revenue $38.85M \u2192 F27 $51.13M CAD (+32%) driven by ~9,000 new PODs across Walmart, Kroger, Sam's, Safeway, Meijer, Wakefern, Hannaford."), /*#__PURE__*/React.createElement("div", {
   style: {
     fontSize: 11,
     color: C.textMid,
@@ -10063,7 +12439,368 @@ const AnalystView = () => /*#__PURE__*/React.createElement("div", null, /*#__PUR
     color: C.textMid,
     lineHeight: 1.7
   }
-}, /*#__PURE__*/React.createElement("li", null, "Independent QofE on F25 + F26 add-backs (Costco-USA exit composition tie-out)"), /*#__PURE__*/React.createElement("li", null, "Revenue cutoff testing across F25 Costco exit period"), /*#__PURE__*/React.createElement("li", null, "Inventory valuation + write-off support"), /*#__PURE__*/React.createElement("li", null, "AR aging + bad debt exposure on the Canada Club business"), /*#__PURE__*/React.createElement("li", null, "Customer contract review (top 10 by revenue) for change-of-control + termination provisions"), /*#__PURE__*/React.createElement("li", null, "Restructure execution attestation (post Q4)"), /*#__PURE__*/React.createElement("li", null, "Dishaka production tie-out (post-July transition)"), /*#__PURE__*/React.createElement("li", null, "Working capital normalization study"))))));
+}, /*#__PURE__*/React.createElement("li", null, "Independent QofE on F25 + F26 add-backs (Costco-USA exit composition tie-out)"), /*#__PURE__*/React.createElement("li", null, "Revenue cutoff testing across F25 Costco exit period"), /*#__PURE__*/React.createElement("li", null, "Inventory valuation + write-off support"), /*#__PURE__*/React.createElement("li", null, "AR aging + bad debt exposure on the Canada Club business"), /*#__PURE__*/React.createElement("li", null, "Customer contract review (top 10 by revenue) for change-of-control + termination provisions"), /*#__PURE__*/React.createElement("li", null, "Restructure execution attestation (post Q4)"), /*#__PURE__*/React.createElement("li", null, "Dishaka production tie-out (post-July transition)"), /*#__PURE__*/React.createElement("li", null, "Working capital normalization study"))))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    background: C.card,
+    border: `1px solid ${C.warm}55`,
+    borderRadius: 12,
+    padding: 24,
+    marginBottom: 20
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 18,
+    fontWeight: 600,
+    marginBottom: 6,
+    color: C.warm
+  }
+}, "8 \xB7 Internal consistency \u2014 reconciliation log"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginBottom: 14
+  }
+}, "Analyst-flagged items where a deck figure and the source workbook were checked against each other. Item 1 is resolved \u2014 the deck now anchors on the workbook basis. Item 2 carries a residual audit list to verify before external send to a co-investor or LP. Kept as a visible reconciliation log rather than deleted: an investor reviewing this package should be able to see the figures were tied back to source, not asserted."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 16,
+    background: C.bg,
+    border: `1px solid ${C.border}`,
+    borderRadius: 8,
+    marginBottom: 14
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 8,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 10,
+    color: C.green,
+    letterSpacing: 1,
+    fontWeight: 700,
+    textTransform: 'uppercase'
+  }
+}, "Item 1 \xB7 F27 net revenue growth"), /*#__PURE__*/React.createElement(Pill, {
+  color: C.green
+}, "Resolved \xB7 anchored to workbook +32%")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: 14,
+    marginBottom: 10
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 12,
+    background: C.card,
+    borderRadius: 6,
+    border: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 4
+  }
+}, "Superseded headline (was at 5 sites)"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.text,
+    lineHeight: 1.5
+  }
+}, "F26 net revenue ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    textDecoration: 'line-through',
+    color: C.textDim
+  }
+}, "$40.8M CAD \u2192 $57.2M CAD = +40%"), "."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    marginTop: 6,
+    lineHeight: 1.5
+  }
+}, "Previously cited at: Overview narrative; Diligence Question 01; EVENTS F26 detail card; Analyst View \xA73 lead; Analyst View \xA73 Transformation C. All five replaced this version with the workbook basis at right; the [\xA7Reconcile] pointers were removed.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 12,
+    background: C.card,
+    borderRadius: 6,
+    border: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 4
+  }
+}, "Workbook tie-out (3 yr. Forecast)"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.text,
+    lineHeight: 1.5
+  }
+}, "CAD: F26 ", /*#__PURE__*/React.createElement("b", null, "$38.85M"), " \u2192 F27 ", /*#__PURE__*/React.createElement("b", null, "$51.13M"), " = ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "+31.6%"), ".", /*#__PURE__*/React.createElement("br", null), "USD: F26 ", /*#__PURE__*/React.createElement("b", null, "$28.41M"), " \u2192 F27 ", /*#__PURE__*/React.createElement("b", null, "$37.39M"), " = ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "+31.6%"), "."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    marginTop: 6,
+    lineHeight: 1.5
+  }
+}, "Source: CLAUDE FX Reforecast workbook \xB7 3 yr. Forecast (CAD) R9 + 3 yr. Forecast (USD) R9 \xB7 \"Net Sales Growth\" line. Same growth rate in both currencies \u2014 internally consistent."))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.6
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "Resolution (v2.5):"), " the $40.8M / $57.2M figures could not be located in either the CLAUDE FX Reforecast workbook or the WNI Consolidated Financials Workbook \u2014 not in CAD or USD, not at gross, net, or any other line \u2014 and no basis reproduces +40%. The workbook's own \"Net Sales Growth\" line ties to ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "+31.6%"), " on both CAD ($38.85M \u2192 $51.13M) and USD ($28.41M \u2192 $37.39M) net sales, and the Overview KPI rail already reflected that. The deck has been re-anchored on the workbook basis at all five prose sites (rounded to +32% to match the KPI rail), removing the prior internal inconsistency.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "Standing diligence ask of WNI:"), " if a basis for the $40.8M / $57.2M figures does exist (an earlier model draft or alternate revenue build), surface it on the Monday call. Absent that, +32% off the reforecast is the number that holds \u2014 and it is the more conservative figure, which favors the diligence read.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 16,
+    background: C.bg,
+    border: `1px solid ${C.border}`,
+    borderRadius: 8
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 8,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 10,
+    color: C.warm,
+    letterSpacing: 1,
+    fontWeight: 700,
+    textTransform: 'uppercase'
+  }
+}, "Item 2 \xB7 Actuals-vs-budget audit \u2014 residual sites to verify"), /*#__PURE__*/React.createElement(Pill, {
+  color: C.textDim
+}, "Carry-forward from v2.3")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.6
+  }
+}, "v2.3 fixed the most visible actuals-vs-budget confusion (Overview narrative + EVENTS F26 detail card: \"34.5% F26 P1-P7 actuals\" \u2192 \"35.7%\", which is the true P1-P7 actual GP %; 34.5% is the F26 full-year forecast). The KPI rail \"F26 GP%\" remains at 34.5% with explicit \"F26 forecast\" framing in its info popover \u2014 internally consistent.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "Sites still to verify before external send"), " \u2014 claims of \"F26 P1-P7 actuals show X\" where the cited value may be a full-year-forecast number carried through from an earlier draft:"), /*#__PURE__*/React.createElement("ul", {
+  style: {
+    margin: '10px 0 0 0',
+    padding: '0 0 0 18px',
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.7
+  }
+}, /*#__PURE__*/React.createElement("li", null, "Financials Beat 3 \"F26 P1-P7 underwriting view\" card \u2014 confirm every figure shown is P1-P7 actual, not forecast-blended."), /*#__PURE__*/React.createElement("li", null, "Customer Detail \"F26 P1-P7 monthly customer-level pull\" framing \u2014 confirm no forecast-blended values inside customer-level commentary."), /*#__PURE__*/React.createElement("li", null, "Any other \"F26 actuals show\u2026\" / \"F26 to date\u2026\" phrasings \u2014 for each, classify as (a) full-year forecast, (b) P1-P7 actual, (c) L3M actual, and confirm the cited number matches the classification.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 10
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "Principle (locked v2.3):"), " never combine actual with budget within a single cited number. Applies to chart dots, gap tables, narrative prose, KPI cards. Every cited F26 figure should be classifiable.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 16,
+    background: C.bg,
+    border: `1px solid ${C.border}`,
+    borderRadius: 8,
+    marginTop: 14
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 8,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 10,
+    color: C.green,
+    letterSpacing: 1,
+    fontWeight: 700,
+    textTransform: 'uppercase'
+  }
+}, "Item 3 \xB7 Forecast-year COGS / gross margin"), /*#__PURE__*/React.createElement(Pill, {
+  color: C.green
+}, "Resolved \xB7 rebuilt on corrected model")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: 14,
+    marginBottom: 10
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 12,
+    background: C.card,
+    borderRadius: 6,
+    border: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 4
+  }
+}, "Superseded (broken model, all prior versions)"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.text,
+    lineHeight: 1.5
+  }
+}, "F27\u2013F29 GP% ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    textDecoration: 'line-through',
+    color: C.textDim
+  }
+}, "64.4% / 74.1% / 76.1%"), "; EBITDA% ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    textDecoration: 'line-through',
+    color: C.textDim
+  }
+}, "+31% / +44% / +45%"), "."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    marginTop: 6,
+    lineHeight: 1.5
+  }
+}, "The \"CLAUDE FX\" USD reforecast was missing tortilla unit costs in the forecast cost build, collapsing Product COGS from ~50% to ~18% of sales. Flagged by Sarah (Mar-28 feedback) and by the platform's plausibility check.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 12,
+    background: C.card,
+    borderRadius: 6,
+    border: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 4
+  }
+}, "Corrected model tie-out"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.text,
+    lineHeight: 1.5
+  }
+}, "F27\u2013F29 GP% ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "42.1% / 44.9% / 45.4%"), "; reported EBITDA% ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "+7.8% / +14.5% / +14.2%"), "."), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 11,
+    color: C.textDim,
+    marginTop: 6,
+    lineHeight: 1.5
+  }
+}, "Source: WNI_CFM_F26_Reforecast_042926.xlsx (tortilla SKU costs populated; Product COGS holds at 44\u201346% in out-years). Revenue lines unaffected."))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.6
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "Resolution (v2.6):"), " all forecast-year GP and EBITDA figures rebuilt on the corrected reforecast. The plausibility gate (gross margin \u226560%, EBITDA margin \u226525%, YoY COGS-% move >10pp) now passes clean on the corrected arrays \u2014 the regression proof that the underlying error is fixed, not just the displayed numbers. The corrected story is smaller but more credible: F27 reaches modestly positive EBITDA (+7.8% reported / +13.5% adjusted), ~14% by F28 \u2014 a believable step past the F24 +10.1% peak, where +45% never was.")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    padding: 16,
+    background: C.bg,
+    border: `1px solid ${C.warm}55`,
+    borderRadius: 8,
+    marginTop: 14
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 8,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 10,
+    color: C.warm,
+    letterSpacing: 1,
+    fontWeight: 700,
+    textTransform: 'uppercase'
+  }
+}, "Item 4 \xB7 F25 Costco add-back amount"), /*#__PURE__*/React.createElement(Pill, {
+  color: C.warm
+}, "Open \xB7 WNI to confirm on Monday")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 12,
+    color: C.textMid,
+    lineHeight: 1.6
+  }
+}, "WNI materials cite the F25 Costco-exit add-back as ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "both $3.7M and $5.2M CAD"), " across the deck and supporting commentary, and the stated F25 adjusted EBITDA reconciles to ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "neither"), " against the corrected reported figure (-$8.2M CAD). At a $3.7M add-back, adjusted F25 EBITDA would be -$4.5M CAD (-10.2% of net); at $5.2M it would be -$3.0M CAD. Until WNI confirms the exact figure and the resulting adjusted EBITDA, F25 adjusted is rendered as ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.warm
+  }
+}, "flagged/provisional"), " across this package (EVENTS card, KPI popover, Analyst \xA73 table), not as a hard number.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "This is a WNI-source inconsistency, not our math."), " Related: the $2.9M \"Growth Equity Investment\" add-back in F26/F27 (carried from prior backlog) remains contestable in QofE \u2014 it is the difference between F27 +7.8% reported and +13.5% adjusted, so it materially affects the adjusted case."))));
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TAB: VERSION HISTORY (INTERNAL)
@@ -10098,6 +12835,242 @@ const VersionHistory = () => /*#__PURE__*/React.createElement("div", null, /*#__
     marginBottom: 16
   }
 }, "Build log"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.accent
+}, "v2.8"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "June 1, 2026 \xB7 Exit & Returns diligence flags (deal terms \xB7 converting paper \xB7 timeline)")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Three diligence blocks added to the Exit & Returns tab"), " from a closer read of the two cap-table files. No engine change \u2014 the verified waterfall is untouched; these surface findings a careful reader should see.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "1 \xB7 Deal-terms impact."), " The 2.5\xD7 participating preferred is the single biggest driver of returns and far more aggressive than a standard 1\xD7 non-participating round. Preferred recovers ~$35.1M CAD (2.5\xD7 the $14.1M invested) before common sees a dollar \u2014 common (founders + the full option pool) is wiped until a ~$36M CAD exit. Added a live side-by-side: current structure vs. a clean 1\xD7 non-participating, at the active EV. At a $50M exit the choice is ~2.9\xD7 vs ~1.5\xD7 for InviNext; the gap is widest at low/mid exits and narrows toward home runs. Excellent downside protection for InviNext, but it inverts management's exit incentives and is the kind of term an acquirer or future round will press to unwind.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "2 \xB7 Converting paper \u2014 signed vs. placeholder."), " The pro forma converts ~$5.0M of notes + SAFEs, but the Convertibles tab labels ~$1.5M of it \"Placeholder for May.\" Only ~$3.49M is signed existing paper. Added a signed/placeholder split so the modeled portion is transparent. Also flagged: the SAFE valuation caps ($76.3M / $45M) sit far above the ~$0.25 round price, so the SAFEs convert at round price with no cap benefit; and the v8a workbook carries a ~$64K internal inconsistency on the note balance ($4,087,530 on the Pro Forma sheet vs $4,023,342 on its Summary/Convertibles tabs \u2014 the deck follows the Waterfall driver).", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "3 \xB7 September deadline wall."), " The raise threads two hard dates a month apart: the Aug 31 Stonegate equity-covenant deadline and the Sep 30 convertible-note maturity (15% interest, 20% discount, MFN ratchet to the round). A close that slips past these changes both the lender position and the note conversion. Surfaced as a three-card timeline.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), "All three reuse existing library primitives; no new components.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.accent
+}, "v2.7"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "June 1, 2026 \xB7 cap table integrated \u2014 Exit & Returns tab (waterfall + sensitivity)")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "New Exit & Returns tab (index 6, between Comps & Position and Company)."), " Directly answers Sarah's feedback point 9 \u2014 exit-scenario sensitivity plus a cap-table waterfall. Built from the two cap-table files she supplied: the Pulley stakeholder export (04-24-2026) and her purpose-built v8a pro forma / waterfall model. The deck ports that waterfall and reproduces it to the dollar across the entire $50M\u2013$325M CAD EV grid (All-Preferred MOIC and InviNext proceeds verified against the sheet's rows 56\u201368 before any JSX was written). 13 tabs total; INTERNAL_FROM bumped 11 \u2192 12 (Version History still the only internal tab).", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "What the tab does."), " Four live KPIs (active exit EV, InviNext MOIC, InviNext FD ownership, liq-pref coverage), then a full assumption panel: exit EV set either by an EV slider or by a selected M&A comp multiple applied to corrected F29 net revenue / EBITDA; editable pre-money, InviNext and co-investor checks, liquidation-preference multiple, and a participating / non-participating toggle. Below: an InviNext-MOIC-across-EV curve, a proceeds-by-class breakdown at the active EV, an EV-grid sensitivity table, and the full post-money FD cap-table stack (141.1M shares). Exit value flows off the ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "corrected"), " F29 forecast, not the prior inflated numbers \u2014 consistent with the v2.6 rebuild.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.warm
+  }
+}, "Round construction is flagged provisional."), " Defaults follow the v8a pro forma (a $9M CAD round \u2014 $5M InviNext + $4M co-investor \u2014 at $20M pre, 2.5\xD7 participating). The Pulley export models a different construction (notes/SAFEs-only, and a 5M @ $0.75 case), and the deck narrative elsewhere references a $5\u20137M USD round. These reconcile to the same share stack but not the same round, so every term is left editable pending InviNext confirmation on the Monday 11am call. The participating toggle and liq-pref multiple are the biggest swing factors on InviNext's return \u2014 surfacing them is the point of the sensitivity.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.textMid
+  }
+}, "Method note."), " Preferred proceeds are allocated by share of preferred invested capital (v8a rows 41/65\u201367), so all preferred holders earn the same blended MOIC under participation; common is allocated by share count. The engine also handles the branches the v8a grid never exercises \u2014 non-participating max(liq pref, as-converted), and sub-liq-pref EVs where common is wiped \u2014 for honest downside sensitivity. Reuses existing library primitives (KPI, ChartCard, InsightBlock, CustomTooltip); zero new components added to the library.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.accent
+}, "v2.6"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "June 1, 2026 \xB7 corrected-model rebuild + plausibility gate")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "All forecast-year GP/EBITDA rebuilt on the corrected reforecast."), " Every prior version (v1.0\u2013v2.5) was built on the \"CLAUDE FX\" USD reforecast, which was missing tortilla unit costs in the forecast cost build \u2014 collapsing Product COGS from ~50% to ~18% of sales and inflating forecast margins. Sarah flagged this in her Mar-28 feedback; the platform's plausibility check independently tripped on it. The corrected file (WNI_CFM_F26_Reforecast_042926.xlsx) has tortilla SKU costs populated and Product COGS holding at 44\u201346% in out-years. Corrected: F27\u2013F29 GP% 64.4/74.1/76.1 \u2192 ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "42.1/44.9/45.4"), "; reported EBITDA% +31/+44/+45 \u2192 ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "+7.8/+14.5/+14.2"), ". Both KPI arrays (USD + CAD) and the dollar gp/ebitda/adjEbitda arrays updated; EVENTS cards F27\u2013F29, KPI-rail popovers, chart subtitles/captions, RMF lens commentary, CM bridge, QofE item, and backlog all re-anchored. Revenue lines unaffected (error was COGS-only) \u2014 the +32% F27 growth resolution from v2.5 stands.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Stale \"-8.9% \u2192 +6.0%\" inflection line replaced."), " This figure matched neither the broken model (+31%) nor any corrected basis \u2014 a stale number carried since an earlier version. Replaced with the corrected reported basis ", /*#__PURE__*/React.createElement("b", null, "-7.9% \u2192 +7.8%"), ", explicitly labeled, at all four sites (Overview narrative, Risk card, Analyst \xA73 lead, EVENTS F26\u2192F27 detail). The \"three concurrent transformations, not organic operating leverage\" argument is unchanged and arguably stronger: a +15.7pp reported swing is real and now credible.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.warm
+  }
+}, "F25 adjusted EBITDA flagged (\xA78 Item 4)."), " WNI materials cite the F25 Costco add-back as both $3.7M and $5.2M, and the deck's stated adj. EBITDA reconciles to neither against corrected reported -$8.2M CAD. Rendered as flagged/provisional across the package (EVENTS card, KPI popover, Analyst \xA73 table) pending WNI confirmation on the Monday call. WNI-source inconsistency, not our math.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "Plausibility gate wired into the smoke harness."), " Per the financial-plausibility-check skill: gross margin \u226560% \u2192 warn, EBITDA margin \u226525% (sub-scale CPG) \u2192 warn, |YoY COGS-%-of-sales move| >10pp \u2192 warn. The broken model tripped all three (GP 64/74/76, EBITDA 31/44/45, F26\u2192F27 COGS -24pp); the corrected arrays pass clean. That regression proof \u2014 the check passing on the new arrays \u2014 is the evidence the underlying error is fixed, not just the displayed numbers. \xA78 Item 3 documents the whole correction as a visible diligence-credibility audit trail: the platform caught the implausibility, WNI supplied the corrected file, the deck was rebuilt. The corrected story is smaller but more defensible \u2014 F27 modestly positive, ~14% by F28, a believable step past the F24 +10.1% peak.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.accent
+}, "v2.5"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "May 29, 2026 \xB7 F27 growth reconciliation resolved + customer concentration card")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "F27 net-revenue-growth headline resolved."), " The +40% / $40.8M \u2192 $57.2M CAD figure flagged in v2.4 \xA78 was checked against the reforecast and could not be reproduced on any line \u2014 gross, net, or channel total \u2014 in either CAD or USD. The workbook's own \"Net Sales Growth\" line ties to +31.6% on both CAD ($38.85M \u2192 $51.13M) and USD ($28.41M \u2192 $37.39M), and the Overview KPI rail already reflected +32%. All five prose sites (Overview narrative, Diligence Question 01, EVENTS F26 detail, Analyst View \xA73 lead, Analyst View \xA73 Transformation C) re-anchored to +32% off the workbook; [\xA7Reconcile]/[\xA78] inline markers removed. Analyst View \xA78 Item 1 converted from \"unable to reconcile\" to a RESOLVED reconciliation-log entry \u2014 kept visible as audit trail, with a standing ask to WNI to surface a +40% basis on the Monday call if one exists. +32% is also the more conservative figure, which favors the diligence read.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "New Customer Detail concentration-evolution card."), " Built from the newly provided FY21-26 Revenue By Product by Customer file (NetSuite \"Sum of Amount CAD\" pivot). Shows top-1 / top-3 / top-5 customer revenue share FY22-FY26 with total revenue overlaid, plus the Costco USA vs Costco Canada split underneath. The diligence point: customer concentration is de-risking in the actuals (top-1 67% FY24 \u2192 40% FY25 \u2192 30% FY26 YTD), not solely in the forecast \u2014 the single-SKU US Costco bar dependency that drove the F25 contraction has effectively exited (~9% of FY26 YTD), while Costco Canada is a steady, growing anchor. FY26 is P1-P7 partial. Scope pills and the data-scope caveat updated: annual concentration now runs through F26, though format/SKU-level granularity remains F25-only (the F26 monthly customer pull stays the top Info Request).", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.accent
+}, "v2.4"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "May 25, 2026 \xB7 internal-consistency surfacing + adjusted EBITDA side-by-side + velocity + org evolution + scrubs")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "New Analyst View \xA78 \u2014 internal-consistency reconciliation items."), " Surfaces two reconciliation items for the InviNext send: F27 net revenue growth headline cites +40% / $40.8M \u2192 $57.2M but the workbook ties to +31.6% on both CAD ($38.85M \u2192 $51.13M) and USD-translated ($28.41M \u2192 $37.39M) net sales \u2014 basis for the $40.8M / $57.2M figures could not be located in source materials; working assumption is that the figures have a basis we have not surfaced (a prior model draft, a different revenue build, a rounding convention we are missing) rather than that they are wrong. Inline pointer markers placed at the 5 deck sites that cite the headline value, each pointing back to \xA78. Second item carries forward the residual actuals-vs-budget audit list from v2.3 (Financials Beat 3, Customer Detail framing, and any other \"F26 actuals show\u2026\" phrasings to classify).", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "RMF gap-table F25 lens \u2014 adjusted EBITDA side-by-side."), " Reported -18.6% vs cohort -34.3% (+15.7pp); adjusted -6.8% vs cohort -34.3% (+27.5pp). The add-back composition is one-time and dated (US Costco bars exit costs, F25-specific event) \u2014 high legitimacy. F26 L3M lens does NOT display a derived adjusted comparison; the only F26 add-back surfaced in WNI's materials is the \"Growth Equity Investment in Marketing/Innovation\" line, basis not yet articulated \u2014 surfacing a derived adjusted figure using a contested add-back would be poor analyst voice. Explanatory note added to the L3M lens tying back to the existing Analyst View \xA72 diligence ask.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Channel Mix velocity card."), " Consolidates four retail-side traction signals previously scattered across Overview narrative, Comps & Position tab, individual customer cards on Customer Detail, and Risk Summary mitigant text: HEB 4.5 u/s/w (up from 2.4), Walmart approaching 3 u/s/w in week 4 of launch, ~2,500 B&M doors total, SPINS #2 BFY tortilla growth contributor. Each card carries its own source attribution. Bull-case evidence for the F27 inflection now reads at a glance, then the door-plan section attaches the expansion plan to that documented velocity. Diligence ask: third-party syndicated validation (SPINS / IRI / Nielsen) where retailer-reported is currently the only source.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Company tab org evolution card."), " 34 \u2192 26 \u2192 16 headcount trajectory previously only surfaced in the Risk Summary \"Restructure execution\" mitigant text and Analyst View \xA75.1. Lifted to a dedicated card on the team tab where it belongs. Two-read framing: positive read (org right-sized for post-Costco-USA revenue base), diligence read (16 people running a business modeled to $80M+ gross by F29 requires re-staffing \u2014 capital allocation to backfill the bench is a material question for InviNext to underwrite).", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Comps & Position scrubs."), " Stale subtitle dropped: \"bar comp set in scope for v1.1\" \u2192 \"Price / protein positioning for the tortilla chip set \xB7 category framing \xB7 CPG M&A transaction comps from the Drew Fallon database below.\" Bar comp placeholder pill changed from \"v1.1\" to \"Context\" and framing rewritten to reflect that the bar comp set is deprioritized \u2014 Linda Zink / Quest pedigree is on the Company tab, v1.5 Drew M&A section carries the comparable-business read, v2.1 default-set tightening already shipped.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "RMF chart source-line scrub."), " Internal filename \"COHORT_SIPR_DEMO.xlsx\" \u2192 friendlier label \"Propeller RMF cohort baseline.\" Reads cleaner in an externally-shared deck. The Info Requests tab and the diligence-ask cards still cite the filename for source-document context, which is appropriate there.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "v1.2 Version History entry backfilled."), " The build log skipped chronologically from v1.1 to v1.3 \u2014 v1.2 (May 22, Customer Detail tab built from the 57,553-row transaction extract) was missing. Backfilled below for chronological completeness.")), /*#__PURE__*/React.createElement("div", {
   style: {
     paddingBottom: 16,
     marginBottom: 16,
@@ -10502,6 +13475,38 @@ const VersionHistory = () => /*#__PURE__*/React.createElement("div", null, /*#__
   }
 }, /*#__PURE__*/React.createElement(Pill, {
   color: C.textDim
+}, "v1.2"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "May 22, 2026 \xB7 Customer Detail tab build")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Customer Detail tab built"), " from the 57,553-row transaction extract (F25-F26 P1-P7 customer-period detail). Replaces the v1.0/v1.1-foundation Unit Economics placeholder at tab position 3. Channel-rolled customer list with per-customer period detail (gross revenue, trade spend, net revenue, GP at customer level where available). Costco-USA exit narrative anchored to the actual transaction data: P4 2025 was the last sizeable Costco-USA buying month, P5 2025 collapsed 96%, P6+ continued at residual-only levels. The 65% F25 trade-spend weighting on Costco bars surfaces directly from this extract \u2014 the trade-deduction structure pre- and post-exit is no longer narrative assertion but transaction-anchored fact. Costco-CA toggle added to filter the customer list view (the anchor relationship surfacing separately from the rest of the customer base). Backfill entry \u2014 chronologically v1.2 sits between v1.1 (May 21, second-pass content + brand work) and v1.3 (May 23, diligence-grammar pass).")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.textDim
 }, "v1.1"), /*#__PURE__*/React.createElement("div", {
   style: {
     fontSize: 13,
@@ -10586,7 +13591,7 @@ const VersionHistory = () => /*#__PURE__*/React.createElement("div", null, /*#__
 }, {
   p: 'P1',
   t: 'Unit-cost workbook deep-dive',
-  d: 'Tortilla 425g unit economics + plant-protein procurement terms. Pressure-test the 34.5% → 64.4% GP step.',
+  d: 'Tortilla 425g unit economics + plant-protein procurement terms. Pressure-test the 34.5% → 42.1% GP step.',
   color: C.warm
 }, {
   p: 'P1',
@@ -10717,7 +13722,7 @@ function SimplyProteinDiligenceDashboard() {
       borderRadius: 4,
       textTransform: 'uppercase'
     }
-  }, "DILIGENCE v2.3"), /*#__PURE__*/React.createElement("div", {
+  }, "DILIGENCE v2.8"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 14,
       color: C.textMid,
@@ -10957,7 +13962,7 @@ function SimplyProteinDiligenceDashboard() {
       fontSize: 11,
       color: C.textDim
     }
-  }, "Propeller team only \u2014 hide before sharing with InviNext")), tab === 0 && /*#__PURE__*/React.createElement(Overview, null), tab === 1 && /*#__PURE__*/React.createElement(Financials, null), tab === 2 && /*#__PURE__*/React.createElement(ChannelMix, null), tab === 3 && /*#__PURE__*/React.createElement(UnitEconomics, null), tab === 4 && /*#__PURE__*/React.createElement(RMFBenchmark, null), tab === 5 && /*#__PURE__*/React.createElement(CompsPosition, null), tab === 6 && /*#__PURE__*/React.createElement(CompanyInfo, null), tab === 7 && /*#__PURE__*/React.createElement(InviNextTab, null), tab === 8 && /*#__PURE__*/React.createElement(AnalystView, null), tab === 9 && /*#__PURE__*/React.createElement(InfoRequests, null), tab === 10 && /*#__PURE__*/React.createElement(RiskSummary, null), tab === 11 && /*#__PURE__*/React.createElement(VersionHistory, null)), /*#__PURE__*/React.createElement("div", {
+  }, "Propeller team only \u2014 hide before sharing with InviNext")), tab === 0 && /*#__PURE__*/React.createElement(Overview, null), tab === 1 && /*#__PURE__*/React.createElement(Financials, null), tab === 2 && /*#__PURE__*/React.createElement(ChannelMix, null), tab === 3 && /*#__PURE__*/React.createElement(UnitEconomics, null), tab === 4 && /*#__PURE__*/React.createElement(RMFBenchmark, null), tab === 5 && /*#__PURE__*/React.createElement(CompsPosition, null), tab === 6 && /*#__PURE__*/React.createElement(ExitReturns, null), tab === 7 && /*#__PURE__*/React.createElement(CompanyInfo, null), tab === 8 && /*#__PURE__*/React.createElement(InviNextTab, null), tab === 9 && /*#__PURE__*/React.createElement(AnalystView, null), tab === 10 && /*#__PURE__*/React.createElement(InfoRequests, null), tab === 11 && /*#__PURE__*/React.createElement(RiskSummary, null), tab === 12 && /*#__PURE__*/React.createElement(VersionHistory, null)), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: '20px 32px',
       borderTop: `1px solid ${C.border}`,
@@ -11036,8 +14041,7 @@ function SimplyProteinDiligenceDashboard() {
   }, "\xA9 Propeller Industries 2026"))))));
 }
 
-// ─── Boot ───
-ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(SimplyProteinDiligenceDashboard));
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(SimplyProteinDiligenceDashboard));
 </script>
 </body>
 </html>
