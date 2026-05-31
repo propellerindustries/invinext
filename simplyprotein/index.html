@@ -975,7 +975,7 @@ window.DynDeckLib = {
 };
 
 })();
-// --- DASHBOARD_SimplyProtein_v2_8 (client) ---
+// --- DASHBOARD_SimplyProtein_v2_9 (client) ---
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const { useState, useMemo, useRef, useEffect, createContext, useContext } = React;
 const { LineChart, Line, BarChart, Bar, ComposedChart, Area, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, ReferenceLine, ReferenceArea, PieChart, Pie, ScatterChart, Scatter, ZAxis, Treemap } = Recharts;
@@ -990,7 +990,19 @@ const { LineChart, Line, BarChart, Bar, ComposedChart, Area, AreaChart, XAxis, Y
 //   Beverage + Dairy + Food&Bev + Pantry, $1M-$350M) · Drew Fallon CPG M&A Database
 // FX: workbook's own translation. F25 0.7161; F26-F29 0.7312 USD/CAD.
 //
-// v2.8 (this build): EXIT & RETURNS DILIGENCE FLAGS. Three diligence blocks added to
+// v2.9 (this build): DUAL-CURRENCY EXIT & RETURNS. The header USD/CAD toggle already
+//       drove this tab, but the tab read as "CAD-locked": money inputs were hardcoded
+//       (CAD) and headline figures showed one currency. Now: (1) editable FX input
+//       (CAD per USD, default deck 1.3833; Sarah's v8a uses 1.37, flagged); (2) a dual()
+//       helper renders headline figures in BOTH currencies (active first) — capital
+//       deployed, proceeds, liq-pref, common breakeven, converting paper; (3) each CAD
+//       money input shows its USD-equivalent inline; (4) intro + notes explain the toggle
+//       and FX. Rationale: SimplyProtein/WNI think in CAD; InviNext (US fund) thinks in
+//       USD. Sarah's model converts only the INVESTMENT to USD (cell F15) and leaves all
+//       returns in CAD — so a US investor couldn't read their own dollar return. No engine
+//       change; waterfall math unchanged. No new library components.
+//
+// v2.8: EXIT & RETURNS DILIGENCE FLAGS. Three diligence blocks added to
 //       the Exit & Returns tab, surfacing findings from the cap-table data: (1) deal-terms
 //       impact — the 2.5x participating structure wipes common until a ~$36M CAD exit and
 //       is the single biggest return swing; live side-by-side vs a clean 1x non-part case.
@@ -8401,10 +8413,12 @@ const CAP_DEFAULTS = {
   otherBInv: 4000000,
   liqPrefX: 2.5,
   participating: true,
-  txnExpPct: 0.03
+  txnExpPct: 0.03,
+  fxCadPerUsd: 1.3833 // editable; default = deck rate (workbook F26-F29 avg). Sarah's v8a uses 1.37.
 };
-// Display FX — deck convention (workbook F26-F29 avg 1.3833 CAD/USD => 0.7232 USD/CAD).
-const CAP_FX_USD_PER_CAD = 1 / 1.3833;
+// Deck-convention FX (workbook F26-F29 avg 1.3833 CAD/USD). Default for the editable input above.
+const CAP_FX_CAD_PER_USD_DEFAULT = 1.3833;
+const SARAH_FX_CAD_PER_USD = 1.37; // the rate in S. Foley's v8a (cell F15) — flagged for reconciliation
 // Corrected-model F29 anchors for comp-multiple-driven EV (CAD thousands → CAD).
 const F29_NET_REV_CAD = 95524 * 1000;
 const F29_EBITDA_CAD = 13444 * 1000;
@@ -8485,16 +8499,6 @@ function runWaterfall(evCAD, a) {
 const ExitReturns = () => {
   const currency = useCurrency();
   const usd = currency === 'USD';
-  const toDisp = cad => usd ? cad * CAP_FX_USD_PER_CAD : cad;
-  const sym = ccySym(currency);
-  const tag = ccyTag(currency);
-  const money = (cad, dec = 1) => {
-    const v = toDisp(cad);
-    const abs = Math.abs(v);
-    if (abs >= 1e6) return `${sym}${(v / 1e6).toFixed(dec)}M`;
-    if (abs >= 1e3) return `${sym}${(v / 1e3).toFixed(0)}K`;
-    return `${sym}${Math.round(v)}`;
-  };
 
   // ── Live assumption state ──
   const [a, setA] = useState(CAP_DEFAULTS);
@@ -8513,6 +8517,25 @@ const ExitReturns = () => {
     setCompMult(2.5);
     setCompBasis('rev');
   };
+
+  // ── Currency helpers (read live FX from assumption state) ──
+  const fx = a.fxCadPerUsd || CAP_FX_CAD_PER_USD_DEFAULT; // CAD per USD
+  const cadToUsd = cad => cad / fx;
+  const sym = ccySym(currency);
+  const tag = ccyTag(currency);
+  const toDisp = cad => usd ? cadToUsd(cad) : cad; // value in the active display currency
+  const fmt = (v, s, dec = 1) => {
+    // format a number with a given symbol
+    const abs = Math.abs(v);
+    if (abs >= 1e6) return `${s}${(v / 1e6).toFixed(dec)}M`;
+    if (abs >= 1e3) return `${s}${(v / 1e3).toFixed(0)}K`;
+    return `${s}${Math.round(v)}`;
+  };
+  // Primary display in the active currency (used by charts/tables that follow the toggle).
+  const money = (cad, dec = 1) => fmt(toDisp(cad), sym, dec);
+  // Dual rendering: always show BOTH currencies, active one first. Used for headline figures
+  // (capital deployed, proceeds, breakevens) where the CAD/USD distinction matters to the reader.
+  const dual = (cad, dec = 1) => usd ? `${fmt(cadToUsd(cad), '$', dec)} / ${fmt(cad, 'C$', dec)} CAD` : `${fmt(cad, 'C$', dec)} / ${fmt(cadToUsd(cad), '$', dec)} USD`;
 
   // Active exit EV (CAD)
   const compEV = compBasis === 'rev' ? F29_NET_REV_CAD * compMult : F29_EBITDA_CAD * compMult;
@@ -8663,7 +8686,15 @@ const ExitReturns = () => {
       maxWidth: 760,
       lineHeight: 1.5
     }
-  }, "Pro forma cap table and Series B investor-return waterfall. Set an exit enterprise value \u2014 directly, or off the selected M&A comp multiple \u2014 and see how proceeds flow through the liquidation-preference stack to InviNext, the other preferred holders, and common. ", currency, " shown; model is native CAD.")), /*#__PURE__*/React.createElement("button", {
+  }, "Pro forma cap table and Series B investor-return waterfall. Set an exit enterprise value \u2014 directly, or off the selected M&A comp multiple \u2014 and see how proceeds flow through the liquidation-preference stack to InviNext, the other preferred holders, and common. The model is built in CAD; headline figures show ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.textMid
+    }
+  }, "both currencies"), ", and the ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: C.textMid
+    }
+  }, "Display toggle (top of page)"), " drives this whole tab. FX is editable below (default ", CAP_FX_CAD_PER_USD_DEFAULT, " CAD/USD).")), /*#__PURE__*/React.createElement("button", {
     onClick: resetAll,
     style: {
       fontSize: 10,
@@ -8732,11 +8763,11 @@ const ExitReturns = () => {
       lineHeight: 1.6,
       marginBottom: 14
     }
-  }, a.participating ? /*#__PURE__*/React.createElement(React.Fragment, null, "At ", a.liqPrefX, "\xD7 participating, preferred recovers ", money(r.liqPrefTotal, 1), " (", a.liqPrefX, "\xD7 the ", money(r.totalPrefInv, 1), " invested) ", /*#__PURE__*/React.createElement("i", null, "before"), " common sees a dollar \u2014 ", /*#__PURE__*/React.createElement("i", null, "and then still shares pro-rata"), " in everything above that. ", /*#__PURE__*/React.createElement("b", {
+  }, a.participating ? /*#__PURE__*/React.createElement(React.Fragment, null, "At ", a.liqPrefX, "\xD7 participating, preferred recovers ", dual(r.liqPrefTotal, 1), " (", a.liqPrefX, "\xD7 the ", dual(r.totalPrefInv, 1), " invested) ", /*#__PURE__*/React.createElement("i", null, "before"), " common sees a dollar \u2014 ", /*#__PURE__*/React.createElement("i", null, "and then still shares pro-rata"), " in everything above that. ", /*#__PURE__*/React.createElement("b", {
     style: {
       color: C.text
     }
-  }, "Common (founders + the entire option pool) receives nothing until an exit of ~", money(commonBreakevenEV, 0), " EV."), " This is far more aggressive than a standard 1\xD7 non-participating round. It is excellent downside protection for InviNext, but it inverts management\u2019s exit incentives and is the kind of term an acquirer\u2019s counsel \u2014 or a future round \u2014 will press to unwind.") : /*#__PURE__*/React.createElement(React.Fragment, null, "At ", a.liqPrefX, "\xD7 non-participating, preferred takes the greater of its ", money(r.liqPrefTotal, 1), " preference or its as-converted value \u2014 the cleaner, more standard structure. Common participates from the first dollar of residual above the preference.")), /*#__PURE__*/React.createElement("div", {
+  }, "Common (founders + the entire option pool) receives nothing until an exit of ~", dual(commonBreakevenEV, 0), " EV."), " This is far more aggressive than a standard 1\xD7 non-participating round. It is excellent downside protection for InviNext, but it inverts management\u2019s exit incentives and is the kind of term an acquirer\u2019s counsel \u2014 or a future round \u2014 will press to unwind.") : /*#__PURE__*/React.createElement(React.Fragment, null, "At ", a.liqPrefX, "\xD7 non-participating, preferred takes the greater of its ", money(r.liqPrefTotal, 1), " preference or its as-converted value \u2014 the cleaner, more standard structure. Common participates from the first dollar of residual above the preference.")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
@@ -8762,8 +8793,42 @@ const ExitReturns = () => {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: 13,
+      fontSize: 12.5,
       marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "InviNext deployed"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text,
+      fontWeight: 600
+    }
+  }, dual(a.inviNextInv, 1))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 12.5,
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "InviNext proceeds"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text,
+      fontWeight: 600
+    }
+  }, dual(r.perPref.invi, 1))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 13,
+      marginBottom: 3,
+      borderTop: `1px solid ${C.border}`,
+      paddingTop: 5
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -8778,7 +8843,7 @@ const ExitReturns = () => {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: 13
+      fontSize: 12.5
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -8789,7 +8854,7 @@ const ExitReturns = () => {
       color: C.text,
       fontWeight: 600
     }
-  }, money(r.commonProceeds, 1)))), /*#__PURE__*/React.createElement("div", {
+  }, dual(r.commonProceeds, 1)))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.bg,
       border: `1px solid ${C.border}`,
@@ -8809,8 +8874,42 @@ const ExitReturns = () => {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: 13,
+      fontSize: 12.5,
       marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "InviNext deployed"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text,
+      fontWeight: 600
+    }
+  }, dual(a.inviNextInv, 1))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 12.5,
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textMid
+    }
+  }, "InviNext proceeds"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.text,
+      fontWeight: 600
+    }
+  }, dual(rClean.perPref.invi, 1))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: 13,
+      marginBottom: 3,
+      borderTop: `1px solid ${C.border}`,
+      paddingTop: 5
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -8825,7 +8924,7 @@ const ExitReturns = () => {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: 13
+      fontSize: 12.5
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -8836,7 +8935,7 @@ const ExitReturns = () => {
       color: C.text,
       fontWeight: 600
     }
-  }, money(rClean.commonProceeds, 1))))), /*#__PURE__*/React.createElement("div", {
+  }, dual(rClean.commonProceeds, 1))))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 12,
       fontSize: 11.5,
@@ -9011,7 +9110,13 @@ const ExitReturns = () => {
     value: a.preMoney,
     step: 1000000,
     onChange: e => set('preMoney')(+e.target.value)
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textDim,
+      marginTop: 3
+    }
+  }, "= ", fmt(cadToUsd(a.preMoney), '$', 1), " USD")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     style: lbl
   }, "InviNext invest (CAD)"), /*#__PURE__*/React.createElement("input", {
     type: "number",
@@ -9019,7 +9124,13 @@ const ExitReturns = () => {
     value: a.inviNextInv,
     step: 500000,
     onChange: e => set('inviNextInv')(+e.target.value)
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.accent,
+      marginTop: 3
+    }
+  }, "= ", fmt(cadToUsd(a.inviNextInv), '$', 2), " USD deployed")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     style: lbl
   }, "Co-investor (CAD)"), /*#__PURE__*/React.createElement("input", {
     type: "number",
@@ -9027,7 +9138,28 @@ const ExitReturns = () => {
     value: a.otherBInv,
     step: 500000,
     onChange: e => set('otherBInv')(+e.target.value)
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textDim,
+      marginTop: 3
+    }
+  }, "= ", fmt(cadToUsd(a.otherBInv), '$', 2), " USD")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: lbl
+  }, "FX (CAD per USD)"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    style: inp,
+    value: a.fxCadPerUsd,
+    step: 0.01,
+    min: 0.5,
+    onChange: e => set('fxCadPerUsd')(+e.target.value)
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: Math.abs(a.fxCadPerUsd - SARAH_FX_CAD_PER_USD) < 0.005 ? C.warm : C.textDim,
+      marginTop: 3
+    }
+  }, "deck ", CAP_FX_CAD_PER_USD_DEFAULT, " \xB7 Sarah ", SARAH_FX_CAD_PER_USD)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     style: lbl
   }, "Liq. pref (\xD7)"), /*#__PURE__*/React.createElement("input", {
     type: "number",
@@ -9075,7 +9207,7 @@ const ExitReturns = () => {
       color: C.textDim,
       lineHeight: 1.5
     }
-  }, "Participating = preferred takes its ", a.liqPrefX, "\xD7 liq pref ", /*#__PURE__*/React.createElement("i", null, "and"), " shares residual pro-rata (double-dip). Non-participating = preferred takes the greater of liq pref ", /*#__PURE__*/React.createElement("i", null, "or"), " as-converted value. Transaction expenses fixed at ", (a.txnExpPct * 100).toFixed(0), "% of EV; net debt assumed nil.")), /*#__PURE__*/React.createElement("div", {
+  }, "Model is CAD-native; the USD figures convert at ", a.fxCadPerUsd, " CAD/USD (editable above). Sarah\u2019s v8a uses 1.37 \u2014 about 1% off the deck rate, so InviNext\u2019s ", fmt(cadToUsd(a.inviNextInv), '$', 2), " USD here would read ", fmt(a.inviNextInv / SARAH_FX_CAD_PER_USD, '$', 2), " in her sheet. Participating = preferred takes its ", a.liqPrefX, "\xD7 liq pref ", /*#__PURE__*/React.createElement("i", null, "and"), " shares residual pro-rata (double-dip). Non-participating = preferred takes the greater of liq pref ", /*#__PURE__*/React.createElement("i", null, "or"), " as-converted value. Transaction expenses fixed at ", (a.txnExpPct * 100).toFixed(0), "% of EV; net debt assumed nil.")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
@@ -9561,11 +9693,11 @@ const ExitReturns = () => {
       lineHeight: 1.6,
       marginBottom: 14
     }
-  }, "The pro forma converts ", money(PAPER.realTotal + PAPER.placeholderTotal, 2), " of notes + SAFEs into the stack, but the Convertibles tab labels ", money(PAPER.placeholderTotal, 2), " of that as ", /*#__PURE__*/React.createElement("i", null, "\u201CPlaceholder for May.\u201D"), " Only ", /*#__PURE__*/React.createElement("b", {
+  }, "The pro forma converts ", dual(PAPER.realTotal + PAPER.placeholderTotal, 2), " of notes + SAFEs into the stack, but the Convertibles tab labels ", dual(PAPER.placeholderTotal, 2), " of that as ", /*#__PURE__*/React.createElement("i", null, "\u201CPlaceholder for May.\u201D"), " Only ", /*#__PURE__*/React.createElement("b", {
     style: {
       color: C.text
     }
-  }, money(PAPER.realTotal, 2)), " is signed existing paper; the rest is modeled. If the placeholders don\u2019t close, share counts and InviNext\u2019s ownership shift. Same signed-vs-modeled discipline the deck applies to the F27 door schedule."), /*#__PURE__*/React.createElement("div", {
+  }, dual(PAPER.realTotal, 2)), " is signed existing paper; the rest is modeled. If the placeholders don\u2019t close, share counts and InviNext\u2019s ownership shift. Same signed-vs-modeled discipline the deck applies to the F27 door schedule."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
@@ -9706,7 +9838,7 @@ const ExitReturns = () => {
       color: C.textDim,
       lineHeight: 1.5
     }
-  }, "Also note: the SAFE valuation caps (", sym === '$' ? '$' : 'C$', "76.3M and ", sym === '$' ? '$' : 'C$', "45M) sit far above the ~$0.25 round price, so the SAFEs convert at the round price with no cap benefit. And the v8a workbook carries a ~", money(64189, 2), " internal inconsistency on the note balance between its Pro Forma sheet (", money(4087530, 2), ") and its Summary/Convertibles tabs (", money(4023342, 2), "); the deck follows the Pro Forma / Waterfall driver. Both worth confirming with WNI.")), /*#__PURE__*/React.createElement("div", {
+  }, "Also note: the SAFE valuation caps (C$76.3M and C$45M) sit far above the ~$0.25 round price, so the SAFEs convert at the round price with no cap benefit. And the v8a workbook carries a ~", fmt(64189, 'C$', 2), " internal inconsistency on the note balance between its Pro Forma sheet (", fmt(4087530, 'C$', 2), ") and its Summary/Convertibles tabs (", fmt(4023342, 'C$', 2), "); the deck follows the Pro Forma / Waterfall driver. Both worth confirming with WNI.")), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 18,
       background: C.card,
@@ -12850,6 +12982,46 @@ const VersionHistory = () => /*#__PURE__*/React.createElement("div", null, /*#__
   }
 }, /*#__PURE__*/React.createElement(Pill, {
   color: C.accent
+}, "v2.9"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "June 1, 2026 \xB7 dual-currency Exit & Returns (CAD + USD)")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Exit & Returns now shows both currencies."), " The header USD/CAD toggle always drove this tab, but it read as CAD-locked: the money inputs were hardcoded \"(CAD)\" and headline figures showed only one currency at a time. Reworked so a US investor and a Canadian company can read the same screen.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "What changed."), " Added an editable FX input (CAD per USD, default the deck rate 1.3833; Sarah's v8a uses 1.37, flagged inline \u2014 about 1% apart). A new dual-currency renderer shows headline figures in both currencies at once, active currency first: InviNext capital deployed, InviNext proceeds, common proceeds, the liq-pref stack, the common-breakeven EV, and the converting-paper subtotals. Each CAD money input now shows its USD-equivalent beneath it. Intro and notes explain that the top-of-page toggle governs the whole tab.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "Why it mattered."), " SimplyProtein and WNI think in CAD; InviNext is a US fund and thinks in USD. Sarah's v8a model converts only the ", /*#__PURE__*/React.createElement("i", null, "investment"), " amount to USD (one cell, F15 = 1.37) and leaves every return \u2014 proceeds, exit values, the MOIC grid \u2014 in CAD. So her model showed capital deployed in USD but returns in CAD, and a US investor couldn't read their own dollar outcome without doing FX by hand. The MOIC is a ratio so it's FX-neutral and looked fine, which masked the gap. This surfaces the USD return explicitly.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), "No engine change \u2014 the verified waterfall is untouched; this is presentation only. No new library components.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.accent
 }, "v2.8"), /*#__PURE__*/React.createElement("div", {
   style: {
     fontSize: 13,
@@ -13722,7 +13894,7 @@ function SimplyProteinDiligenceDashboard() {
       borderRadius: 4,
       textTransform: 'uppercase'
     }
-  }, "DILIGENCE v2.8"), /*#__PURE__*/React.createElement("div", {
+  }, "DILIGENCE v2.9"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 14,
       color: C.textMid,
