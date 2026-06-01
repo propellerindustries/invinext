@@ -975,7 +975,7 @@ window.DynDeckLib = {
 };
 
 })();
-// --- DASHBOARD_SimplyProtein_v2_9 (client) ---
+// --- DASHBOARD_SimplyProtein_v2_10 (client) ---
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const { useState, useMemo, useRef, useEffect, createContext, useContext } = React;
 const { LineChart, Line, BarChart, Bar, ComposedChart, Area, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, ReferenceLine, ReferenceArea, PieChart, Pie, ScatterChart, Scatter, ZAxis, Treemap } = Recharts;
@@ -990,7 +990,16 @@ const { LineChart, Line, BarChart, Bar, ComposedChart, Area, AreaChart, XAxis, Y
 //   Beverage + Dairy + Food&Bev + Pantry, $1M-$350M) · Drew Fallon CPG M&A Database
 // FX: workbook's own translation. F25 0.7161; F26-F29 0.7312 USD/CAD.
 //
-// v2.9 (this build): DUAL-CURRENCY EXIT & RETURNS. The header USD/CAD toggle already
+// v2.10 (this build): RMF FORECAST ROWS CORRECTED. The v2.6 correction updated the
+//       ann.* arrays (Overview/Financials/Analyst) but missed SP_BY_FY, which feeds the
+//       RMF Benchmark tab — so the F27-F29 forecast dots were still plotting the broken
+//       software-margin figures (GP 64.4/74.1/76.1, EBITDA 31.1/43.7/45.0) against the
+//       cohort. Corrected from the repaired 3 yr. Forecast (cols K/L/M, % of net rev):
+//       GP 42.1/44.9/45.4, EBITDA 7.8/14.5/14.2, F27 ops 7.8→8.8. Revenue, milestone
+//       bands, trade/S&M/G&A unaffected (COGS-only error). Actuals rows (F24/F25/F26 L3M)
+//       were always correct. No engine/component change; data-only fix.
+//
+// v2.9: DUAL-CURRENCY EXIT & RETURNS. The header USD/CAD toggle already
 //       drove this tab, but the tab read as "CAD-locked": money inputs were hardcoded
 //       (CAD) and headline figures showed one currency. Now: (1) editable FX input
 //       (CAD per USD, default deck 1.3833; Sarah's v8a uses 1.37, flagged); (2) a dual()
@@ -6747,38 +6756,44 @@ const SP_BY_FY = [{
   ebitdaPct: -11.9,
   yoyPct: null,
   basis: 'actual'
-}, {
+},
+// v2.10 — forecast rows corrected to the repaired model (was gpPct 64.4/74.1/76.1,
+// ebitdaPct 31.1/43.7/45.0 on the broken COGS build). GP%/EBITDA% now tie to the
+// corrected 3 yr. Forecast (cols K/L/M, % of net revenue): GP 42.1/44.9/45.4,
+// EBITDA 7.8/14.5/14.2. F27 opsPct 7.8→8.8 (delivery & warehousing / net rev).
+// Revenue, milestone band, trade/S&M/G&A unaffected (COGS-only error).
+{
   fy: 'F27',
   m: 35,
   netRev: 37.4,
-  gpPct: 64.4,
+  gpPct: 42.1,
   tradePct: 18.4,
   smPct: 11.9,
   gaPct: 13.6,
-  opsPct: 7.8,
-  ebitdaPct: 31.1,
+  opsPct: 8.8,
+  ebitdaPct: 7.8,
   yoyPct: 31.6
 }, {
   fy: 'F28',
   m: 60,
   netRev: 58.5,
-  gpPct: 74.1,
+  gpPct: 44.9,
   tradePct: 16.9,
   smPct: 10.5,
   gaPct: 9.2,
   opsPct: 10.8,
-  ebitdaPct: 43.7,
+  ebitdaPct: 14.5,
   yoyPct: 56.5
 }, {
   fy: 'F29',
   m: 70,
   netRev: 69.1,
-  gpPct: 76.1,
+  gpPct: 45.4,
   tradePct: 16.7,
   smPct: 11.8,
   gaPct: 8.2,
   opsPct: 11.1,
-  ebitdaPct: 45.0,
+  ebitdaPct: 14.2,
   yoyPct: 18.0
 }];
 
@@ -12982,6 +12997,68 @@ const VersionHistory = () => /*#__PURE__*/React.createElement("div", null, /*#__
   }
 }, /*#__PURE__*/React.createElement(Pill, {
   color: C.accent
+}, "v2.10"), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 13,
+    color: C.textDim
+  }
+}, "June 1, 2026 \xB7 RMF benchmark forecast rows corrected to the repaired model")), /*#__PURE__*/React.createElement("div", {
+  style: {
+    fontSize: 14,
+    color: C.textMid,
+    lineHeight: 1.6,
+    marginTop: 8
+  }
+}, /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.accent
+  }
+}, "Fixed a missed surface from the v2.6 correction."), " The v2.6 rebuild corrected the forecast margins everywhere they're computed from the main annual arrays (Overview, Financials, Analyst View) \u2014 but the RMF Benchmark tab reads SimplyProtein's own figures from a separate per-fiscal-year table, and that table's ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "F27\u2013F29 forecast rows were never updated"), ". So the benchmark was still plotting the pre-correction software-margin figures against the cohort.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "What changed."), " The three forecast rows are now pulled from the repaired 3-year forecast (% of net revenue): gross margin ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    textDecoration: 'line-through',
+    color: C.textDim
+  }
+}, "64.4 / 74.1 / 76.1"), " \u2192 ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "42.1 / 44.9 / 45.4"), "; EBITDA ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    textDecoration: 'line-through',
+    color: C.textDim
+  }
+}, "+31 / +44 / +45"), " \u2192 ", /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.green
+  }
+}, "+7.8 / +14.5 / +14.2"), "; F27 operations 7.8 \u2192 8.8. Revenue, milestone bands, and trade / S&M / G&A are unchanged \u2014 the original error was COGS-only, so those lines were never affected. The actuals rows (F24, F25, F26 L3M) were always correct and are untouched.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", {
+  style: {
+    color: C.text
+  }
+}, "Why it matters."), " This is the tab that answers \"is the plan an outlier vs. peers?\" \u2014 so plotting the inflated forecast margins would have made SimplyProtein look dramatically above the cohort for the wrong reason. The corrected dots now sit in a credible band, which is the right foundation for the projection-vs-cohort benchmarking work discussed for the next iteration. Data-only fix; no engine or component change.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null))), /*#__PURE__*/React.createElement("div", {
+  style: {
+    paddingBottom: 16,
+    marginBottom: 16,
+    borderBottom: `1px solid ${C.border}`
+  }
+}, /*#__PURE__*/React.createElement("div", {
+  style: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 4,
+    flexWrap: 'wrap'
+  }
+}, /*#__PURE__*/React.createElement(Pill, {
+  color: C.accent
 }, "v2.9"), /*#__PURE__*/React.createElement("div", {
   style: {
     fontSize: 13,
@@ -13894,7 +13971,7 @@ function SimplyProteinDiligenceDashboard() {
       borderRadius: 4,
       textTransform: 'uppercase'
     }
-  }, "DILIGENCE v2.9"), /*#__PURE__*/React.createElement("div", {
+  }, "DILIGENCE v2.10"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 14,
       color: C.textMid,
